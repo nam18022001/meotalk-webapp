@@ -1,0 +1,95 @@
+.input {
+  height: var(--default-max-height-input);
+  min-width: calc(100vw - var(--default-max-width-sidebar));
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.actions {
+  padding-right: 10px;
+  .btn-action {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 0 10px;
+    background-color: transparent;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--background-hover-icon);
+    }
+    .icon {
+      font-size: 2rem;
+      color: var(--primary);
+    }
+  }
+}
+.input-messages {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  border-radius: 20px;
+  background-color: rgba(56, 58, 69, 0.132);
+  padding-left: 16px;
+
+  input {
+    flex: 1;
+    color: var(--black);
+    font-size: 1.8rem;
+    background-color: transparent;
+    caret-color: var(--primary);
+    font-family: var(--font-family);
+    padding-right: 10px;
+  }
+
+  .emoji {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    color: var(--primary);
+    background-color: transparent;
+    margin-right: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--background-hover-icon);
+    }
+    .icon {
+      font-size: 2rem;
+      color: var(--primary);
+    }
+  }
+  .emoji-picker {
+    z-index: 1;
+    position: absolute;
+    right: 7rem;
+    bottom: var(--default-max-height-input);
+  }
+}
+.send {
+  padding: 0 0 0 10px;
+  .btn-send {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(56, 58, 69, 0.275);
+    }
+    .icon {
+      margin-left: 5px;
+      font-size: 2rem;
+      color: var(--primary);
+    }
+  }
+}

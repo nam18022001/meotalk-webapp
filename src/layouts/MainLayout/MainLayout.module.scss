@@ -1,0 +1,18 @@
+.wrapper {
+  --background-hover-icon: rgba(56, 58, 69, 0.275);
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  // position: relative;
+  height: var(--main-height);
+}
+.container {
+  margin-top: var(--default-layout-header-height);
+  // padding: 0 var(--default-layout-horizontal-spacer);
+  height: var(--main-height);
+  display: flex;
+  overflow: hidden;
+}
+.content {
+  flex: 1;
+}

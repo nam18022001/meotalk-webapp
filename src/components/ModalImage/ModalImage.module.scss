@@ -1,0 +1,78 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: 0.5;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-20%);
+  z-index: 1050;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 100;
+  background: white;
+  position: relative;
+  border-radius: 3px;
+  max-width: 600px;
+  height: 100%;
+  object-fit: contain;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+  background-color: #ffffff;
+
+  button {
+    display: flex;
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 2.4rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(56, 58, 69, 0.275);
+    }
+    .icon-close {
+      color: rgba(231, 41, 41, 0.613);
+    }
+    .icon-send {
+      margin: 5px 0 0 5px;
+      color: rgba(59, 183, 213, 0.892);
+    }
+    .icon-download {
+      color: rgba(59, 183, 213, 0.892);
+    }
+  }
+}
+
+.preview {
+  flex: 1;
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 95%;
+  padding: 2rem;
+}

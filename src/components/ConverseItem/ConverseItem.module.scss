@@ -1,0 +1,136 @@
+// wrapper
+
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+.converse {
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #4d9ac02c;
+  }
+}
+.active {
+  background-color: #4d9ac07d;
+  &:hover {
+    background-color: #4d9ac07d;
+  }
+}
+.avatar {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.info {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  margin-left: 12px;
+}
+.converse-name {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+.converse-inbox {
+  display: flex;
+  font-size: 1.3rem;
+  color: rgb(22, 24, 35);
+}
+.pre-last-message {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.non-seen {
+  font-weight: bold;
+}
+.converse-time {
+  font-size: 1.3rem;
+  align-self: flex-end;
+  white-space: nowrap;
+  span {
+    font-weight: bold;
+  }
+}
+
+.seen {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  .seen-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    object-fit: contain;
+    color: rgba(22, 24, 35, 0.441);
+  }
+}
+// btn more handle
+.btn-more {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  right: 3rem;
+  top: 50%;
+  background-color: transparent;
+  transform: translateY(-50%);
+  cursor: pointer;
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(82, 82, 82, 0.952);
+    font-size: 20px;
+    color: white;
+    z-index: 2;
+  }
+}
+
+.show-more {
+  // position: absolute;
+  max-width: 344px;
+  border-radius: 10px;
+  min-width: 200px;
+  padding: 10px;
+  width: 100%;
+  background-color: var(--white);
+  box-shadow: 0 0 8px rgba(84, 84, 84, 0.66);
+
+  .showmore-content div {
+    display: flex;
+    align-items: center;
+  }
+}
+.content-show-more {
+  margin-left: 10px;
+}
+.box-item {
+  justify-content: flex-start;
+  width: 100%;
+  line-height: 1.8rem;
+  font-weight: 600;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #4d9ac02c;
+  }
+
+  .icon-menu {
+    font-size: 2rem;
+  }
+
+  &.separate {
+    border-top: 1px solid rgba(22, 24, 35, 0.12);
+  }
+}

@@ -1,0 +1,46 @@
+// wrapper
+.header {
+  max-height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  box-shadow: 0 0 6px rgba(84, 84, 84, 0.92);
+  z-index: 4;
+}
+// header
+.message-info {
+  display: flex;
+  align-items: center;
+
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  span {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-left: 10px;
+  }
+}
+.btn-actions {
+  margin-right: 2rem;
+
+  .btn-action {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    padding: 0 10px;
+    background-color: transparent;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(56, 58, 69, 0.275);
+    }
+  }
+
+  .icon {
+    font-size: 2.5rem;
+    color: var(--primary);
+  }
+}

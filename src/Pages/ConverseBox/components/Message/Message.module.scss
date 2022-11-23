@@ -1,0 +1,61 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+
+  margin-top: 20px;
+  align-items: flex-end;
+}
+.avatar-friend {
+  margin-right: 8px;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+.content {
+  max-width: 300px;
+  background-color: #3e4042;
+  height: 100%;
+  font-size: 1.5rem;
+  color: var(--white);
+  padding: 8px 12px;
+  border-radius: 20px 20px 20px 20px;
+  word-wrap: break-word;
+}
+
+.image-message {
+  background-color: transparent;
+  object-fit: contain;
+  padding: 0;
+  .mess-image {
+    box-shadow: 0 0 2px rgba(22, 24, 35, 0.293);
+    border-radius: 20px 20px 20px 20px;
+    width: 100%;
+    cursor: pointer;
+  }
+  .cus-mess-image {
+    border-radius: 20px 20px 5px 20px;
+  }
+}
+.own {
+  justify-content: flex-end;
+}
+.content-own {
+  background-color: var(--primary);
+  border-radius: 20px 20px 5px 20px;
+}
+.seen {
+  height: 100%;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: flex-end;
+  margin-left: 5px;
+}
+.avatar-seen {
+  object-fit: contain;
+  border-radius: 50%;
+}
+.seen-icon {
+  color: rgba(22, 24, 35, 0.441);
+}

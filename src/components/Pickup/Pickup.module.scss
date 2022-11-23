@@ -1,0 +1,231 @@
+.wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(34, 34, 34, 0.2);
+}
+.box-calling {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+  border-radius: 77px;
+  width: 50%;
+  height: 60%;
+  box-shadow: 0 0 10px rgba(131, 147, 139, 0.762);
+  padding: 30px;
+}
+.caller-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+.caller-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.actions {
+  margin-top: 50px;
+  width: 35%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  button {
+    cursor: pointer;
+    background-color: transparent;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.523);
+    }
+  }
+  .btn-in {
+    background-color: #5f9947;
+  }
+  .btn-out {
+    background-color: rgba(231, 35, 35, 0.868);
+  }
+  .icon {
+    width: 26px;
+    height: 26px;
+    color: var(--white);
+  }
+}
+.icon-in {
+  animation: ring 2s ease infinite;
+  -webkit-animation: ring 2s ease infinite;
+}
+@keyframes ring {
+  0% {
+    -webkit-transform: rotate(-15deg);
+    transform: rotate(-15deg);
+  }
+  2% {
+    -webkit-transform: rotate(15deg);
+    transform: rotate(15deg);
+  }
+  4% {
+    -webkit-transform: rotate(-18deg);
+    transform: rotate(-18deg);
+  }
+  6% {
+    -webkit-transform: rotate(18deg);
+    transform: rotate(18deg);
+  }
+  8% {
+    -webkit-transform: rotate(-22deg);
+    transform: rotate(-22deg);
+  }
+  10% {
+    -webkit-transform: rotate(22deg);
+    transform: rotate(22deg);
+  }
+  12% {
+    -webkit-transform: rotate(-18deg);
+    transform: rotate(-18deg);
+  }
+  14% {
+    -webkit-transform: rotate(18deg);
+    transform: rotate(18deg);
+  }
+  16% {
+    -webkit-transform: rotate(-12deg);
+    transform: rotate(-12deg);
+  }
+  18% {
+    -webkit-transform: rotate(12deg);
+    transform: rotate(12deg);
+  }
+  20% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+@keyframes ring {
+  0% {
+    -webkit-transform: rotate(-15deg);
+    -ms-transform: rotate(-15deg);
+    transform: rotate(-15deg);
+  }
+  2% {
+    -webkit-transform: rotate(15deg);
+    -ms-transform: rotate(15deg);
+    transform: rotate(15deg);
+  }
+  4% {
+    -webkit-transform: rotate(-18deg);
+    -ms-transform: rotate(-18deg);
+    transform: rotate(-18deg);
+  }
+  6% {
+    -webkit-transform: rotate(18deg);
+    -ms-transform: rotate(18deg);
+    transform: rotate(18deg);
+  }
+  8% {
+    -webkit-transform: rotate(-22deg);
+    -ms-transform: rotate(-22deg);
+    transform: rotate(-22deg);
+  }
+  10% {
+    -webkit-transform: rotate(22deg);
+    -ms-transform: rotate(22deg);
+    transform: rotate(22deg);
+  }
+  12% {
+    -webkit-transform: rotate(-18deg);
+    -ms-transform: rotate(-18deg);
+    transform: rotate(-18deg);
+  }
+  14% {
+    -webkit-transform: rotate(18deg);
+    -ms-transform: rotate(18deg);
+    transform: rotate(18deg);
+  }
+  16% {
+    -webkit-transform: rotate(-12deg);
+    -ms-transform: rotate(-12deg);
+    transform: rotate(-12deg);
+  }
+  18% {
+    -webkit-transform: rotate(12deg);
+    -ms-transform: rotate(12deg);
+    transform: rotate(12deg);
+  }
+  20% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+.mt-5 {
+  margin-top: 5px;
+}
+
+// threedot loading
+.threedotloader {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  letter-spacing: 3px;
+  span {
+    font-size: 2rem;
+    font-weight: 400;
+  }
+}
+.threedotloader .dot {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 1.6rem;
+  margin-left: 1px;
+  background-color: var(--primary);
+  transform: scale(0);
+  display: inline-block;
+  animation: dotanim 1.6s infinite ease-in-out;
+}
+.threedotloader .dot:nth-child(1) {
+  animation-delay: 0s;
+}
+.threedotloader .dot:nth-child(2) {
+  animation-delay: 0.25s;
+}
+.threedotloader .dot:nth-child(3) {
+  animation-delay: 0.5s;
+}
+.threedotloader .dot:nth-child(4) {
+  animation-delay: 0.75s;
+}
+
+@keyframes dotanim {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  90% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(0);
+  }
+}

@@ -1,0 +1,28 @@
+.wrapper {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  button {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: #363232a1;
+    cursor: pointer;
+  }
+  button:active {
+    background-color: #363232d0;
+  }
+  .btn-phone {
+    background-color: rgba(233, 59, 59, 0.896);
+  }
+}
+.icon {
+  width: 20px;
+  height: 20px;
+  color: var(--white);
+}
+.icon-off {
+  color: var(--black);
+}

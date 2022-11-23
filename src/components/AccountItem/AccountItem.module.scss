@@ -1,0 +1,119 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+.item-search {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 6px 16px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #4d9ac02c;
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.info {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  margin-left: 12px;
+}
+.name {
+  font-size: 1.6rem;
+  font-weight: 550;
+}
+.email {
+  font-size: 1.4rem;
+  color: rgb(22, 24, 35);
+}
+//actions
+.actions {
+  display: flex;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 10px;
+}
+.btn-add {
+  border-radius: 16px;
+  background-color: var(--primary);
+
+  font-size: 1.4rem;
+  color: rgb(0, 225, 255);
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 5px black;
+  }
+}
+.accept {
+  background: transparent;
+  color: var(--primary);
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+// check-icon
+.check-icon {
+  min-width: 88px;
+  display: flex;
+  justify-content: center;
+}
+
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #7ac142;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #7ac142;
+  animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes scale {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #7ac142;
+  }
+}

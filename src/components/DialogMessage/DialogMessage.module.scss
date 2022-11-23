@@ -1,0 +1,51 @@
+.dialog-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  width: calc(100vw / 2);
+  border-radius: 99px;
+  height: 40px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  z-index: 1000;
+  opacity: 0;
+}
+.error {
+  background-color: rgb(255, 62, 62);
+}
+.success {
+  background-color: rgb(59, 241, 65);
+}
+
+.show {
+  animation: fallDown 1s linear forwards;
+}
+.hide {
+  animation: fallUp 1s linear backwards;
+}
+@keyframes fallDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-400px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+@keyframes fallUp {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-400px);
+  }
+}
