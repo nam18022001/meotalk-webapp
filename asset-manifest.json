@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5d686d9f.css",
+    "main.js": "/static/js/main.cd3f6d31.js",
+    "static/js/787.b1b00895.chunk.js": "/static/js/787.b1b00895.chunk.js",
+    "static/media/MeoTalk.svg": "/static/media/MeoTalk.418e7425dd0ea3fedbcd7e7d429c8eb2.svg",
+    "static/media/SourceSansPro-Regular.ttf": "/static/media/SourceSansPro-Regular.df87f53caf449a3b7572.ttf",
+    "static/media/SourceSansPro-SemiBold.ttf": "/static/media/SourceSansPro-SemiBold.f2fa8f369db189665539.ttf",
+    "static/media/SourceSansPro-Black.ttf": "/static/media/SourceSansPro-Black.3633cc84b6efe1f1515e.ttf",
+    "static/media/SourceSansPro-Bold.ttf": "/static/media/SourceSansPro-Bold.2dec2f24e3bdf2c6862e.ttf",
+    "static/media/SourceSansPro-ExtraLight.ttf": "/static/media/SourceSansPro-ExtraLight.ac6819c958618affec45.ttf",
+    "static/media/SourceSansPro-Light.ttf": "/static/media/SourceSansPro-Light.9bbfd7cb5e722de4b9f4.ttf",
+    "static/media/MeoTalk(100x100).png": "/static/media/MeoTalk(100x100).0f98cabc04f801c20b3a.png",
+    "index.html": "/index.html",
+    "main.5d686d9f.css.map": "/static/css/main.5d686d9f.css.map",
+    "main.cd3f6d31.js.map": "/static/js/main.cd3f6d31.js.map",
+    "787.b1b00895.chunk.js.map": "/static/js/787.b1b00895.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5d686d9f.css",
+    "static/js/main.cd3f6d31.js"
+  ]
+}
