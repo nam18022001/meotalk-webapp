@@ -34,9 +34,10 @@ function VideoCall() {
   // console.log(callRoomInfo.hasDialled);
 
   useEffect(() => {
-    let init = async (name, tokenRoom) => {
+    let init = async (name, tokenRoom, uidCall) => {
       client.on('user-joined', async (user) => {
         // New User Enters
+        console.log('hallo');
         await setUsers((prevUsers) => {
           return [...prevUsers, { uid: user.uid, audio: user.hasAudio, video: user.hasVideo, client: false }];
         });
@@ -67,50 +68,43 @@ function VideoCall() {
       client.on('user-left', async (user) => {
         await deleteDoc(doc(db, 'call', idDocCall));
         setUsers([]);
+        console.log('hello');
       });
 
       try {
-        if (callRoomInfo.callerUid === localStorage.getItem('uid')) {
-          console.log('caller');
-          await client.join(config.settingAgora.config.appId, name, tokenRoom, callRoomInfo.callerId);
-          if (tracks) await client.publish([tracks[0], tracks[1]]);
-          setStart(true);
-        } else if (callRoomInfo.recieverUid === localStorage.getItem('uid')) {
-          console.log('reciever');
-
-          await client.join(config.settingAgora.config.appId, name, tokenRoom, callRoomInfo.recieverUid);
-          if (tracks) await client.publish([tracks[0], tracks[1]]);
-          setStart(true);
-        }
+        await client.join(config.settingAgora.config.appId, name, tokenRoom, uidCall);
       } catch (error) {
         console.log(error);
       }
+      if (tracks) await client.publish([tracks[0], tracks[1]]);
+      setStart(true);
     };
 
     if (ready && tracks) {
       try {
-        callRoomInfo && init(infoInToken[0], infoInToken[1]);
+        callRoomInfo && init(infoInToken[0], infoInToken[1], infoInToken[2]);
       } catch (error) {
         console.log(error);
       }
     }
+    // eslint-disable-next-line
   }, [callRoomInfo, client, ready, tracks, tokenCall]);
 
-  useEffect(() => {
-    const collectCall = collection(db, 'call');
-    const qCall = query(collectCall, where('channelName', '==', infoInToken[0]));
+  // useEffect(() => {
+  //   const collectCall = collection(db, 'call');
+  //   const qCall = query(collectCall, where('channelName', '==', infoInToken[0]));
 
-    onSnapshot(qCall, async (snapCall) => {
-      if (!snapCall.empty) {
-        const info = snapCall.docs[0].data();
-        setCallRoomInfo(info);
-        console.log(info);
-        setIdDocCall(snapCall.docs[0].id);
-      } else {
-        window.close();
-      }
-    });
-  }, []);
+  //   onSnapshot(qCall, async (snapCall) => {
+  //     if (!snapCall.empty) {
+  //       const info = snapCall.docs[0].data();
+  //       setCallRoomInfo(info);
+  //       console.log(info);
+  //       setIdDocCall(snapCall.docs[0].id);
+  //     } else {
+  //       window.close();
+  //     }
+  //   });
+  // }, []);
 
   // useEffect(() => {
   //   const deleteCall = async () => {

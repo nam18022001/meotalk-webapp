@@ -3,7 +3,6 @@ import CryptoJS from 'crypto-js';
 import { doc, getDoc, getDocs, onSnapshot, orderBy, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import config from '~/configs';
 
 import { db } from '~/services/FirebaseServices';
 import { collectChats, docCall, docChatRoom, docUsers } from '~/services/firestoreService';
@@ -102,37 +101,56 @@ function ConverseBox() {
 
     // set up config token
     const channelName = chatRoomId;
+
     const uidCaller = Math.floor(Math.random() * 100000);
-    let uidReciever = Math.floor(Math.random() * 100000);
-    if (uidCaller !== uidReciever) uidReciever = Math.floor(Math.random() * 100000);
+    const uidReciever = uidCaller + 1000;
     const role = 1;
     const expirationTimeInSeconds = 3600;
     const currentTimestamp = Math.floor(Date.now() / 1000);
     const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
 
-    // build token
+    // build token caller
+    let serverUrl = 'https://meotalk-token-agora.vercel.app/rtc/';
+    const responseCaller = await fetch(
+      serverUrl + channelName + '/' + role + '/uid/' + uidCaller + '/?expiry=' + privilegeExpiredTs,
+    );
+    const dataCaller = await responseCaller.json();
+    const tokenCaller = dataCaller.rtcToken;
 
-    // const tokenHash = CryptoJS.Rabbit.encrypt(channelName + '&&' + token, 'tokenHash');
-    // await setDoc(docCall(chatRoomId), {
-    //   callerId: uidCaller,
-    //   callerUid: localStorage.getItem('uid'),
-    //   callerName: localStorage.getItem('displayName'),
-    //   callerAvatar: localStorage.getItem('avatar'),
-    //   recieverId: uidReciever,
-    //   recieverUid: userInfo.uid,
-    //   receiverName: userInfo.displayName,
-    //   receiverAvatar: userInfo.photoUrl,
-    //   dialling: true,
-    //   hasDialled: false,
-    //   deleteCall: false,
-    //   channelName: channelName,
-    //   token: token,
-    // });
-    // window.open(
-    //   `/video/group@${encodeURIComponent(tokenHash)}`,
-    //   '_blank',
-    //   `height=${height},width=${width},top=${top},left=${left}`,
-    // );
+    // build token reciever
+
+    const responseReiever = await fetch(
+      serverUrl + channelName + '/' + role + '/uid/' + uidReciever + '/?expiry=' + privilegeExpiredTs,
+    );
+    const dataReciever = await responseReiever.json();
+    const tokenReciever = dataReciever.rtcToken;
+
+    const tokenHash = CryptoJS.Rabbit.encrypt(
+      channelName + '&&' + tokenCaller + '&&' + uidCaller + '&&' + userInfo.photoUrl + '&&' + userInfo.displayName,
+      'tokenHash',
+    );
+    await setDoc(docCall(chatRoomId), {
+      callerId: uidCaller,
+      callerUid: localStorage.getItem('uid'),
+      callerName: localStorage.getItem('displayName'),
+      callerAvatar: localStorage.getItem('avatar'),
+      recieverId: uidReciever,
+      recieverUid: userInfo.uid,
+      receiverName: userInfo.displayName,
+      receiverAvatar: userInfo.photoUrl,
+      dialling: true,
+      hasDialled: false,
+      deleteCall: false,
+      channelName: channelName,
+      tokenCaller: tokenCaller,
+      tokenReciever: tokenReciever,
+      type: 'video',
+    });
+    window.open(
+      `/video/group@${encodeURIComponent(tokenHash)}`,
+      '_blank',
+      `height=${height},width=${width},top=${top},left=${left}`,
+    );
   };
 
   return showConversation ? (

@@ -12,7 +12,7 @@ const cx = classNames.bind(styles);
 function Controls({ tracks, setStart, setInCall, idDoc, endCall }) {
   const [trackState, setTrackState] = useState({ video: true, audio: true });
   const client = config.settingAgora.useClient();
-  console.log(idDoc);
+
   const mute = async (type) => {
     if (type === 'audio') {
       await tracks[0].setEnabled(!trackState.audio);

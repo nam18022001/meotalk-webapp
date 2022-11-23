@@ -1,5 +1,5 @@
 {
-  "name": "one-chat",
+  "name": "meo-talk",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,6 +14,7 @@
     "crypto-js": "^4.1.1",
     "emoji-picker-react": "^4.3.0",
     "firebase": "^9.10.0",
+    "gh-pages": "^4.0.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.38",
     "normalize.css": "^8.0.1",
