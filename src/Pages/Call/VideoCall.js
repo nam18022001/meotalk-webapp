@@ -1,47 +1,29 @@
 import classNames from 'classnames/bind';
-import CryptoJS from 'crypto-js';
-import { collection, deleteDoc, doc, onSnapshot, query, where } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { db } from '~/services/FirebaseServices';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { useState, useEffect, useContext } from 'react';
 
-import config from '~/configs';
+import { db } from '~/services/FirebaseServices';
+import { config, useClient, useMicrophoneAndCameraTracks } from '~/configs/settings';
+import { CallContext } from '~/contexts/CallContext';
 import Controls from './components/Controls';
-import Video from './components/Video';
+import Video from './components/Video/Video';
 import styles from './VideoCall.module.scss';
 
 const cx = classNames.bind(styles);
 
-function VideoCall() {
-  const { tokenCall } = useParams();
-
-  const tokenHash = CryptoJS.Rabbit.decrypt(tokenCall, 'tokenHash');
-  const token = CryptoJS.enc.Utf8.stringify(tokenHash);
-  const infoInToken = token.split('&&');
-  // console.log(infoInToken[0], infoInToken[1]);
-  const client = config.settingAgora.useClient();
-
-  const { ready, tracks } = config.settingAgora.useMicrophoneAndCameraTracks();
-
+function VideoCall({ channelName, token, uid, partnerName, partnerAvatar, hasDialled }) {
+  console.log(channelName, token, uid);
   const [users, setUsers] = useState([]);
+
   const [start, setStart] = useState(false);
-  const [inCall, setInCall] = useState(false);
-  const [showVideoCall, setShowVideoCall] = useState(false);
-  const [endCall, setEndCall] = useState(false);
-  const [callRoomInfo, setCallRoomInfo] = useState([]);
-  const [idDocCall, setIdDocCall] = useState('');
-
-  // console.log(callRoomInfo.hasDialled);
-
+  const client = useClient();
+  const { ready, tracks } = useMicrophoneAndCameraTracks();
+  const [trackState, setTrackState] = useState({ video: true, audio: true });
+  const [secondCall, setSecondCall] = useState(0);
+  const [minuteCall, setMinuteCall] = useState(0);
+  const [videoRemoteStatus, setVideoRemoteStatus] = useState(true);
   useEffect(() => {
-    let init = async (name, tokenRoom, uidCall) => {
-      client.on('user-joined', async (user) => {
-        // New User Enters
-        console.log('hallo');
-        await setUsers((prevUsers) => {
-          return [...prevUsers, { uid: user.uid, audio: user.hasAudio, video: user.hasVideo, client: false }];
-        });
-      });
+    let init = async (name, tokenCall, uidCall) => {
       client.on('user-published', async (user, mediaType) => {
         await client.subscribe(user, mediaType);
         if (mediaType === 'video') {
@@ -66,68 +48,106 @@ function VideoCall() {
       });
 
       client.on('user-left', async (user) => {
-        await deleteDoc(doc(db, 'call', idDocCall));
-        setUsers([]);
-        console.log('hello');
+        tracks[0].close();
+        tracks[1].close();
+
+        await deleteDoc(doc(db, 'call', channelName));
+        setUsers((prevUsers) => {
+          return prevUsers.filter((User) => User.uid !== user.uid);
+        });
+      });
+      client.on('user-info-updated', (user, state) => {
+        if (state === 'mute-video') {
+          setVideoRemoteStatus(false);
+        } else if (state === 'unmute-video') {
+          setVideoRemoteStatus(true);
+        }
       });
 
       try {
-        await client.join(config.settingAgora.config.appId, name, tokenRoom, uidCall);
+        await client.join(config.appId, name, tokenCall, uidCall);
       } catch (error) {
-        console.log(error);
+        console.log('error');
       }
+
       if (tracks) await client.publish([tracks[0], tracks[1]]);
+
       setStart(true);
     };
 
     if (ready && tracks) {
       try {
-        callRoomInfo && init(infoInToken[0], infoInToken[1], infoInToken[2]);
+        init(channelName, token, uid);
       } catch (error) {
         console.log(error);
       }
     }
-    // eslint-disable-next-line
-  }, [callRoomInfo, client, ready, tracks, tokenCall]);
+    return () => leaveChannel();
+  }, [channelName, client, ready, tracks]);
+  useEffect(() => {
+    function createIncreament() {
+      if (hasDialled) {
+        if (secondCall === 59) {
+          setSecondCall(0);
+          setMinuteCall(minuteCall + 1);
+        } else {
+          setSecondCall(secondCall + 1);
+        }
+      }
+    }
 
-  // useEffect(() => {
-  //   const collectCall = collection(db, 'call');
-  //   const qCall = query(collectCall, where('channelName', '==', infoInToken[0]));
+    let countCalltime = setTimeout(createIncreament, 1000);
 
-  //   onSnapshot(qCall, async (snapCall) => {
-  //     if (!snapCall.empty) {
-  //       const info = snapCall.docs[0].data();
-  //       setCallRoomInfo(info);
-  //       console.log(info);
-  //       setIdDocCall(snapCall.docs[0].id);
-  //     } else {
-  //       window.close();
-  //     }
-  //   });
-  // }, []);
+    return () => {
+      clearTimeout(countCalltime);
+    };
+  }, [secondCall, users]);
 
-  // useEffect(() => {
-  //   const deleteCall = async () => {
-  //     await deleteDoc(doc(db, 'call', callRoomInfo.channelName));
-  //   };
-  //   endCall && deleteCall();
-  //   setEndCall(false);
-  // }, [endCall, callRoomInfo]);
+  const mute = async (type) => {
+    if (type === 'audio') {
+      await tracks[0].setEnabled(!trackState.audio);
+      setTrackState((ps) => {
+        return { ...ps, audio: !ps.audio };
+      });
+    } else if (type === 'video') {
+      await tracks[1].setEnabled(!trackState.video);
+      setTrackState((ps) => {
+        return { ...ps, video: !ps.video };
+      });
+    }
+  };
+
+  const leaveChannel = async () => {
+    tracks[0].close();
+    tracks[1].close();
+    await client.leave();
+    client.removeAllListeners();
+    await deleteDoc(doc(db, 'call', channelName));
+  };
 
   return (
     <div className={cx('wrapper')}>
-      <div className={cx('video-wrapper')}>{start && tracks && <Video tracks={tracks} users={users} />}</div>
-      <div className={cx('control-wrapper')}>
-        {ready && tracks && (
-          <Controls
-            tracks={tracks}
-            setStart={setStart}
-            setInCall={setInCall}
-            idDoc={callRoomInfo.channelName}
-            endCall={setEndCall}
-          />
-        )}
-      </div>
+      {hasDialled && (
+        <div className={cx('time')}>
+          <div style={{ fontSize: 16, color: '#829460' }}>
+            {minuteCall === 0 ? '00' : minuteCall < 10 ? '0' + minuteCall : minuteCall}
+            {' : '}
+            {secondCall === 0 ? '00' : secondCall < 10 ? '0' + secondCall : secondCall}
+          </div>
+        </div>
+      )}
+      {start && tracks && (
+        <Video
+          tracks={tracks}
+          users={users}
+          hasDialled={hasDialled}
+          partnerName={partnerName}
+          partnerAvatar={partnerAvatar}
+          videoRemoteStatus={videoRemoteStatus}
+          trackState={trackState}
+        />
+      )}
+      {ready && tracks && <Controls tracks={tracks} trackState={trackState} leaveChannel={leaveChannel} mute={mute} />}
     </div>
   );
 }

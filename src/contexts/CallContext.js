@@ -1,83 +1,98 @@
 import { collection, deleteDoc, doc, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
 import { createContext, useEffect, useState } from 'react';
-import CryptoJS from 'crypto-js';
+import classNames from 'classnames/bind';
 
 import Pickup from '~/components/Pickup';
 import config from '~/configs';
 import { db } from '~/services/FirebaseServices';
+import { VideoCall } from '~/Pages/Call';
 
 export const CallContext = createContext();
 
 export const CallContextProvider = ({ children }) => {
-  const [callInfo, setCallInfo] = useState();
-  const [show, setShow] = useState(false);
+  const [callerInfo, setCallerInfo] = useState();
+  const [recieverInfo, setRecieverInfo] = useState();
+  console.log(recieverInfo);
+  const [showPickUp, setShowPickUp] = useState(false);
+  const [showVideoCaller, setShowVideoCaller] = useState(false);
+  const [showVideoReciever, setShowVideoReciever] = useState(false);
 
   useEffect(() => {
     const collectCall = collection(db, 'call');
-    const qCall = query(
-      collectCall,
-      where('recieverUid', '==', localStorage.getItem('uid')),
-      where('hasDialled', '==', false),
-    );
+    const qCall = query(collectCall, where('callerUid', '==', localStorage.getItem('uid')));
     onSnapshot(qCall, (snapCall) => {
       if (!snapCall.empty) {
         const infoCall = snapCall.docs[0].data();
-
-        setCallInfo(infoCall);
-        setShow(true);
+        setCallerInfo(infoCall);
+        setShowVideoCaller(true);
       } else {
-        setShow(false);
+        setCallerInfo([]);
+        setShowVideoCaller(false);
       }
     });
   }, []);
+
   useEffect(() => {
     const collectCall = collection(db, 'call');
     const qCall = query(
       collectCall,
       where('recieverUid', '==', localStorage.getItem('uid')),
-      where('hasDialled', '==', true),
+      // where('hasDialled', '==', false),
     );
     onSnapshot(qCall, (snapCall) => {
       if (!snapCall.empty) {
         const infoCall = snapCall.docs[0].data();
-        if (infoCall.deleteCall) {
-          const deleteCall = async () => {
-            await deleteDoc(doc(db, 'call', snapCall.docs[0].id));
-          };
-          deleteCall();
-        }
+
+        setRecieverInfo(infoCall);
+        setShowPickUp(true);
+      } else {
+        setRecieverInfo([]);
+        setShowPickUp(false);
+        setShowVideoReciever(false);
       }
     });
   }, []);
+
   const handlePickOut = async () => {
-    await updateDoc(doc(db, 'call', callInfo.channelName), {
-      deleteCall: true,
-    });
+    await deleteDoc(doc(db, 'call', recieverInfo.channelName));
+    setShowVideoReciever(false);
   };
   const handlePickUp = async () => {
-    await updateDoc(doc(db, 'call', callInfo.channelName), {
+    setShowVideoReciever(true);
+    await updateDoc(doc(db, 'call', recieverInfo.channelName), {
       hasDialled: true,
     });
+
     // setup window popup
 
-    const width = 1000;
-    const height = 600;
-    const left = window.screen.width / 2 - (width - 50) / 2;
-    const top = window.screen.height / 2 - (height + 50) / 2;
-
-    // set up config token
-
-    // const tokenHash = CryptoJS.Rabbit.encrypt(callInfo.channelName + '&&' + token, 'tokenHash');
-    // window.open(
-    //   `/video/group@${encodeURIComponent(tokenHash)}`,
-    //   '_blank',
-    //   `height=${height},width=${width},top=${top},left=${left}`,
-    // );
-    setShow(false);
+    setShowPickUp(false);
   };
   return (
-    <CallContext.Provider value={show}>
-      {children} <Pickup show={show} data={callInfo} onPickOut={handlePickOut} onPickUp={handlePickUp} />
+    <CallContext.Provider value={[showPickUp, callerInfo, recieverInfo]}>
+      {showPickUp ? (
+        <Pickup data={recieverInfo} onPickOut={handlePickOut} onPickUp={handlePickUp} />
+      ) : showVideoCaller ? (
+        <VideoCall
+          channelName={callerInfo.channelName}
+          token={callerInfo.tokenCaller}
+          uid={callerInfo.callerId}
+          partnerName={callerInfo.receiverName}
+          partnerAvatar={callerInfo.receiverAvatar}
+          hasDialled={callerInfo.hasDialled}
+        />
+      ) : showVideoReciever ? (
+        <VideoCall
+          channelName={recieverInfo.channelName}
+          token={recieverInfo.tokenReciever}
+          uid={recieverInfo.recieverId}
+          partnerName={recieverInfo.callerName}
+          partnerAvatar={recieverInfo.callerAvatar}
+          hasDialled={recieverInfo.hasDialled}
+          isReciever
+        />
+      ) : (
+        children
+      )}
     </CallContext.Provider>
   );
 };

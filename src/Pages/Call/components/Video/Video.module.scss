@@ -1,0 +1,122 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.my-video {
+  position: absolute;
+  z-index: 49;
+  bottom: 0;
+  right: 0;
+  width: 330px;
+  height: 230px;
+  cursor: grab;
+  .wrap-video {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: rgba(22, 24, 35, 0.5);
+    border: 2px #005b79 solid;
+    border-radius: 30px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .status {
+      position: absolute;
+      bottom: 5px;
+      width: 40%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 51;
+    }
+  }
+
+  .video {
+    width: 100%;
+    height: 100%;
+  }
+}
+.mute-video {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.turn-off {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.drag {
+  & .video {
+    border: 2px #00bfff solid;
+  }
+  cursor: grabbing;
+}
+.box-calling {
+  display: flex;
+  flex-direction: column;
+}
+.img-avt {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.avatar-partner {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+.my-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.calling {
+  display: flex;
+  margin-top: 50px;
+  .text {
+    font-weight: 800;
+    font-size: 2.4rem;
+  }
+}
+
+.bouncing-loader {
+  display: flex;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.bouncing-loader {
+  div {
+    width: 16px;
+    height: 16px;
+    margin: 3px 6px;
+    border-radius: 50%;
+    background-color: #a3a1a1;
+    opacity: 1;
+    animation: bouncing-loader 0.6s infinite alternate;
+  }
+}
+@keyframes bouncing-loader {
+  to {
+    opacity: 0.1;
+    transform: translateY(-16px);
+  }
+}
+
+.bouncing-loader > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.bouncing-loader > div:nth-child(3) {
+  animation-delay: 0.4s;
+}

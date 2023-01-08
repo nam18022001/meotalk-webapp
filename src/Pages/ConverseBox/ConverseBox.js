@@ -2,10 +2,11 @@ import classNames from 'classnames/bind';
 import CryptoJS from 'crypto-js';
 import { doc, getDoc, getDocs, onSnapshot, orderBy, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { memo, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import { db } from '~/services/FirebaseServices';
 import { collectChats, docCall, docChatRoom, docUsers } from '~/services/firestoreService';
+import { VideoCall } from '../Call';
 import Header from './components/Header';
 import Input from './components/Input/Input';
 import Message from './components/Message';
@@ -14,6 +15,7 @@ import styles from './ConverseBox.module.scss';
 const cx = classNames.bind(styles);
 
 function ConverseBox() {
+  const nav = useNavigate();
   const { idChatRoom } = useParams();
   const deHashConver = CryptoJS.Rabbit.decrypt(idChatRoom, 'hashUrlConversation');
 
@@ -24,6 +26,7 @@ function ConverseBox() {
   const [showConversation, setShowConversation] = useState(false);
   const [messages, setMessages] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
+
   useEffect(() => {
     setShowConversation(false);
     const checkUrlAndGetData = async () => {
@@ -93,12 +96,6 @@ function ConverseBox() {
   };
 
   const handleClickCallVideo = async () => {
-    // setup window popup
-    const width = 1000;
-    const height = 600;
-    const left = window.screen.width / 2 - (width - 50) / 2;
-    const top = window.screen.height / 2 - (height + 50) / 2;
-
     // set up config token
     const channelName = chatRoomId;
 
@@ -125,10 +122,6 @@ function ConverseBox() {
     const dataReciever = await responseReiever.json();
     const tokenReciever = dataReciever.rtcToken;
 
-    const tokenHash = CryptoJS.Rabbit.encrypt(
-      channelName + '&&' + tokenCaller + '&&' + uidCaller + '&&' + userInfo.photoUrl + '&&' + userInfo.displayName,
-      'tokenHash',
-    );
     await setDoc(docCall(chatRoomId), {
       callerId: uidCaller,
       callerUid: localStorage.getItem('uid'),
@@ -138,7 +131,6 @@ function ConverseBox() {
       recieverUid: userInfo.uid,
       receiverName: userInfo.displayName,
       receiverAvatar: userInfo.photoUrl,
-      dialling: true,
       hasDialled: false,
       deleteCall: false,
       channelName: channelName,
@@ -146,11 +138,6 @@ function ConverseBox() {
       tokenReciever: tokenReciever,
       type: 'video',
     });
-    window.open(
-      `/video/group@${encodeURIComponent(tokenHash)}`,
-      '_blank',
-      `height=${height},width=${width},top=${top},left=${left}`,
-    );
   };
 
   return showConversation ? (
