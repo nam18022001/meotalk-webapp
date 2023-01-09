@@ -150,7 +150,7 @@ function ConverseItem({ data }) {
             active: active,
           })}
         >
-          <Image className={cx('avatar')} src={userInfo.photoUrl} alt={userInfo.displayName} />
+          <Image className={cx('avatar')} src={userInfo.photoURL} alt={userInfo.displayName} />
 
           <div className={cx('info')}>
             <div className={cx('converse-name')}>{userInfo.displayName}</div>
@@ -176,7 +176,7 @@ function ConverseItem({ data }) {
                 (seen === false ? (
                   <BsFillCheckCircleFill className={cx('seen-icon')} />
                 ) : (
-                  <Image className={cx('seen-icon')} src={userInfo.photoUrl} alt={'seen'} />
+                  <Image className={cx('seen-icon')} src={userInfo.photoURL} alt={'seen'} />
                 ))}
             </div>
           )}

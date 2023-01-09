@@ -11,7 +11,7 @@ function Header({ data, onClickCall, onClickCallVideo }) {
   return (
     <div className={cx('header')}>
       <div className={cx('message-info')}>
-        <Image className={cx('avatar')} src={data.photoUrl} alt={data.displayName} />
+        <Image className={cx('avatar')} src={data.photoURL} alt={data.displayName} />
         <span>{data.displayName}</span>
       </div>
       <div className={cx('btn-actions')}>

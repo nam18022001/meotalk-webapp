@@ -130,7 +130,7 @@ function ConverseBox() {
       recieverId: uidReciever,
       recieverUid: userInfo.uid,
       receiverName: userInfo.displayName,
-      receiverAvatar: userInfo.photoUrl,
+      receiverAvatar: userInfo.photoURL,
       hasDialled: false,
       deleteCall: false,
       channelName: channelName,
@@ -150,7 +150,7 @@ function ConverseBox() {
             data={data.message}
             own={data.sendBy === localStorage.getItem('email') ? true : false}
             type={data.type}
-            seenImg={userInfo.photoUrl}
+            seenImg={userInfo.photoURL}
             seen={data.stt === lastStt ? true : false}
             isRead={data.isRead}
           />

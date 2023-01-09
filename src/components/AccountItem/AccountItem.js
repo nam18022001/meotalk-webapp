@@ -84,7 +84,7 @@ function AccountItem({ data }) {
       sender: localStorage.getItem('uid'),
       reciever: data.uid,
       emailReciever: data.email,
-      photoReciever: data.photoUrl,
+      photoReciever: data.photoURL,
       nameReciever: data.displayName,
     });
   };
@@ -94,13 +94,13 @@ function AccountItem({ data }) {
       uid: data.uid,
       displayName: data.displayName,
       email: data.email,
-      photoUrl: data.photoUrl,
+      photoURL: data.photoURL,
     });
     await setDoc(doc(db, 'users', data.uid, 'friends', localStorage.getItem('uid')), {
       uid: localStorage.getItem('uid'),
       displayName: localStorage.getItem('displayName'),
       email: localStorage.getItem('email'),
-      photoUrl: localStorage.getItem('avatar'),
+      photoURL: localStorage.getItem('avatar'),
     });
 
     await deleteDoc(recieveFriendDoc);
@@ -140,7 +140,7 @@ function AccountItem({ data }) {
         <Link to={`/@${hashUrl}`} className={cx('item-search')}>
           <Image
             className={cx('avatar')}
-            src={data.photoUrl === undefined ? '' : data.photoUrl}
+            src={data.photoURL === undefined ? '' : data.photoURL}
             alt={data.displayName}
           />
           <div ref={infoRef} className={cx('info')}>

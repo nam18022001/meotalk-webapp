@@ -10,7 +10,7 @@ const addUser = async (currentUser) => {
     uid: currentUser.uid,
     displayName: currentUser.displayName,
     email: currentUser.email,
-    photoUrl: currentUser.photoURL,
+    photoURL: currentUser.photoURL,
     fcmToken: '',
     keyWord: keyWord,
   };
