@@ -12,7 +12,7 @@ export const CallContext = createContext();
 export const CallContextProvider = ({ children }) => {
   const [callerInfo, setCallerInfo] = useState();
   const [recieverInfo, setRecieverInfo] = useState();
-  console.log(recieverInfo);
+
   const [showPickUp, setShowPickUp] = useState(false);
   const [showVideoCaller, setShowVideoCaller] = useState(false);
   const [showVideoReciever, setShowVideoReciever] = useState(false);

@@ -12,7 +12,6 @@ import styles from './VideoCall.module.scss';
 const cx = classNames.bind(styles);
 
 function VideoCall({ channelName, token, uid, partnerName, partnerAvatar, hasDialled }) {
-  console.log(channelName, token, uid);
   const [users, setUsers] = useState([]);
 
   const [start, setStart] = useState(false);

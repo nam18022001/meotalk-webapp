@@ -3,7 +3,7 @@ import { CallContext } from '~/contexts/CallContext';
 
 const useStore = () => {
   const [statecall, dispatchCall] = useContext(CallContext);
-  console.log(statecall);
+
   return [statecall, dispatchCall];
 };
 

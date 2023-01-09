@@ -20,7 +20,7 @@ const ModalImage = ({ isShowing, hide, content, onClick, upLoadImage, download }
       const image = await fetch(content);
       const imageBlog = await image.blob();
       const imageURL = URL.createObjectURL(imageBlog);
-      console.log(imageURL);
+
       let a = document.createElement('a');
       document.body.appendChild(a);
       a.download = fileName;

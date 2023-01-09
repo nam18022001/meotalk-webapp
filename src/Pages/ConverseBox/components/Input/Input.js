@@ -3,9 +3,10 @@ import classNames from 'classnames/bind';
 import EmojiPicker, { Categories, EmojiStyle, Theme } from 'emoji-picker-react';
 import { addDoc, getDocs, orderBy, query, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useContext, useEffect, useRef, useState } from 'react';
 import { BsFillEmojiLaughingFill, BsImage } from 'react-icons/bs';
 import { IoMdSend } from 'react-icons/io';
+import { toast } from 'react-toastify';
 
 import { cloud } from '~/services/FirebaseServices';
 import DialogMessage from '~/components/DialogMessage';
@@ -13,11 +14,14 @@ import ModalImage from '~/components/ModalImage';
 import { useModal } from '~/hooks';
 import { collectChats, docChatRoom } from '~/services/firestoreService';
 import styles from './Input.module.scss';
-import { toast } from 'react-toastify';
+import { useSendNotifiCation as fcSendNoti } from '~/hooks';
+import { AuthContext } from '~/contexts/AuthContext';
 
 const cx = classNames.bind(styles);
 
-function Input({ chatRoomId, autoFocus, onFocusInput }) {
+function Input({ chatRoomId, autoFocus, onFocusInput, infoFriend }) {
+  const { currentUser } = useContext(AuthContext);
+
   const { isShowing, toggle } = useModal();
   // state
   const [dataInput, setDataInput] = useState('');
@@ -77,6 +81,7 @@ function Input({ chatRoomId, autoFocus, onFocusInput }) {
       await updateDoc(chatRoom, {
         time: Date.now(),
       });
+      fcSendNoti({ currentUser, chatRoomId, infoFriend });
     } else {
       console.log('error');
       toast.error('Make sure input has your message', {
@@ -157,6 +162,7 @@ function Input({ chatRoomId, autoFocus, onFocusInput }) {
             type: 'image',
           });
         }
+        fcSendNoti({ currentUser, imageUrl: downloadURL, chatRoomId, infoFriend });
       });
     });
     const chatRoom = docChatRoom(chatRoomId);

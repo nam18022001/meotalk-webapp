@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import CryptoJS from 'crypto-js';
 import { doc, getDoc, getDocs, onSnapshot, orderBy, query, setDoc, updateDoc, where } from 'firebase/firestore';
-import { memo, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 import { db } from '~/services/FirebaseServices';
@@ -11,10 +11,13 @@ import Header from './components/Header';
 import Input from './components/Input/Input';
 import Message from './components/Message';
 import styles from './ConverseBox.module.scss';
+import { useSendNotifiCation as fcSendNoti } from '~/hooks';
+import { AuthContext } from '~/contexts/AuthContext';
 
 const cx = classNames.bind(styles);
 
 function ConverseBox() {
+  const { currentUser } = useContext(AuthContext);
   const nav = useNavigate();
   const { idChatRoom } = useParams();
   const deHashConver = CryptoJS.Rabbit.decrypt(idChatRoom, 'hashUrlConversation');
@@ -22,11 +25,11 @@ function ConverseBox() {
   const chatRoomId = CryptoJS.enc.Utf8.stringify(deHashConver);
 
   const [friendId, setFriendId] = useState('');
+
   const [lastStt, setLastStt] = useState(0);
   const [showConversation, setShowConversation] = useState(false);
   const [messages, setMessages] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
-
   useEffect(() => {
     setShowConversation(false);
     const checkUrlAndGetData = async () => {
@@ -138,6 +141,7 @@ function ConverseBox() {
       tokenReciever: tokenReciever,
       type: 'video',
     });
+    fcSendNoti({ call: 'calling', chatRoomId, infoFriend: userInfo, currentUser });
   };
 
   return showConversation ? (
@@ -156,7 +160,7 @@ function ConverseBox() {
           />
         ))}
       </div>
-      <Input chatRoomId={chatRoomId} autoFocus onFocusInput={handleReadMessages} />
+      <Input chatRoomId={chatRoomId} infoFriend={userInfo} autoFocus onFocusInput={handleReadMessages} />
     </div>
   ) : (
     <div className={cx('loader-wrapper')}>
