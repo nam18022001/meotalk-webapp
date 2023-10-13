@@ -1,5 +1,5 @@
 import { AgoraVideoPlayer } from 'agora-rtc-react';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import Draggable from 'react-draggable';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
