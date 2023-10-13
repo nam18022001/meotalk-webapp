@@ -1,8 +1,7 @@
 import TippyHeadLess from '@tippyjs/react/headless';
-import { Fragment, ReactNode, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
 const defaultFn = () => {};
 function Menu({
   children,
@@ -17,8 +16,6 @@ function Menu({
   show: boolean;
   onClickOutSide: () => void;
 }) {
-  const { isMobile } = useMobileContext();
-
   const [history, setHistory] = useState<any>([{ data: items }]);
   const current = history[history.length - 1];
   const renderItems = () => {

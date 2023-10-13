@@ -1,23 +1,23 @@
+import HeadLessTippy from '@tippyjs/react/headless';
+import imageCompression from 'browser-image-compression';
+import EmojiPicker, { Categories, EmojiStyle, Theme } from 'emoji-picker-react';
+import { getDocs, orderBy, query, updateDoc } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { Fragment, memo, useEffect, useRef, useState } from 'react';
 import { BsFillEmojiLaughingFill, BsImage } from 'react-icons/bs';
-import EmojiPicker, { Categories, EmojiStyle, Theme } from 'emoji-picker-react';
 import { IoMdSend } from 'react-icons/io';
 import ReactTextareaAutosize from 'react-textarea-autosize';
-import HeadLessTippy from '@tippyjs/react/headless';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { addDoc, getDocs, orderBy, query, updateDoc } from 'firebase/firestore';
-import imageCompression from 'browser-image-compression';
 import { ToastContainer } from 'react-toastify';
 
-import useModal from '~/hooks/useModal';
-import ModalImage from './ModalImage';
-import { toastError, toastWarning } from '~/hooks/useToast';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
-import { cloud } from '~/services/FirebaseServices';
-import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
-import sendNotifiCation from '~/hooks/useSendNotification';
-import { addFirstMessage, addMessage, getlastMessage } from '~/services/conversationServices';
 import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
+import useModal from '~/hooks/useModal';
+import sendNotifiCation from '~/hooks/useSendNotification';
+import { toastError, toastWarning } from '~/hooks/useToast';
+import { cloud } from '~/services/FirebaseServices';
+import { addFirstMessage, addMessage, getlastMessage } from '~/services/conversationServices';
+import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
+import ModalImage from './ModalImage';
 
 function InputConversation({
   loadingConversation,

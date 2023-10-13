@@ -1,6 +1,6 @@
 import { FaMicrophone, FaMicrophoneSlash, FaPhone, FaVideo, FaVideoSlash } from 'react-icons/fa';
 
-function Controls({ tracks, mute, leaveChannel, trackState }: ControlsProps) {
+function Controls({ mute, leaveChannel, trackState }: ControlsProps) {
   return (
     <div className="wrapper-control-video-widget min-w-[400px]">
       <div className="actions-control-video-widget lg:!flex-[0.5] md:!flex-[0.6] sm:!flex-[0.8]">

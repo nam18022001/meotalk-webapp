@@ -1,6 +1,6 @@
 import HeadLessTippy from '@tippyjs/react/headless';
 import CryptoJS from 'crypto-js';
-import { getDoc, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { onSnapshot, orderBy, query } from 'firebase/firestore';
 import moment from 'moment';
 import { Fragment, memo, useEffect, useState } from 'react';
 import { BsFillCheckCircleFill, BsTelephone, BsTrash } from 'react-icons/bs';
@@ -9,11 +9,11 @@ import { IoIosMore } from 'react-icons/io';
 import { Link, useParams } from 'react-router-dom';
 
 import Skeleton from 'react-loading-skeleton';
+import { avatarIcon } from '~/assets/icons';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
 import { useMenuContext } from '~/contexts/MenuContextProvider';
-import { collectChats, docUsers } from '~/services/generalFirestoreServices';
 import { usersInfo } from '~/services/conversationServices';
-import { avatarIcon } from '~/assets/icons';
+import { collectChats } from '~/services/generalFirestoreServices';
 
 const menuMore = [
   {

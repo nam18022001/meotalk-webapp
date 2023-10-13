@@ -1,4 +1,4 @@
-import { addDoc, getDoc, getDocs, limit, orderBy, query, startAfter } from 'firebase/firestore';
+import { addDoc, getDoc, getDocs, orderBy, query, startAfter } from 'firebase/firestore';
 import { collectChats, docUsers } from './generalFirestoreServices';
 
 const usersInfo = async ({ data, currentUser }: usersInfoProps) => {
@@ -71,7 +71,7 @@ const getlastMessage = async ({ collectChat }: { collectChat: any }) => {
 
   return dataLast;
 };
-export { addFirstMessage, addMessage, getCollectionChatRoom, usersInfo, getlastMessage };
+export { addFirstMessage, addMessage, getCollectionChatRoom, getlastMessage, usersInfo };
 
 interface addFirstMessageProps {
   collectChat: any;

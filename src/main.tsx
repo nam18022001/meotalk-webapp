@@ -1,16 +1,16 @@
+import 'normalize.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
-import './index.css';
-import 'normalize.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import 'react-toastify/dist/ReactToastify.css';
+import App from './App.tsx';
+import './index.css';
 
-import MenuContextProfiver from './contexts/MenuContextProvider.tsx';
 import AuthContextProfiver from './contexts/AuthContextProvider.tsx';
-import PreloadSideBarProvider from './contexts/PreloadSideBarProvider.tsx';
 import CallContextProvider from './contexts/CallContextProvider.tsx';
+import MenuContextProfiver from './contexts/MenuContextProvider.tsx';
 import MobileVersionProvider from './contexts/MobileVersionContextProvider.tsx';
+import PreloadSideBarProvider from './contexts/PreloadSideBarProvider.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <MobileVersionProvider>

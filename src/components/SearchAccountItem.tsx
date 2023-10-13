@@ -1,14 +1,14 @@
 import Tippy from '@tippyjs/react';
+import CryptoJS from 'crypto-js';
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import CryptoJS from 'crypto-js';
 
+import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
+import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
 import { db } from '~/services/FirebaseServices';
 import { acceptFriend, addFriend, makeConversation } from '~/services/searchServices';
-import { useNavigate } from 'react-router-dom';
-import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
 
 function SearchAccountItem({ data, onClick }: SearchAccountItemProps) {
   const { isMobile } = useMobileContext();
@@ -22,6 +22,7 @@ function SearchAccountItem({ data, onClick }: SearchAccountItemProps) {
   const [isRecieveRequest, setIsRecieveRequest] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
   const [loadingBtnAction, setLoadingBtnAction] = useState(false);
+  console.log(loadingBtnAction, 'search account items');
 
   const infoRef = useRef<HTMLDivElement>(null);
   const emailRef = useRef<HTMLDivElement>(null);

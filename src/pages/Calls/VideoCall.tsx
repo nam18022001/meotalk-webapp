@@ -2,12 +2,11 @@ import { deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { Fragment, useEffect, useState } from 'react';
 import config from '~/configs';
 import { db } from '~/services/FirebaseServices';
-import Video from './components/Video';
+import { addFirstMessage, addMessage, getlastMessage } from '~/services/conversationServices';
+import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
 import './call.css';
 import Controls from './components/Controls';
-import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
-import { addFirstMessage, addMessage, getlastMessage } from '~/services/conversationServices';
-import { useAuthContext } from '~/contexts/AuthContextProvider';
+import Video from './components/Video';
 
 function VideoCall({
   channelName,
@@ -16,11 +15,8 @@ function VideoCall({
   partnerName,
   partnerAvatar,
   hasDialled,
-  dataCall,
-  isReciever = false,
+  dataCall, // isReciever = false,
 }: VideoCallProps) {
-  const { currentUser } = useAuthContext();
-
   const [users, setUsers] = useState<any[]>([]);
 
   const [start, setStart] = useState(false);
@@ -70,6 +66,8 @@ function VideoCall({
         });
       });
       client.on('user-info-updated', (user, state) => {
+        console.log(user, 'info-updated video call');
+
         if (state === 'mute-video') {
           setVideoRemoteStatus(false);
         } else if (state === 'unmute-video') {

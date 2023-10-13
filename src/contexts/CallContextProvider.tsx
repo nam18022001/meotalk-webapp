@@ -1,12 +1,12 @@
 import { deleteDoc, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
-import { getCall } from '~/services/callServices';
-import { useAuthContext } from './AuthContextProvider';
-import { db } from '~/services/FirebaseServices';
 import CallLayout from '~/layouts/CallLayout';
 import PickUp from '~/pages/Calls/PickUp';
 import VideoCall from '~/pages/Calls/VideoCall';
 import VideoGroupCall from '~/pages/Calls/VideoGroupCall';
+import { db } from '~/services/FirebaseServices';
+import { getCall } from '~/services/callServices';
+import { useAuthContext } from './AuthContextProvider';
 
 function CallContextProvider({ children }: CallContextProviderProps) {
   const { currentUser } = useAuthContext();
@@ -25,8 +25,8 @@ function CallContextProvider({ children }: CallContextProviderProps) {
 
   const [showGroupVideoReciever, setGroupShowVideoReciever] = useState(false);
 
-  console.log(callerInfo);
-  console.log(recieverInfo);
+  console.log(recieverGroupInfo);
+  console.log(showGroupPickUp);
 
   useEffect(() => {
     onSnapshot(getCall({ currentUser }), (snapCall) => {
@@ -54,6 +54,8 @@ function CallContextProvider({ children }: CallContextProviderProps) {
         setRecieverInfo([]);
         setShowPickUp(false);
         setShowVideoReciever(false);
+        // asdauhsduahd
+        setGroupShowVideoReciever(false);
       }
     });
   }, []);
