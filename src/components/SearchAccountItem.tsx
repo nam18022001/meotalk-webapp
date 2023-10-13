@@ -21,8 +21,6 @@ function SearchAccountItem({ data, onClick }: SearchAccountItemProps) {
   const [addSent, setAddSent] = useState(false);
   const [isRecieveRequest, setIsRecieveRequest] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
-  const [loadingBtnAction, setLoadingBtnAction] = useState(false);
-  console.log(loadingBtnAction, 'search account items');
 
   const infoRef = useRef<HTMLDivElement>(null);
   const emailRef = useRef<HTMLDivElement>(null);
@@ -81,14 +79,10 @@ function SearchAccountItem({ data, onClick }: SearchAccountItemProps) {
 
   // func
   const handleAdd = async () => {
-    setLoadingBtnAction(true);
     await addFriend({ doc: makeFriendsDoc, sender: currentUser, reciever: data });
     setAddSent(true);
-    setLoadingBtnAction(false);
   };
   const handleAccept = async () => {
-    setLoadingBtnAction(true);
-
     await acceptFriend({
       friendsDoc: friendsDoc,
       recieveFriendDoc: recieveFriendDoc,
@@ -96,7 +90,6 @@ function SearchAccountItem({ data, onClick }: SearchAccountItemProps) {
       reciever: data,
     });
     setIsFriend(true);
-    setLoadingBtnAction(true);
   };
   const handleMessage = async () => {
     let hasMessage: boolean = false;
@@ -124,8 +117,11 @@ function SearchAccountItem({ data, onClick }: SearchAccountItemProps) {
 
   return showAccountItem ? (
     <Fragment>
-      <div className="wrapper-search-account-item" onClick={onClick}>
-        <div className={`item-search-account-item ${isMobile ? 'px-[10px]' : ''}`}>
+      <div className="wrapper-search-account-item">
+        <div
+          className={`item-search-account-item ${isMobile ? 'px-[10px]' : ''}`}
+          onClick={() => onClick?.(data, addSent, isRecieveRequest, isFriend)}
+        >
           <img
             className={`md:w-[40px] avatar-search-account-item ${isMobile ? 'w-[40px] xs:w-[30px]' : ''}`}
             src={data.photoURL === undefined ? '' : data.photoURL}
@@ -219,6 +215,6 @@ interface SearchAccountItemProps {
   isFriend?: boolean;
   isRecieveRequest?: boolean;
   addSent?: boolean;
-  onClick?: () => void;
+  onClick?: (data?: {}, a?: boolean, b?: boolean, c?: boolean) => void;
 }
 export default SearchAccountItem;

@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import './App.css';
 import { useAuthContext } from './contexts/AuthContextProvider';
@@ -8,6 +8,7 @@ import MainLayout from './layouts/MainLayout';
 import PrivatedRoutes from './protects/PrivatedRoutes';
 import PublicRoutes from './protects/PublicRoutes';
 import { privateRoutes, publicRoutes } from './routes';
+import config from './configs';
 
 function App() {
   const { currentUser } = useAuthContext();
@@ -55,6 +56,7 @@ function App() {
             />
           );
         })}
+        <Route path="*" element={<Navigate to={config.routes.home} />} />
       </Routes>
     </Router>
   );

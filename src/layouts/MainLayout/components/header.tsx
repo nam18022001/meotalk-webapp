@@ -21,7 +21,7 @@ function Header() {
     {
       icon: <FaUserAlt style={{ color: '#4d9ac0' }} />,
       title: 'View profile',
-      to: `/${encodeURIComponent(hastUrlProfile)}`,
+      to: `/profile/${encodeURIComponent(hastUrlProfile)}`,
     },
     {
       icon: <FaUserFriends style={{ color: '#4d9ac0' }} />,

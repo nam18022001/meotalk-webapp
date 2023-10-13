@@ -3,6 +3,7 @@ import { HiXCircle } from 'react-icons/hi';
 import { FiSearch } from 'react-icons/fi';
 import { ImSpinner } from 'react-icons/im';
 import HeadlessTippy from '@tippyjs/react/headless';
+import CryptoJS from 'crypto-js';
 
 import useDebounce from '~/hooks/useDebounce';
 import SearchAccountItem from '~/components/SearchAccountItem';
@@ -10,8 +11,10 @@ import { useAuthContext } from '~/contexts/AuthContextProvider';
 import { onSnapshot } from 'firebase/firestore';
 import { searchUser } from '~/services/searchServices';
 import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
+import { useNavigate } from 'react-router-dom';
 
 function Search() {
+  const nav = useNavigate();
   const { isMobile } = useMobileContext();
   const { currentUser } = useAuthContext();
   // state
@@ -68,6 +71,12 @@ function Search() {
       setSearchValue(searchValue);
     }
   };
+
+  const handleClickProfile = (data: any, addSent?: boolean, isRecieveRequest?: boolean, isFriend?: boolean) => {
+    const hastUrlProfile = CryptoJS.Rabbit.encrypt(data.uid, 'hashUrlProfile').toString();
+
+    nav('/profile/' + encodeURIComponent(hastUrlProfile), { state: { data, addSent, isRecieveRequest, isFriend } });
+  };
   return (
     <Fragment>
       <HeadlessTippy
@@ -88,7 +97,9 @@ function Search() {
             <div className="list-account-headless">
               {searchRsults.map(
                 (res: any, index: number) =>
-                  res.uid !== currentUser.uid && <SearchAccountItem key={index} data={res} />,
+                  res.uid !== currentUser.uid && (
+                    <SearchAccountItem key={index} data={res} onClick={handleClickProfile} />
+                  ),
               )}
             </div>
           </div>

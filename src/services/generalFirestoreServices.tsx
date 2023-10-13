@@ -17,4 +17,27 @@ const docCall = (idCallRoom: string) => {
 const collectionFriends = (uid: string) => {
   return collection(db, 'users', uid, 'friends');
 };
-export { docUsers, collectChats, docChatRoom, docCall, collectionFriends };
+const docMyFriends = (uid: string, uidFr: string) => {
+  return doc(db, 'users', uid, 'friends', uidFr);
+};
+const collectionMakeFriends = () => {
+  return collection(db, 'makeFriends');
+};
+const docMakeFriends = (id: string) => {
+  return doc(db, 'makeFriends', id);
+};
+
+const makeDocMakeFriends = (currentUser: any, data: any) => {
+  return doc(db, 'makeFriends', `${currentUser.uid}_${data.uid}`);
+};
+export {
+  docUsers,
+  collectChats,
+  docChatRoom,
+  docCall,
+  collectionFriends,
+  collectionMakeFriends,
+  docMakeFriends,
+  makeDocMakeFriends,
+  docMyFriends,
+};
