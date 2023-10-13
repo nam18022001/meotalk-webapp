@@ -81,7 +81,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 25%;
+  width: 30%;
   background-color: var(--white);
   color: var(--primary);
 }
@@ -125,7 +125,7 @@
   text-align: center;
   display: block;
   font-family: monospace;
-  font-size: 125%;
+  font-size: 300%;
   width: 50%;
 }
 .input-wrapper > .placeholder {

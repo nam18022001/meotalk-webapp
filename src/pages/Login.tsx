@@ -20,12 +20,12 @@ function LoginPage() {
     <Fragment>
       <div className="wrapper-login">
         <h1 className={`title-login sm:text-[40px] xs:text-[30px]`}>Meo Talk</h1>
-        <div className="input-wrapper sm:w-[90%] xs:w-full sm:text-[30px]">
+        <div className="input-wrapper lg:text-[200%] md:text-[150%] sm:w-[90%] xs:w-full sm:text-[30px]">
           <h1 className="placeholder before:sm:text-[18px] before:xs:text-[14px] after:sm:h-[20px] after:sm:!border-r-transparent"></h1>
         </div>
         <button
           onClick={handleLogin}
-          className="login-btn xs:!w-[96%] sm:!w-[80%] sm:text-[20px] xs:text-[16px] md:w-[60%] text-[30px] md:!text-[18px] px-[30px] py-[15px] md:px-[10px] md:py-[10px] sm:px-[8px] sm:py-[7px]"
+          className="login-btn lg:w-[50%] xs:!w-[96%] sm:!w-[80%] sm:text-[20px] xs:text-[16px] md:w-[60%] text-[30px] md:!text-[18px] px-[30px] py-[15px] md:px-[10px] md:py-[10px] sm:px-[8px] sm:py-[7px]"
         >
           <img className=" w-[13%]" src={googleIcon.icon} alt={googleIcon.alt} />
           Login With Google
