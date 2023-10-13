@@ -1,0 +1,133 @@
+@import url(font.css);
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #4d9ac0;
+  --primary-opacity: #4d9ac0a2;
+  --black: #000;
+  --white: #fff;
+  --text-color: rgb(22, 24, 35);
+  --powderGreyOpacity: rgba(22, 24, 35, 0.1);
+  --font-family: 'Source Sans Pro', sans-serif;
+  --main-height: 100vh;
+  --tippy-box-light: rgb(255, 255, 255);
+  --tippy-box-dark: rgba(84, 84, 84, 0.92);
+  --background-hover-icon: rgba(56, 58, 69, 0.275);
+
+  --default-layout-header-height: 80px;
+  --default-layout-width: 1150px;
+  --default-layout-horizontal-spacer: 24px;
+  --default-max-width-sidebar: 350px;
+  --default-max-height-input: 60px;
+  --default-height-sidebar-item: 80px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  font-size: 62.5%;
+  height: var(--main-height);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  text-rendering: optimizeSpeed;
+  color: var(--text-color);
+  overflow-y: overlay;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* scrollbar */
+
+html *::-webkit-scrollbar {
+  border-radius: 0;
+  width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(22, 24, 35, 0.1);
+}
+
+html *::-webkit-scrollbar-track {
+  border-radius: 0;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+/* button input reset */
+button,
+input,
+[tabindex] {
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
+a[href] {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* Custom-tippy-tooltip */
+
+.tippy-box {
+  background-color: var(--tippy-box-dark);
+  font-family: var(--font-family-main);
+  font-size: 1.4rem;
+  line-height: 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  color: var(--tippy-box-light);
+}
+.tippy-arrow {
+  color: rgba(84, 84, 84, 0.92);
+}
+.tippy-content {
+  padding: 8px 9px;
+}
+/* container responsive */
+.container {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--default-layout-horizontal-spacer);
+  padding-right: var(--default-layout-horizontal-spacer);
+  box-sizing: border-box;
+}
+@media (max-width: 1200px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+@media (max-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+@media (max-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+@media (max-width: 360px) {
+  .container {
+    max-width: 360px;
+  }
+}

@@ -1,0 +1,1979 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Source+Sans+Pro:wght@200;300;400;600;700&display=swap');
+.wrapper {
+  margin: auto;
+  overflow: auto;
+  background: linear-gradient(
+    315deg,
+    rgba(101, 0, 94, 1) 3%,
+    rgba(60, 132, 206, 1) 38%,
+    rgba(48, 238, 226, 1) 68%,
+    rgba(255, 25, 25, 1) 98%
+  );
+  animation: gradient 15s ease infinite;
+  background-size: 400% 400%;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+.content {
+  width: 100%;
+  height: 100%;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+.wave {
+  background: #000;
+  border-radius: 1000% 1000% 0 0;
+  position: fixed;
+  width: 200%;
+  height: 12em;
+  animation: wave 10s -3s linear infinite;
+  transform: translate3d(0, 0, 0);
+  opacity: 0.8;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+@keyframes wave {
+  2% {
+    transform: translateX(1);
+  }
+  25% {
+    transform: translateX(25%);
+  }
+  50% {
+    transform: translateX(50%);
+  }
+  75% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(1);
+  }
+}
+
+/* Login Page */
+.wrapper-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: var(--main-height);
+  width: 100%;
+}
+.login-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  border: 3px solid var(--primary);
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25%;
+  background-color: var(--white);
+  color: var(--primary);
+}
+.login-btn:hover {
+  background-color: var(--primary);
+  border-color: var(--white);
+  color: var(--white);
+}
+.title-login {
+  font-size: 4.9999vw;
+  margin-top: 5.5rem;
+  color: #fff;
+  font-family: 'Audiowide', cursive;
+  animation: neon 1.5s ease-in-out infinite alternate;
+}
+@keyframes neon {
+  from {
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 30px #f90,
+      0 0 50px #f90,
+      0 0 60px #f90,
+      0 0 100px #f90,
+      0 0 150px #f90;
+  }
+  to {
+    text-shadow:
+      0 0 0px #fff,
+      0 0 5px #fff,
+      0 0 15px #fff,
+      0 0 20px #f90,
+      0 0 35px #f90,
+      0 0 40px #f90,
+      0 0 50px #f90,
+      0 0 75px #f90;
+  }
+}
+.input-wrapper {
+  text-align: center;
+  display: block;
+  font-family: monospace;
+  font-size: 125%;
+  width: 50%;
+}
+.input-wrapper > .placeholder {
+  display: block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+}
+.input-wrapper .placeholder {
+  pointer-events: none;
+}
+.input-wrapper .placeholder::before {
+  content: '​';
+  content: '​'/'Hello, Welcome to MeoTalk';
+  alt: 'Hello, Welcome to MeoTalk';
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: #9bffb9;
+  white-space: break-spaces;
+  will-change: content;
+  -webkit-animation: typed-0 22.5s linear 1s infinite forwards;
+  animation: typed-0 22.5s linear 1s infinite forwards;
+}
+.input-wrapper > .placeholder::after {
+  content: '​';
+  color: black;
+  position: relative;
+  display: inline-block;
+  padding-right: 2px;
+  border-right: 2px solid currentColor;
+  white-space: nowrap;
+  -webkit-animation: typed-0-caret 0.75s linear 1s infinite forwards;
+  animation: typed-0-caret 0.75s linear 1s infinite forwards;
+}
+@-webkit-keyframes typed-0 {
+  0%,
+  0.4434444444% {
+    content: '​H';
+    content: '​H'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  0.4444444444%,
+  0.8878888889% {
+    content: '​He';
+    content: '​He'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  0.8888888889%,
+  1.3323333333% {
+    content: '​Hel';
+    content: '​Hel'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  1.3333333333%,
+  1.7767777778% {
+    content: '​Hell';
+    content: '​Hell'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  1.7777777778%,
+  2.2212222222% {
+    content: '​Hello';
+    content: '​Hello'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  2.2222222222%,
+  2.6656666667% {
+    content: '​Hello,';
+    content: '​Hello,'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  2.6666666667%,
+  3.1101111111% {
+    content: '​Hello, ';
+    content: '​Hello, '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  3.1111111111%,
+  3.5545555556% {
+    content: '​Hello, W';
+    content: '​Hello, W'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  3.5555555556%,
+  3.999% {
+    content: '​Hello, We';
+    content: '​Hello, We'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  4%,
+  4.4434444444% {
+    content: '​Hello, Wel';
+    content: '​Hello, Wel'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  4.4444444444%,
+  4.8878888889% {
+    content: '​Hello, Welc';
+    content: '​Hello, Welc'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  4.8888888889%,
+  5.3323333333% {
+    content: '​Hello, Welco';
+    content: '​Hello, Welco'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  5.3333333333%,
+  5.7767777778% {
+    content: '​Hello, Welcom';
+    content: '​Hello, Welcom'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  5.7777777778%,
+  6.2212222222% {
+    content: '​Hello, Welcome';
+    content: '​Hello, Welcome'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  6.2222222222%,
+  6.6656666667% {
+    content: '​Hello, Welcome ';
+    content: '​Hello, Welcome '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  6.6666666667%,
+  7.1101111111% {
+    content: '​Hello, Welcome t';
+    content: '​Hello, Welcome t'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  7.1111111111%,
+  7.5545555556% {
+    content: '​Hello, Welcome to';
+    content: '​Hello, Welcome to'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  7.5555555556%,
+  7.999% {
+    content: '​Hello, Welcome to ';
+    content: '​Hello, Welcome to '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  8%,
+  8.4434444444% {
+    content: '​Hello, Welcome to M';
+    content: '​Hello, Welcome to M'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  8.4444444444%,
+  8.8878888889% {
+    content: '​Hello, Welcome to Me';
+    content: '​Hello, Welcome to Me'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  8.8888888889%,
+  9.3323333333% {
+    content: '​Hello, Welcome to Meo';
+    content: '​Hello, Welcome to Meo'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  9.3333333333%,
+  9.7767777778% {
+    content: '​Hello, Welcome to MeoT';
+    content: '​Hello, Welcome to MeoT'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  9.7777777778%,
+  10.2212222222% {
+    content: '​Hello, Welcome to MeoTa';
+    content: '​Hello, Welcome to MeoTa'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  10.2222222222%,
+  10.6656666667% {
+    content: '​Hello, Welcome to MeoTal';
+    content: '​Hello, Welcome to MeoTal'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  10.6666666667%,
+  20.3545555556% {
+    content: '​Hello, Welcome to MeoTalk';
+    content: '​Hello, Welcome to MeoTalk'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  20.3555555556%,
+  20.7101111111% {
+    content: '​Hello, Welcome to MeoTal';
+    content: '​Hello, Welcome to MeoTal'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  20.7111111111%,
+  21.0656666667% {
+    content: '​Hello, Welcome to MeoTa';
+    content: '​Hello, Welcome to MeoTa'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  21.0666666667%,
+  21.4212222222% {
+    content: '​Hello, Welcome to MeoT';
+    content: '​Hello, Welcome to MeoT'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  21.4222222222%,
+  21.7767777778% {
+    content: '​Hello, Welcome to Meo';
+    content: '​Hello, Welcome to Meo'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  21.7777777778%,
+  22.1323333333% {
+    content: '​Hello, Welcome to Me';
+    content: '​Hello, Welcome to Me'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  22.1333333333%,
+  22.4878888889% {
+    content: '​Hello, Welcome to M';
+    content: '​Hello, Welcome to M'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  22.4888888889%,
+  22.8434444444% {
+    content: '​Hello, Welcome to ';
+    content: '​Hello, Welcome to '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  22.8444444444%,
+  23.199% {
+    content: '​Hello, Welcome to';
+    content: '​Hello, Welcome to'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  23.2%,
+  23.5545555556% {
+    content: '​Hello, Welcome t';
+    content: '​Hello, Welcome t'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  23.5555555556%,
+  23.9101111111% {
+    content: '​Hello, Welcome ';
+    content: '​Hello, Welcome '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  23.9111111111%,
+  24.2656666667% {
+    content: '​Hello, Welcome';
+    content: '​Hello, Welcome'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  24.2666666667%,
+  24.6212222222% {
+    content: '​Hello, Welcom';
+    content: '​Hello, Welcom'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  24.6222222222%,
+  24.9767777778% {
+    content: '​Hello, Welco';
+    content: '​Hello, Welco'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  24.9777777778%,
+  25.3323333333% {
+    content: '​Hello, Welc';
+    content: '​Hello, Welc'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  25.3333333333%,
+  25.6878888889% {
+    content: '​Hello, Wel';
+    content: '​Hello, Wel'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  25.6888888889%,
+  26.0434444444% {
+    content: '​Hello, We';
+    content: '​Hello, We'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  26.0444444444%,
+  26.399% {
+    content: '​Hello, W';
+    content: '​Hello, W'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  26.4%,
+  26.7545555556% {
+    content: '​Hello, ';
+    content: '​Hello, '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  26.7555555556%,
+  27.1101111111% {
+    content: '​Hello,';
+    content: '​Hello,'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  27.1111111111%,
+  27.4656666667% {
+    content: '​Hello';
+    content: '​Hello'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  27.4666666667%,
+  27.8212222222% {
+    content: '​Hell';
+    content: '​Hell'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  27.8222222222%,
+  28.1767777778% {
+    content: '​Hel';
+    content: '​Hel'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  28.1777777778%,
+  28.5323333333% {
+    content: '​He';
+    content: '​He'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  28.5333333333%,
+  28.8878888889% {
+    content: '​H';
+    content: '​H'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  28.8888888889%,
+  33.3323333333% {
+    content: '​';
+    content: '​'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  33.3333333333%,
+  33.7767777778% {
+    content: '​T';
+    content: '​T'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  33.7777777778%,
+  34.2212222222% {
+    content: '​Th';
+    content: '​Th'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  34.2222222222%,
+  34.6656666667% {
+    content: '​Thi';
+    content: '​Thi'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  34.6666666667%,
+  35.1101111111% {
+    content: '​This';
+    content: '​This'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  35.1111111111%,
+  35.5545555556% {
+    content: '​This ';
+    content: '​This '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  35.5555555556%,
+  35.999% {
+    content: '​This w';
+    content: '​This w'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  36%,
+  36.4434444444% {
+    content: '​This We';
+    content: '​This We'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  36.4444444444%,
+  36.8878888889% {
+    content: '​This Web';
+    content: '​This Web'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  36.8888888889%,
+  37.3323333333% {
+    content: '​This WebA';
+    content: '​This WebA'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  37.3333333333%,
+  37.7767777778% {
+    content: '​This webap';
+    content: '​This webap'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  37.7777777778%,
+  38.2212222222% {
+    content: '​This WebApp';
+    content: '​This WebApp'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  38.2222222222%,
+  38.6656666667% {
+    content: '​This WebApp ';
+    content: '​This WebApp '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  38.6666666667%,
+  39.1101111111% {
+    content: '​This WebApp w';
+    content: '​This WebApp w'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  39.1111111111%,
+  39.5545555556% {
+    content: '​This WebApp wi';
+    content: '​This WebApp wi'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  39.5555555556%,
+  39.999% {
+    content: '​This WebApp wil';
+    content: '​This WebApp wil'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  40%,
+  40.4434444444% {
+    content: '​This WebApp will';
+    content: '​This WebApp will'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  40.4444444444%,
+  40.8878888889% {
+    content: '​This WebApp will ';
+    content: '​This WebApp will '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  40.8888888889%,
+  41.3323333333% {
+    content: '​This WebApp will b';
+    content: '​This WebApp will b'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  41.3333333333%,
+  41.7767777778% {
+    content: '​This WebApp will br';
+    content: '​This WebApp will br'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  41.7777777778%,
+  42.2212222222% {
+    content: '​This WebApp will bri';
+    content: '​This WebApp will bri'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  42.2222222222%,
+  42.6656666667% {
+    content: '​This WebApp will brin';
+    content: '​This WebApp will brin'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  42.6666666667%,
+  43.1101111111% {
+    content: '​This WebApp will bring';
+    content: '​This WebApp will bring'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  43.1111111111%,
+  43.5545555556% {
+    content: '​This WebApp will bring ';
+    content: '​This WebApp will bring '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  43.5555555556%,
+  43.999% {
+    content: '​This WebApp will bring u';
+    content: '​This WebApp will bring u'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  44%,
+  44.4434444444% {
+    content: '​This WebApp will bring us';
+    content: '​This WebApp will bring us'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  44.4444444444%,
+  44.8878888889% {
+    content: '​This WebApp will bring us ';
+    content: '​This WebApp will bring us '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  44.8888888889%,
+  45.3323333333% {
+    content: '​This WebApp will bring us t';
+    content: '​This WebApp will bring us t'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  45.3333333333%,
+  45.7767777778% {
+    content: '​This WebApp will bring us to';
+    content: '​This WebApp will bring us to'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  45.7777777778%,
+  46.2212222222% {
+    content: '​This WebApp will bring us tog';
+    content: '​This WebApp will bring us tog'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  46.2222222222%,
+  46.6656666667% {
+    content: '​This WebApp will bring us toge';
+    content: '​This WebApp will bring us toge'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  46.6666666667%,
+  47.1101111111% {
+    content: '​This WebApp will bring us toget';
+    content: '​This WebApp will bring us toget'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  47.1111111111%,
+  47.5545555556% {
+    content: '​This WebApp will bring us togeth';
+    content: '​This WebApp will bring us togeth'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  47.5555555556%,
+  47.999% {
+    content: '​This WebApp will bring us togethe';
+    content: '​This WebApp will bring us togethe'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  48%,
+  57.6878888889% {
+    content: '​This WebApp will bring us together';
+    content: '​This WebApp will bring us together'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  57.6888888889%,
+  58.0434444444% {
+    content: '​This WebApp will bring us togethe';
+    content: '​This WebApp will bring us togethe'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  58.0444444444%,
+  58.399% {
+    content: '​This WebApp will bring us togeth';
+    content: '​This WebApp will bring us togeth'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  58.4%,
+  58.7545555556% {
+    content: '​This WebApp will bring us toget';
+    content: '​This WebApp will bring us toget'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  58.7555555556%,
+  59.1101111111% {
+    content: '​This WebApp will bring us toge';
+    content: '​This WebApp will bring us toge'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  59.1111111111%,
+  59.4656666667% {
+    content: '​This WebApp will bring us tog';
+    content: '​This WebApp will bring us tog'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  59.4666666667%,
+  59.8212222222% {
+    content: '​This WebApp will bring us to';
+    content: '​This WebApp will bring us to'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  59.8222222222%,
+  60.1767777778% {
+    content: '​This WebApp will bring us t';
+    content: '​This WebApp will bring us t'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  60.1777777778%,
+  60.5323333333% {
+    content: '​This WebApp will bring us ';
+    content: '​This WebApp will bring us '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  60.5333333333%,
+  60.8878888889% {
+    content: '​This WebApp will bring us';
+    content: '​This WebApp will bring us'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  60.8888888889%,
+  61.2434444444% {
+    content: '​This WebApp will bring u';
+    content: '​This WebApp will bring u'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  61.2444444444%,
+  61.599% {
+    content: '​This WebApp will bring ';
+    content: '​This WebApp will bring '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  61.6%,
+  61.9545555556% {
+    content: '​This WebApp will bring';
+    content: '​This WebApp will bring'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  61.9555555556%,
+  62.3101111111% {
+    content: '​This WebApp will brin';
+    content: '​This WebApp will brin'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  62.3111111111%,
+  62.6656666667% {
+    content: '​This WebApp will bri';
+    content: '​This WebApp will bri'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  62.6666666667%,
+  63.0212222222% {
+    content: '​This WebApp will br';
+    content: '​This WebApp will br'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  63.0222222222%,
+  63.3767777778% {
+    content: '​This WebApp will b';
+    content: '​This WebApp will b'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  63.3777777778%,
+  63.7323333333% {
+    content: '​This WebApp will ';
+    content: '​This WebApp will '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  63.7333333333%,
+  64.0878888889% {
+    content: '​This WebApp will';
+    content: '​This WebApp will'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  64.0888888889%,
+  64.4434444444% {
+    content: '​This WebApp wil';
+    content: '​This WebApp wil'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  64.4444444444%,
+  64.799% {
+    content: '​This WebApp wi';
+    content: '​This WebApp wi'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  64.8%,
+  65.1545555556% {
+    content: '​This WebApp w';
+    content: '​This WebApp w'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  65.1555555556%,
+  65.5101111111% {
+    content: '​This WebApp ';
+    content: '​This WebApp '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  65.5111111111%,
+  65.8656666667% {
+    content: '​This WebApp';
+    content: '​This WebApp'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  65.8666666667%,
+  66.2212222222% {
+    content: '​This webap';
+    content: '​This webap'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  66.2222222222%,
+  66.5767777778% {
+    content: '​This WebA';
+    content: '​This WebA'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  66.5777777778%,
+  66.9323333333% {
+    content: '​This Web';
+    content: '​This Web'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  66.9333333333%,
+  67.2878888889% {
+    content: '​This We';
+    content: '​This We'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  67.2888888889%,
+  67.6434444444% {
+    content: '​This W';
+    content: '​This W'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  67.6444444444%,
+  67.999% {
+    content: '​This ';
+    content: '​This '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  68%,
+  68.3545555556% {
+    content: '​This';
+    content: '​This'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  68.3555555556%,
+  68.7101111111% {
+    content: '​Thi';
+    content: '​Thi'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  68.7111111111%,
+  69.0656666667% {
+    content: '​Th';
+    content: '​Th'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  69.0666666667%,
+  69.4212222222% {
+    content: '​T';
+    content: '​T'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  69.4222222222%,
+  73.8656666667% {
+    content: '​';
+    content: '​'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  73.8666666667%,
+  74.3101111111% {
+    content: '​H';
+    content: '​H'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  74.3111111111%,
+  74.7545555556% {
+    content: '​Ha';
+    content: '​Ha'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  74.7555555556%,
+  75.199% {
+    content: '​Hav';
+    content: '​Hav'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  75.2%,
+  75.6434444444% {
+    content: '​Have';
+    content: '​Have'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  75.6444444444%,
+  76.0878888889% {
+    content: '​Have ';
+    content: '​Have '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  76.0888888889%,
+  76.5323333333% {
+    content: '​Have a';
+    content: '​Have a'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  76.5333333333%,
+  76.9767777778% {
+    content: '​Have a ';
+    content: '​Have a '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  76.9777777778%,
+  77.4212222222% {
+    content: '​Have a n';
+    content: '​Have a n'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  77.4222222222%,
+  77.8656666667% {
+    content: '​Have a ni';
+    content: '​Have a ni'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  77.8666666667%,
+  78.3101111111% {
+    content: '​Have a nic';
+    content: '​Have a nic'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  78.3111111111%,
+  78.7545555556% {
+    content: '​Have a nice';
+    content: '​Have a nice'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  78.7555555556%,
+  79.199% {
+    content: '​Have a nice ';
+    content: '​Have a nice '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  79.2%,
+  79.6434444444% {
+    content: '​Have a nice d';
+    content: '​Have a nice d'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  79.6444444444%,
+  80.0878888889% {
+    content: '​Have a nice da';
+    content: '​Have a nice da'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  80.0888888889%,
+  80.5323333333% {
+    content: '​Have a nice day';
+    content: '​Have a nice day'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  80.5333333333%,
+  90.2212222222% {
+    content: '​Have a nice day!';
+    content: '​Have a nice day!'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  90.2222222222%,
+  90.5767777778% {
+    content: '​Have a nice day';
+    content: '​Have a nice day'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  90.5777777778%,
+  90.9323333333% {
+    content: '​Have a nice da';
+    content: '​Have a nice da'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  90.9333333333%,
+  91.2878888889% {
+    content: '​Have a nice d';
+    content: '​Have a nice d'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  91.2888888889%,
+  91.6434444444% {
+    content: '​Have a nice ';
+    content: '​Have a nice '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  91.6444444444%,
+  91.999% {
+    content: '​Have a nice';
+    content: '​Have a nice'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  92%,
+  92.3545555556% {
+    content: '​Have a nic';
+    content: '​Have a nic'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  92.3555555556%,
+  92.7101111111% {
+    content: '​Have a ni';
+    content: '​Have a ni'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  92.7111111111%,
+  93.0656666667% {
+    content: '​Have a n';
+    content: '​Have a n'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  93.0666666667%,
+  93.4212222222% {
+    content: '​Have a ';
+    content: '​Have a '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  93.4222222222%,
+  93.7767777778% {
+    content: '​Have a';
+    content: '​Have a'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  93.7777777778%,
+  94.1323333333% {
+    content: '​Have ';
+    content: '​Have '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  94.1333333333%,
+  94.4878888889% {
+    content: '​Have';
+    content: '​Have'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  94.4888888889%,
+  94.8434444444% {
+    content: '​Hav';
+    content: '​Hav'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  94.8444444444%,
+  95.199% {
+    content: '​Ha';
+    content: '​Ha'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  95.2%,
+  95.5545555556% {
+    content: '​H';
+    content: '​H'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  95.5555555556%,
+  100% {
+    content: '​';
+    content: '​'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+}
+@keyframes typed-0 {
+  0%,
+  0.4434444444% {
+    content: '​H';
+    content: '​H'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  0.4444444444%,
+  0.8878888889% {
+    content: '​He';
+    content: '​He'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  0.8888888889%,
+  1.3323333333% {
+    content: '​Hel';
+    content: '​Hel'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  1.3333333333%,
+  1.7767777778% {
+    content: '​Hell';
+    content: '​Hell'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  1.7777777778%,
+  2.2212222222% {
+    content: '​Hello';
+    content: '​Hello'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  2.2222222222%,
+  2.6656666667% {
+    content: '​Hello,';
+    content: '​Hello,'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  2.6666666667%,
+  3.1101111111% {
+    content: '​Hello, ';
+    content: '​Hello, '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  3.1111111111%,
+  3.5545555556% {
+    content: '​Hello, W';
+    content: '​Hello, W'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  3.5555555556%,
+  3.999% {
+    content: '​Hello, We';
+    content: '​Hello, We'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  4%,
+  4.4434444444% {
+    content: '​Hello, Wel';
+    content: '​Hello, Wel'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  4.4444444444%,
+  4.8878888889% {
+    content: '​Hello, Welc';
+    content: '​Hello, Welc'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  4.8888888889%,
+  5.3323333333% {
+    content: '​Hello, Welco';
+    content: '​Hello, Welco'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  5.3333333333%,
+  5.7767777778% {
+    content: '​Hello, Welcom';
+    content: '​Hello, Welcom'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  5.7777777778%,
+  6.2212222222% {
+    content: '​Hello, Welcome';
+    content: '​Hello, Welcome'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  6.2222222222%,
+  6.6656666667% {
+    content: '​Hello, Welcome ';
+    content: '​Hello, Welcome '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  6.6666666667%,
+  7.1101111111% {
+    content: '​Hello, Welcome t';
+    content: '​Hello, Welcome t'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  7.1111111111%,
+  7.5545555556% {
+    content: '​Hello, Welcome to';
+    content: '​Hello, Welcome to'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  7.5555555556%,
+  7.999% {
+    content: '​Hello, Welcome to ';
+    content: '​Hello, Welcome to '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  8%,
+  8.4434444444% {
+    content: '​Hello, Welcome to M';
+    content: '​Hello, Welcome to M'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  8.4444444444%,
+  8.8878888889% {
+    content: '​Hello, Welcome to Me';
+    content: '​Hello, Welcome to Me'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  8.8888888889%,
+  9.3323333333% {
+    content: '​Hello, Welcome to Meo';
+    content: '​Hello, Welcome to Meo'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  9.3333333333%,
+  9.7767777778% {
+    content: '​Hello, Welcome to MeoT';
+    content: '​Hello, Welcome to MeoT'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  9.7777777778%,
+  10.2212222222% {
+    content: '​Hello, Welcome to MeoTa';
+    content: '​Hello, Welcome to MeoTa'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  10.2222222222%,
+  10.6656666667% {
+    content: '​Hello, Welcome to MeoTal';
+    content: '​Hello, Welcome to MeoTal'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  10.6666666667%,
+  20.3545555556% {
+    content: '​Hello, Welcome to MeoTalk';
+    content: '​Hello, Welcome to MeoTalk'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  20.3555555556%,
+  20.7101111111% {
+    content: '​Hello, Welcome to MeoTal';
+    content: '​Hello, Welcome to MeoTal'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  20.7111111111%,
+  21.0656666667% {
+    content: '​Hello, Welcome to MeoTa';
+    content: '​Hello, Welcome to MeoTa'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  21.0666666667%,
+  21.4212222222% {
+    content: '​Hello, Welcome to MeoT';
+    content: '​Hello, Welcome to MeoT'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  21.4222222222%,
+  21.7767777778% {
+    content: '​Hello, Welcome to Meo';
+    content: '​Hello, Welcome to Meo'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  21.7777777778%,
+  22.1323333333% {
+    content: '​Hello, Welcome to Me';
+    content: '​Hello, Welcome to Me'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  22.1333333333%,
+  22.4878888889% {
+    content: '​Hello, Welcome to M';
+    content: '​Hello, Welcome to M'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  22.4888888889%,
+  22.8434444444% {
+    content: '​Hello, Welcome to ';
+    content: '​Hello, Welcome to '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  22.8444444444%,
+  23.199% {
+    content: '​Hello, Welcome to';
+    content: '​Hello, Welcome to'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  23.2%,
+  23.5545555556% {
+    content: '​Hello, Welcome t';
+    content: '​Hello, Welcome t'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  23.5555555556%,
+  23.9101111111% {
+    content: '​Hello, Welcome ';
+    content: '​Hello, Welcome '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  23.9111111111%,
+  24.2656666667% {
+    content: '​Hello, Welcome';
+    content: '​Hello, Welcome'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  24.2666666667%,
+  24.6212222222% {
+    content: '​Hello, Welcom';
+    content: '​Hello, Welcom'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  24.6222222222%,
+  24.9767777778% {
+    content: '​Hello, Welco';
+    content: '​Hello, Welco'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  24.9777777778%,
+  25.3323333333% {
+    content: '​Hello, Welc';
+    content: '​Hello, Welc'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  25.3333333333%,
+  25.6878888889% {
+    content: '​Hello, Wel';
+    content: '​Hello, Wel'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  25.6888888889%,
+  26.0434444444% {
+    content: '​Hello, We';
+    content: '​Hello, We'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  26.0444444444%,
+  26.399% {
+    content: '​Hello, W';
+    content: '​Hello, W'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  26.4%,
+  26.7545555556% {
+    content: '​Hello, ';
+    content: '​Hello, '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  26.7555555556%,
+  27.1101111111% {
+    content: '​Hello,';
+    content: '​Hello,'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  27.1111111111%,
+  27.4656666667% {
+    content: '​Hello';
+    content: '​Hello'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  27.4666666667%,
+  27.8212222222% {
+    content: '​Hell';
+    content: '​Hell'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  27.8222222222%,
+  28.1767777778% {
+    content: '​Hel';
+    content: '​Hel'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  28.1777777778%,
+  28.5323333333% {
+    content: '​He';
+    content: '​He'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  28.5333333333%,
+  28.8878888889% {
+    content: '​H';
+    content: '​H'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  28.8888888889%,
+  33.3323333333% {
+    content: '​';
+    content: '​'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  33.3333333333%,
+  33.7767777778% {
+    content: '​T';
+    content: '​T'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  33.7777777778%,
+  34.2212222222% {
+    content: '​Th';
+    content: '​Th'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  34.2222222222%,
+  34.6656666667% {
+    content: '​Thi';
+    content: '​Thi'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  34.6666666667%,
+  35.1101111111% {
+    content: '​This';
+    content: '​This'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  35.1111111111%,
+  35.5545555556% {
+    content: '​This ';
+    content: '​This '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  35.5555555556%,
+  35.999% {
+    content: '​This W';
+    content: '​This W'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  36%,
+  36.4434444444% {
+    content: '​This We';
+    content: '​This We'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  36.4444444444%,
+  36.8878888889% {
+    content: '​This Web';
+    content: '​This Web'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  36.8888888889%,
+  37.3323333333% {
+    content: '​This WebA';
+    content: '​This WebA'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  37.3333333333%,
+  37.7767777778% {
+    content: '​This WebAp';
+    content: '​This WebAp'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  37.7777777778%,
+  38.2212222222% {
+    content: '​This WebApp';
+    content: '​This WebApp'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  38.2222222222%,
+  38.6656666667% {
+    content: '​This WebApp ';
+    content: '​This WebApp '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  38.6666666667%,
+  39.1101111111% {
+    content: '​This WebApp w';
+    content: '​This WebApp w'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  39.1111111111%,
+  39.5545555556% {
+    content: '​This WebApp wi';
+    content: '​This WebApp wi'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  39.5555555556%,
+  39.999% {
+    content: '​This WebApp wil';
+    content: '​This WebApp wil'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  40%,
+  40.4434444444% {
+    content: '​This WebApp will';
+    content: '​This WebApp will'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  40.4444444444%,
+  40.8878888889% {
+    content: '​This WebApp will ';
+    content: '​This WebApp will '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  40.8888888889%,
+  41.3323333333% {
+    content: '​This WebApp will b';
+    content: '​This WebApp will b'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  41.3333333333%,
+  41.7767777778% {
+    content: '​This WebApp will br';
+    content: '​This WebApp will br'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  41.7777777778%,
+  42.2212222222% {
+    content: '​This WebApp will bri';
+    content: '​This WebApp will bri'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  42.2222222222%,
+  42.6656666667% {
+    content: '​This WebApp will brin';
+    content: '​This WebApp will brin'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  42.6666666667%,
+  43.1101111111% {
+    content: '​This WebApp will bring';
+    content: '​This WebApp will bring'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  43.1111111111%,
+  43.5545555556% {
+    content: '​This WebApp will bring ';
+    content: '​This WebApp will bring '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  43.5555555556%,
+  43.999% {
+    content: '​This WebApp will bring u';
+    content: '​This WebApp will bring u'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  44%,
+  44.4434444444% {
+    content: '​This WebApp will bring us';
+    content: '​This WebApp will bring us'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  44.4444444444%,
+  44.8878888889% {
+    content: '​This WebApp will bring us ';
+    content: '​This WebApp will bring us '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  44.8888888889%,
+  45.3323333333% {
+    content: '​This WebApp will bring us t';
+    content: '​This WebApp will bring us t'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  45.3333333333%,
+  45.7767777778% {
+    content: '​This WebApp will bring us to';
+    content: '​This WebApp will bring us to'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  45.7777777778%,
+  46.2212222222% {
+    content: '​This WebApp will bring us tog';
+    content: '​This WebApp will bring us tog'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  46.2222222222%,
+  46.6656666667% {
+    content: '​This WebApp will bring us toge';
+    content: '​This WebApp will bring us toge'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  46.6666666667%,
+  47.1101111111% {
+    content: '​This WebApp will bring us toget';
+    content: '​This WebApp will bring us toget'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  47.1111111111%,
+  47.5545555556% {
+    content: '​This WebApp will bring us togeth';
+    content: '​This WebApp will bring us togeth'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  47.5555555556%,
+  47.999% {
+    content: '​This WebApp will bring us togethe';
+    content: '​This WebApp will bring us togethe'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  48%,
+  57.6878888889% {
+    content: '​This WebApp will bring us together';
+    content: '​This WebApp will bring us together'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  57.6888888889%,
+  58.0434444444% {
+    content: '​This WebApp will bring us togethe';
+    content: '​This WebApp will bring us togethe'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  58.0444444444%,
+  58.399% {
+    content: '​This WebApp will bring us togeth';
+    content: '​This WebApp will bring us togeth'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  58.4%,
+  58.7545555556% {
+    content: '​This WebApp will bring us toget';
+    content: '​This WebApp will bring us toget'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  58.7555555556%,
+  59.1101111111% {
+    content: '​This WebApp will bring us toge';
+    content: '​This WebApp will bring us toge'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  59.1111111111%,
+  59.4656666667% {
+    content: '​This WebApp will bring us tog';
+    content: '​This WebApp will bring us tog'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  59.4666666667%,
+  59.8212222222% {
+    content: '​This WebApp will bring us to';
+    content: '​This WebApp will bring us to'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  59.8222222222%,
+  60.1767777778% {
+    content: '​This WebApp will bring us t';
+    content: '​This WebApp will bring us t'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  60.1777777778%,
+  60.5323333333% {
+    content: '​This WebApp will bring us ';
+    content: '​This WebApp will bring us '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  60.5333333333%,
+  60.8878888889% {
+    content: '​This WebApp will bring us';
+    content: '​This WebApp will bring us'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  60.8888888889%,
+  61.2434444444% {
+    content: '​This WebApp will bring u';
+    content: '​This WebApp will bring u'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  61.2444444444%,
+  61.599% {
+    content: '​This WebApp will bring ';
+    content: '​This WebApp will bring '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  61.6%,
+  61.9545555556% {
+    content: '​This WebApp will bring';
+    content: '​This WebApp will bring'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  61.9555555556%,
+  62.3101111111% {
+    content: '​This WebApp will brin';
+    content: '​This WebApp will brin'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  62.3111111111%,
+  62.6656666667% {
+    content: '​This WebApp will bri';
+    content: '​This WebApp will bri'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  62.6666666667%,
+  63.0212222222% {
+    content: '​This WebApp will br';
+    content: '​This WebApp will br'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  63.0222222222%,
+  63.3767777778% {
+    content: '​This WebApp will b';
+    content: '​This WebApp will b'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  63.3777777778%,
+  63.7323333333% {
+    content: '​This WebApp will ';
+    content: '​This WebApp will '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  63.7333333333%,
+  64.0878888889% {
+    content: '​This WebApp will';
+    content: '​This WebApp will'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  64.0888888889%,
+  64.4434444444% {
+    content: '​This WebApp wil';
+    content: '​This WebApp wil'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  64.4444444444%,
+  64.799% {
+    content: '​This WebApp wi';
+    content: '​This WebApp wi'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  64.8%,
+  65.1545555556% {
+    content: '​This WebApp w';
+    content: '​This WebApp w'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  65.1555555556%,
+  65.5101111111% {
+    content: '​This WebApp ';
+    content: '​This WebApp '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  65.5111111111%,
+  65.8656666667% {
+    content: '​This WebApp';
+    content: '​This WebApp'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  65.8666666667%,
+  66.2212222222% {
+    content: '​This WebAp';
+    content: '​This WebAp'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  66.2222222222%,
+  66.5767777778% {
+    content: '​This WebA';
+    content: '​This WebA'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  66.5777777778%,
+  66.9323333333% {
+    content: '​This Web';
+    content: '​This Web'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  66.9333333333%,
+  67.2878888889% {
+    content: '​This We';
+    content: '​This We'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  67.2888888889%,
+  67.6434444444% {
+    content: '​This W';
+    content: '​This W'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  67.6444444444%,
+  67.999% {
+    content: '​This ';
+    content: '​This '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  68%,
+  68.3545555556% {
+    content: '​This';
+    content: '​This'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  68.3555555556%,
+  68.7101111111% {
+    content: '​Thi';
+    content: '​Thi'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  68.7111111111%,
+  69.0656666667% {
+    content: '​Th';
+    content: '​Th'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  69.0666666667%,
+  69.4212222222% {
+    content: '​T';
+    content: '​T'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  69.4222222222%,
+  73.8656666667% {
+    content: '​';
+    content: '​'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  73.8666666667%,
+  74.3101111111% {
+    content: '​H';
+    content: '​H'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  74.3111111111%,
+  74.7545555556% {
+    content: '​Ha';
+    content: '​Ha'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  74.7555555556%,
+  75.199% {
+    content: '​Hav';
+    content: '​Hav'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  75.2%,
+  75.6434444444% {
+    content: '​Have';
+    content: '​Have'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  75.6444444444%,
+  76.0878888889% {
+    content: '​Have ';
+    content: '​Have '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  76.0888888889%,
+  76.5323333333% {
+    content: '​Have a';
+    content: '​Have a'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  76.5333333333%,
+  76.9767777778% {
+    content: '​Have a ';
+    content: '​Have a '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  76.9777777778%,
+  77.4212222222% {
+    content: '​Have a n';
+    content: '​Have a n'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  77.4222222222%,
+  77.8656666667% {
+    content: '​Have a ni';
+    content: '​Have a ni'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  77.8666666667%,
+  78.3101111111% {
+    content: '​Have a nic';
+    content: '​Have a nic'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  78.3111111111%,
+  78.7545555556% {
+    content: '​Have a nice';
+    content: '​Have a nice'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  78.7555555556%,
+  79.199% {
+    content: '​Have a nice ';
+    content: '​Have a nice '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  79.2%,
+  79.6434444444% {
+    content: '​Have a nice d';
+    content: '​Have a nice d'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  79.6444444444%,
+  80.0878888889% {
+    content: '​Have a nice da';
+    content: '​Have a nice da'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  80.0888888889%,
+  80.5323333333% {
+    content: '​Have a nice day';
+    content: '​Have a nice day'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  80.5333333333%,
+  90.2212222222% {
+    content: '​Have a nice day!';
+    content: '​Have a nice day!'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  90.2222222222%,
+  90.5767777778% {
+    content: '​Have a nice day';
+    content: '​Have a nice day'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  90.5777777778%,
+  90.9323333333% {
+    content: '​Have a nice da';
+    content: '​Have a nice da'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  90.9333333333%,
+  91.2878888889% {
+    content: '​Have a nice d';
+    content: '​Have a nice d'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  91.2888888889%,
+  91.6434444444% {
+    content: '​Have a nice ';
+    content: '​Have a nice '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  91.6444444444%,
+  91.999% {
+    content: '​Have a nice';
+    content: '​Have a nice'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  92%,
+  92.3545555556% {
+    content: '​Have a nic';
+    content: '​Have a nic'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  92.3555555556%,
+  92.7101111111% {
+    content: '​Have a ni';
+    content: '​Have a ni'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  92.7111111111%,
+  93.0656666667% {
+    content: '​Have a n';
+    content: '​Have a n'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  93.0666666667%,
+  93.4212222222% {
+    content: '​Have a ';
+    content: '​Have a '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  93.4222222222%,
+  93.7767777778% {
+    content: '​Have a';
+    content: '​Have a'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  93.7777777778%,
+  94.1323333333% {
+    content: '​Have ';
+    content: '​Have '/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  94.1333333333%,
+  94.4878888889% {
+    content: '​Have';
+    content: '​Have'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  94.4888888889%,
+  94.8434444444% {
+    content: '​Hav';
+    content: '​Hav'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  94.8444444444%,
+  95.199% {
+    content: '​Ha';
+    content: '​Ha'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  95.2%,
+  95.5545555556% {
+    content: '​H';
+    content: '​H'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+  95.5555555556%,
+  100% {
+    content: '​';
+    content: '​'/'Hello, Welcome to MeoTalk';
+    alt: 'Hello, Welcome to MeoTalk';
+  }
+}
+@-webkit-keyframes typed-0-caret {
+  75% {
+    border-color: transparent;
+  }
+}
+@keyframes typed-0-caret {
+  75% {
+    border-color: transparent;
+  }
+}

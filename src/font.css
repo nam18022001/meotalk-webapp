@@ -1,0 +1,30 @@
+@font-face {
+  font-family: 'Source Sans Pro', sans-serif;
+  src: url(assets/fonts/SourceSansPro-ExtraLight.ttf);
+  font-weight: 200;
+}
+@font-face {
+  font-family: 'Source Sans Pro', sans-serif;
+  src: url(assets/fonts/SourceSansPro-Light.ttf);
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Source Sans Pro', sans-serif;
+  src: url(assets/fonts/SourceSansPro-Regular.ttf);
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Source Sans Pro', sans-serif;
+  src: url(assets/fonts/SourceSansPro-SemiBold.ttf);
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Source Sans Pro', sans-serif;
+  src: url(assets/fonts/SourceSansPro-Bold.ttf);
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Source Sans Pro', sans-serif;
+  src: url(assets/fonts/SourceSansPro-Black.ttf);
+  font-weight: 900;
+}

@@ -1,0 +1,188 @@
+:root {
+  --search-border-radius: 92px;
+  --search-height: 60px;
+  --search-width: 450px;
+  --search-space-vertical: 9px;
+  --search-button-width: 52px;
+  --search-bar-icon-color: rgba(22, 24, 35, 0.34);
+  --hover-color-menu-search-item: #4d9ac02c;
+}
+/* Header */
+.search-result-headless {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(100vh / 2.5);
+  padding-top: 8px;
+  min-height: 100px;
+  width: var(--search-width);
+  background-color: var(--white) !important;
+  border-radius: 8px;
+  box-shadow:
+    0 6px 18px 0 var(--primary-opacity),
+    0 1px 2px rgba(22, 24, 35, 0.185);
+}
+.search-title-headless {
+  font-weight: 600;
+  font-size: 16px;
+  font-family: var(--font-family-bold);
+  color: rgba(22, 24, 35, 0.5);
+  padding: 0 12px;
+}
+.list-account-headless {
+  overflow: hidden;
+  overflow-y: overlay;
+}
+.no-results-headless {
+  width: 100%;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  text-overflow: ellipsis;
+}
+
+.search-bar {
+  --background-color-search: var(--hover-color-menu-search-item);
+  background-color: var(--background-color-search);
+  border: 1.5px solid transparent;
+  border-radius: var(--search-border-radius);
+  display: flex;
+  height: var(--search-height);
+  padding-left: 16px;
+  position: relative;
+  width: var(--search-width);
+}
+.search-bar::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: var(--search-button-width);
+  width: 1px;
+  height: 60%;
+  transform: translateY(-50%);
+  background-color: var(--primary-opacity);
+}
+.search-bar:not(:placeholder-shown) .btn-search {
+  color: black;
+}
+.search-bar:focus-within {
+  border-color: var(--primary);
+}
+.search-input {
+  background-color: transparent;
+  caret-color: var(--primary);
+  color: var(--black);
+  flex: 1 1;
+  font-family: var(--font-family);
+  font-size: 1.6rem;
+  height: 100%;
+  padding-right: 40px;
+}
+.search-input-clear,
+.search-input-loading {
+  background-color: transparent;
+  color: var(--search-bar-icon-color);
+  cursor: pointer;
+  display: flex;
+  position: absolute;
+  right: calc(var(--search-button-width) + 16px);
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.search-input-clear:hover {
+  color: rgba(0, 0, 0, 0.535);
+}
+.search-input-loading {
+  animation: spinner 0.8s linear infinite;
+}
+@keyframes spinner {
+  from {
+    transform: translateY(-50%) rotate(0);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+.btn-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: var(--search-bar-icon-color);
+  width: var(--search-button-width);
+  height: 100%;
+  border-top-right-radius: var(--search-border-radius);
+  border-bottom-right-radius: var(--search-border-radius);
+  background-color: transparent;
+}
+.btn-search:hover .icon-search {
+  transform: scale(1.5);
+  cursor: pointer;
+}
+.active-btn {
+  background-color: rgba(22, 24, 35, 0.06);
+}
+.avatar-header {
+  border-radius: 50%;
+  cursor: pointer;
+  /* margin-left: 8px; */
+  object-fit: contain;
+  width: 45px;
+}
+/* SIDEBAR */
+.sidebar {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  transition: width 0.3s linear;
+}
+.collapse-sidebar {
+  overflow-x: hidden;
+}
+.chats-list {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.chats-list::-webkit-scrollbar {
+  display: none;
+}
+.chats-list:hover::-webkit-scrollbar {
+  display: block;
+}
+.border-title {
+  box-shadow: 0 2px 2px -2px rgba(84, 84, 84, 0.22);
+}
+
+/* Conversation */
+.wrapper-conversation {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  justify-content: space-between;
+}
+.messages-conversation {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  flex: 1;
+  padding: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@media screen and (max-width: 360px) {
+  .EmojiPickerReact {
+    width: 100vw !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
