@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js';
-import { doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
+import { getDoc, onSnapshot } from 'firebase/firestore';
 import { Fragment, memo, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -10,9 +10,8 @@ import config from '~/configs';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
 import { handleClickCall, handleClickCallVideo } from '~/functions/call';
 import { handleReadMessages } from '~/functions/conversation';
-import { db } from '~/services/FirebaseServices';
 import { getCollectionChatRoom } from '~/services/conversationServices';
-import { collectChats, docChatRoom, docUsers } from '~/services/generalFirestoreServices';
+import { docChatRoom, docUsers } from '~/services/generalFirestoreServices';
 
 function Conversation() {
   const { idChatRoom } = useParams();

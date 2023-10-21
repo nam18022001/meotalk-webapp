@@ -304,3 +304,13 @@
   border-radius: 50%;
   color: wheat;
 }
+/* add btn home page */
+.button-add {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.button-add:active {
+  background-color: #48abe0;
+  box-shadow: 0 0 2px darkslategray;
+  transform: translateY(2px);
+}
