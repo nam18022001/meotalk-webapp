@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import ConverseItem from '~/components/ConverseItem';
 import config from '~/configs';
+import { useAddConversationContext } from '~/contexts/AddConversationContextProvider';
 import { useMenuContext } from '~/contexts/MenuContextProvider';
 import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
 import { usePreloadSideBarContext } from '~/contexts/PreloadSideBarProvider';
@@ -14,6 +15,7 @@ function SideBar() {
   const { isMobile } = useMobileContext();
   const { slideBarCollapse, setSlideBarCollapse } = useMenuContext();
   const { listConversation } = usePreloadSideBarContext();
+  const { addTrue, users } = useAddConversationContext();
 
   const [showBorderTitle, setShowBorderTitle] = useState(false);
 
@@ -78,6 +80,7 @@ function SideBar() {
           className={`chats-list ${isMobile ? 'h-[calc(100vh_-_100px)]' : ''}`}
           onScroll={handleScrolling}
         >
+          {addTrue && <ConverseItem addConversation={true} dataAdd={users} />}
           {listConversation.map((infoRoom: any, index) => (
             <ConverseItem key={index} data={infoRoom} />
           ))}

@@ -11,6 +11,7 @@ import CallContextProvider from './contexts/CallContextProvider.tsx';
 import MenuContextProfiver from './contexts/MenuContextProvider.tsx';
 import MobileVersionProvider from './contexts/MobileVersionContextProvider.tsx';
 import PreloadSideBarProvider from './contexts/PreloadSideBarProvider.tsx';
+import AddConversationContextProvider from './contexts/AddConversationContextProvider.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <MobileVersionProvider>
@@ -18,9 +19,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <CallContextProvider>
         <MenuContextProfiver>
           <PreloadSideBarProvider>
-            <React.StrictMode>
-              <App />
-            </React.StrictMode>
+            <AddConversationContextProvider>
+              <React.StrictMode>
+                <App />
+              </React.StrictMode>
+            </AddConversationContextProvider>
           </PreloadSideBarProvider>
         </MenuContextProfiver>
       </CallContextProvider>

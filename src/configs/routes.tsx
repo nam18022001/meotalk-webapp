@@ -3,7 +3,7 @@ const routes = {
   login: '/login',
   profile: '/profile/:uidProfile',
   conversation: '/conversation/:idChatRoom',
-  newConversation: '/new',
+  newConversation: '/conversation/new',
   myFriends: '/myfriends',
   myRequests: '/myrequests',
   friendsRequest: '/friendsrequest',

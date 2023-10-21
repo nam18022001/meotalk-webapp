@@ -5,8 +5,8 @@ import moment from 'moment';
 import { Fragment, memo, useEffect, useState } from 'react';
 import { BsFillCheckCircleFill, BsTelephone, BsTrash } from 'react-icons/bs';
 import { HiOutlineVideoCamera } from 'react-icons/hi';
-import { IoIosMore } from 'react-icons/io';
-import { Link, useParams } from 'react-router-dom';
+import { IoIosClose, IoIosMore } from 'react-icons/io';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import Skeleton from 'react-loading-skeleton';
 import { avatarIcon } from '~/assets/icons';
@@ -14,6 +14,7 @@ import { useAuthContext } from '~/contexts/AuthContextProvider';
 import { useMenuContext } from '~/contexts/MenuContextProvider';
 import { usersInfo } from '~/services/conversationServices';
 import { collectChats } from '~/services/generalFirestoreServices';
+import config from '~/configs';
 
 const menuMore = [
   {
@@ -31,13 +32,14 @@ const menuMore = [
   },
 ];
 
-function ConverseItem({ data }: ConverseItemProps) {
+function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseItemProps) {
   const { slideBarCollapse } = useMenuContext();
   const { currentUser } = useAuthContext();
   const { idChatRoom } = useParams();
+  const nav = useNavigate();
 
   const hashUrlConversation = encodeURIComponent(
-    CryptoJS.Rabbit.encrypt(data.chatRoomID, 'hashUrlConversation').toString(),
+    CryptoJS.Rabbit.encrypt(addConversation ? '' : data!.chatRoomID, 'hashUrlConversation').toString(),
   );
 
   const [loadingItem, setLoadingitem] = useState(false);
@@ -57,16 +59,18 @@ function ConverseItem({ data }: ConverseItemProps) {
       if (idChatRoom) {
         const deHashConver = CryptoJS.Rabbit.decrypt(idChatRoom, 'hashUrlConversation');
         const chatRoomId = CryptoJS.enc.Utf8.stringify(deHashConver);
-        if (chatRoomId === data.chatRoomID) {
+        if (chatRoomId === data!.chatRoomID) {
           setActive(true);
         } else {
           setActive(false);
         }
+      } else {
+        setActive(false);
       }
     };
 
-    const startTime = moment(new Date(data.time).toISOString());
-    setTime(startTime.fromNow());
+    const startTime: any = !addConversation ? moment(new Date(data!.time).toISOString()) : '';
+    setTime(!addConversation ? startTime.fromNow() : '');
 
     const getUsersInfo = async () => {
       const info = await usersInfo({ data: data, currentUser: currentUser });
@@ -74,7 +78,7 @@ function ConverseItem({ data }: ConverseItemProps) {
     };
 
     const getLastContent = () => {
-      const coltChats = collectChats(data.chatRoomID);
+      const coltChats = collectChats(data!.chatRoomID);
       const qChats = query(coltChats, orderBy('stt'));
       onSnapshot(qChats, (snapQChat) => {
         if (!snapQChat.empty) {
@@ -127,9 +131,11 @@ function ConverseItem({ data }: ConverseItemProps) {
     };
 
     const handle = async () => {
-      checkUrl();
-      getLastContent();
-      await getUsersInfo();
+      if (!addConversation) {
+        checkUrl();
+        getLastContent();
+        await getUsersInfo();
+      }
     };
     handle();
   }, [data, idChatRoom]);
@@ -139,12 +145,20 @@ function ConverseItem({ data }: ConverseItemProps) {
   };
 
   useEffect(() => {
-    if (userInfo.length > 0 && typeof userInfo[0].uid === 'string' && dataContent.length > 0) {
-      setLoadingitem(false);
-    } else {
-      setLoadingitem(true);
+    if (!addConversation) {
+      if (userInfo.length > 0 && typeof userInfo[0].uid === 'string' && dataContent.length > 0) {
+        setLoadingitem(false);
+      } else {
+        setLoadingitem(true);
+      }
     }
   }, [userInfo, dataContent]);
+
+  useEffect(() => {
+    if (addConversation) {
+      setActive(true);
+    }
+  }, [addConversation]);
 
   return loadingItem ? (
     <div className="wrapper-converse-item">
@@ -162,7 +176,7 @@ function ConverseItem({ data }: ConverseItemProps) {
         onMouseEnter={() => !slideBarCollapse && setShowMoreBtn(true)}
         onMouseLeave={() => !slideBarCollapse && setShowMoreBtn(false)}
         onClick={() => {
-          localStorage.setItem('w-l-c', hashUrlConversation);
+          !addConversation && localStorage.setItem('w-l-c', hashUrlConversation);
         }}
       >
         <Link
@@ -175,8 +189,9 @@ function ConverseItem({ data }: ConverseItemProps) {
             }`}
           >
             <div className="avatar-converse-item sm:w-[40px] sm:h-[40px]">
-              {userInfo.length > 0 && userInfo.length > 1
-                ? userInfo
+              {!addConversation ? (
+                userInfo.length > 0 && userInfo.length > 1 ? (
+                  userInfo
                     .slice(0, 2)
                     .map((info, index) => (
                       <img
@@ -189,7 +204,8 @@ function ConverseItem({ data }: ConverseItemProps) {
                         onError={(e) => (e.currentTarget.src = avatarIcon.icon)}
                       />
                     ))
-                : userInfo.map((info, index) => (
+                ) : (
+                  userInfo.map((info, index) => (
                     <img
                       key={index}
                       className="h-full w-full rounded-full object-contain "
@@ -197,38 +213,78 @@ function ConverseItem({ data }: ConverseItemProps) {
                       alt={info.displayName}
                       onError={(e) => (e.currentTarget.src = avatarIcon.icon)}
                     />
-                  ))}
+                  ))
+                )
+              ) : dataAdd.length === 1 ? (
+                <img
+                  className="h-full w-full rounded-full object-contain "
+                  src={dataAdd[0].photoURL}
+                  alt={'avatar'}
+                  onError={(e) => (e.currentTarget.src = avatarIcon.icon)}
+                />
+              ) : dataAdd.length > 1 ? (
+                dataAdd
+                  .slice(0, 2)
+                  .map((info, index) => (
+                    <img
+                      key={index}
+                      className={`absolute border-[3px] border-solid border-white sm:w-[28px] sm:h-[28px] w-[40px] h-[40px] object-contain rounded-full  ${
+                        index === 0 ? 'bottom-0 left-0 z-20' : 'right-0 top-0 z-10'
+                      }`}
+                      src={info.photoURL}
+                      alt={info.displayName}
+                      onError={(e) => (e.currentTarget.src = avatarIcon.icon)}
+                    />
+                  ))
+              ) : (
+                <img
+                  className="h-full w-full rounded-full object-contain "
+                  src={avatarIcon.icon}
+                  alt={'avatar'}
+                  onError={(e) => (e.currentTarget.src = avatarIcon.icon)}
+                />
+              )}
             </div>
 
             {!slideBarCollapse && (
               <div className="info-converse-item">
                 <div className="converse-item-name">
-                  {userInfo.length > 0 && userInfo.length > 1
-                    ? userInfo.map((info, index) => info.displayName + `${index === userInfo.length - 1 ? '' : ', '} `)
-                    : userInfo.length > 0 && userInfo[0].displayName}
+                  {!addConversation
+                    ? userInfo.length > 0 && userInfo.length > 1
+                      ? userInfo.map(
+                          (info, index) => info.displayName + `${index === userInfo.length - 1 ? '' : ', '} `,
+                        )
+                      : userInfo.length > 0 && userInfo[0].displayName
+                    : dataAdd.length > 0 && dataAdd.length > 1
+                    ? 'Tin nhắn đến ' +
+                      dataAdd.map((info, index) => info.displayName + `${index === dataAdd.length - 1 ? '' : ', '} `)
+                    : dataAdd.length === 1
+                    ? 'Tin nhắn đến ' + dataAdd[0].displayName
+                    : 'Tin nhắn mới'}
                 </div>
                 <div className="converse-item-inbox">
-                  {noMessage === false ? (
-                    <>
-                      <span
-                        className={`pre-last-message-converse-item ${
-                          seen === false && isMine === false ? 'non-seen-converse-item' : ''
-                        }`}
-                      >
-                        {dataContent}
-                      </span>
-                      <span className="converse-item-time">
-                        <span>&nbsp;&#183;&nbsp;</span>
-                        {time}
-                      </span>
-                    </>
-                  ) : (
-                    <span className={`pre-last-message-converse-item  non-seen-converse-item`}>{dataContent}</span>
-                  )}
+                  {!addConversation &&
+                    (noMessage === false ? (
+                      <>
+                        <span
+                          className={`pre-last-message-converse-item ${
+                            seen === false && isMine === false ? 'non-seen-converse-item' : ''
+                          }`}
+                        >
+                          {dataContent}
+                        </span>
+                        <span className="converse-item-time">
+                          <span>&nbsp;&#183;&nbsp;</span>
+                          {time}
+                        </span>
+                      </>
+                    ) : (
+                      <span className={`pre-last-message-converse-item  non-seen-converse-item`}>{dataContent}</span>
+                    ))}
                 </div>
               </div>
             )}
-            {noMessage === false && (
+            {!addConversation && noMessage === false && (
               <div className="seen-converse-item">
                 {isMine === true &&
                   (seen === false ? (
@@ -247,39 +303,48 @@ function ConverseItem({ data }: ConverseItemProps) {
             )}
           </div>
         </Link>
-        {showMoreBtn && (
-          <HeadLessTippy
-            interactive
-            visible={showMore}
-            onHide={() => setShowMore(false)}
-            render={(attrs) => (
-              <div className={'show-more-converse-item'} tabIndex={-1} {...attrs}>
-                <div className={'content-show-more-converse-item'}>
-                  {menuMore.map((menu, index) => (
-                    <div
-                      key={index}
-                      className={`box-item-converse-item ${menu.separate ? 'separate-converse-item' : ''}`}
-                    >
-                      {menu.icon}
-                      <span className="content-show-more-converse-item">{menu.title}</span>
-                    </div>
-                  ))}
+        {showMoreBtn &&
+          (!addConversation ? (
+            <HeadLessTippy
+              interactive
+              visible={showMore}
+              onHide={() => setShowMore(false)}
+              render={(attrs) => (
+                <div className={'show-more-converse-item'} tabIndex={-1} {...attrs}>
+                  <div className={'content-show-more-converse-item'}>
+                    {menuMore.map((menu, index) => (
+                      <div
+                        key={index}
+                        className={`box-item-converse-item ${menu.separate ? 'separate-converse-item' : ''}`}
+                      >
+                        {menu.icon}
+                        <span className="content-show-more-converse-item">{menu.title}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          >
-            <button className="btn-more-converse-item" onClick={handleBtnMore}>
+              )}
+            >
+              <button className="btn-more-converse-item" onClick={handleBtnMore}>
+                <span>
+                  <IoIosMore />
+                </span>
+              </button>
+            </HeadLessTippy>
+          ) : (
+            <button className="btn-more-converse-item" onClick={() => nav(config.routes.home)}>
               <span>
-                <IoIosMore />
+                <IoIosClose />
               </span>
             </button>
-          </HeadLessTippy>
-        )}
+          ))}
       </div>
     </Fragment>
   );
 }
 interface ConverseItemProps {
-  data: { chatRoomID: string; time: number; usersUid: [] };
+  data?: { chatRoomID: string; time: number; usersUid: [] };
+  dataAdd?: any[];
+  addConversation?: boolean;
 }
 export default memo(ConverseItem);

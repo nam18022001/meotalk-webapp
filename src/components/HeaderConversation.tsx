@@ -1,11 +1,11 @@
-import { Fragment } from 'react';
+import { Fragment, memo } from 'react';
 import { BsFillTelephoneFill } from 'react-icons/bs';
-import { FaArrowLeft } from 'react-icons/fa6';
 import { FaVideo } from 'react-icons/fa';
+import { FaArrowLeft } from 'react-icons/fa6';
 import Skeleton from 'react-loading-skeleton';
-import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
 import { Link } from 'react-router-dom';
 import config from '~/configs';
+import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
 
 function HeaderConversation({
   infoConversation,
@@ -26,11 +26,13 @@ function HeaderConversation({
         <div
           className={`${
             isMobile ? 'w-[calc(100vw_-_150px)] xs:w-[calc(100vw_-_100px)]' : ''
-          } message-info-header-conversation`}
+          } message-info-header-conversation h-full`}
         >
           {!loadingConversation ? (
             <div
-              className={`${isMobile ? 'w-[40px] h-[40px] xs:w-[30px] xs:h-[30px]' : ''} avatar-header-conversation`}
+              className={`${
+                isMobile ? 'w-[40px] h-[40px] xs:w-[30px] xs:h-[30px]' : ''
+              } avatar-header-conversation h-full`}
             >
               {infoConversation.length > 0 &&
                 (infoConversation.length > 1 ? (
@@ -39,8 +41,8 @@ function HeaderConversation({
                     .map((info, index) => (
                       <img
                         key={index}
-                        className={`absolute border-[3px] border-solid border-white w-[40px] h-[40px] ${
-                          isMobile ? 'w-[30px] h-[30px] xs:w-[22px] xs:h-[22px]' : ''
+                        className={`absolute border-[3px] border-solid border-white w-[35px] h-[35px] ${
+                          isMobile ? 'w-[30px] h-[30px]  sm:w-[28px] sm:h-[28px] xs:w-[22px] xs:h-[22px]' : ''
                         } object-contain rounded-full  ${index === 0 ? 'bottom-0 left-0 z-20' : 'right-0 top-0 z-10'}`}
                         src={info.photoURL}
                         alt={info.displayName}
@@ -121,4 +123,4 @@ interface HeaderConversationProps {
   onClickCall?: () => void;
   onClickCallVideo?: () => void;
 }
-export default HeaderConversation;
+export default memo(HeaderConversation);

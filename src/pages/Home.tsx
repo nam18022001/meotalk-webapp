@@ -9,7 +9,7 @@ function HomePage() {
 
   useEffect(() => {
     if (!isMobile && localStorage.getItem('w-l-c')) {
-      nav('/conversation/' + localStorage.getItem('w-l-c')!.toString());
+      nav('/conversation/' + localStorage.getItem('w-l-c'));
     }
   }, []);
   return (

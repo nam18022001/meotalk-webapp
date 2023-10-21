@@ -1,9 +1,9 @@
 import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { Navigate } from 'react-router-dom';
 import config from '~/configs';
-import { auth, db } from './FirebaseServices';
 import createKeyWords from '~/hooks/useCreateKeyWords';
-import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from './FirebaseServices';
 
 const provider = new GoogleAuthProvider();
 

@@ -47,6 +47,9 @@ export default {
         main: 'calc(100vw - 60px)',
         'w-sidebar': '350px',
       },
+      boxShadow: {
+        'bottom-line': '0 2px 2px -2px rgba(84, 84, 84, 0.22);',
+      },
       spacing: {
         'header-height': '80px',
         'sidebar-width-collapse': '130px',

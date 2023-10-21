@@ -5,6 +5,9 @@ const docUsers = (uid: string) => {
   return doc(db, 'users', uid);
 };
 
+const collectChatRoom = () => {
+  return collection(db, 'ChatRoom');
+};
 const collectChats = (chatRoomID: string) => {
   return collection(db, 'ChatRoom', chatRoomID, 'chats');
 };
@@ -32,6 +35,7 @@ const makeDocMakeFriends = (currentUser: any, data: any) => {
 };
 export {
   docUsers,
+  collectChatRoom,
   collectChats,
   docChatRoom,
   docCall,

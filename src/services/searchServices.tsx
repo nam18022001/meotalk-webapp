@@ -42,10 +42,11 @@ const acceptFriend = async ({ friendsDoc, recieveFriendDoc, sender, reciever }: 
   await deleteDoc(recieveFriendDoc);
 };
 
-const makeConversation = async ({ currentUser, data }: makeConversationProps) => {
+const makeConversation = async ({ currentUser, data, isGroup = false }: makeConversationProps) => {
   await setDoc(doc(db, 'ChatRoom', `${currentUser.uid}_${data.uid}`), {
     chatRoomID: `${currentUser.uid}_${data.uid}`,
     time: Date.now(),
+    isGroup: isGroup,
     usersEmail: [currentUser.email, data.email],
     usersUid: [currentUser.uid, data.uid],
   });
@@ -84,6 +85,7 @@ interface acceptFriendProps {
   };
 }
 interface makeConversationProps {
+  isGroup?: boolean;
   currentUser: {
     email: string | null | '';
     photoURL: string | null | '';

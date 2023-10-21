@@ -33,6 +33,7 @@ const addMessage = async ({
   call = false,
   isGroup = false,
   callVideo = false,
+  photoSender = '',
 }: addMessageProps) => {
   return await addDoc(collectChat, {
     isRead: isGroup ? [] : false,
@@ -41,6 +42,7 @@ const addMessage = async ({
     stt: dataLast.stt + 1,
     time: Date.now(),
     type: image ? 'image' : call ? 'call' : callVideo ? 'videoCall' : 'message',
+    photoSender: isGroup && photoSender,
   });
 };
 
@@ -52,6 +54,7 @@ const addFirstMessage = async ({
   isGroup = false,
   call = false,
   callVideo = false,
+  photoSender = '',
 }: addFirstMessageProps) => {
   return await addDoc(collectChat, {
     isRead: isGroup ? [] : false,
@@ -60,6 +63,7 @@ const addFirstMessage = async ({
     stt: 0,
     time: Date.now(),
     type: image ? 'image' : call ? 'call' : callVideo ? 'videoCall' : 'message',
+    photoSender: isGroup && photoSender,
   });
 };
 const getlastMessage = async ({ collectChat }: { collectChat: any }) => {
@@ -81,6 +85,7 @@ interface addFirstMessageProps {
   image?: boolean;
   call?: boolean;
   callVideo?: boolean;
+  photoSender?: string;
 }
 interface addMessageProps {
   collectChat: any;
@@ -91,6 +96,7 @@ interface addMessageProps {
   image?: boolean;
   callVideo?: boolean;
   call?: boolean;
+  photoSender?: string;
 }
 interface usersInfoProps {
   data: any;

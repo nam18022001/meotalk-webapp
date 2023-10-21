@@ -1,5 +1,5 @@
 import { onSnapshot } from 'firebase/firestore';
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from 'react';
 import { getListChat } from '~/services/loadChatRoomServices';
 import { useAuthContext } from './AuthContextProvider';
 
@@ -20,15 +20,21 @@ function PreloadSideBarProvider({ children }: PreloadSideBarProviderProps) {
         setListConversation(chatRoom);
       }
     });
-  }, []);
-  return <PreloadSideBarContext.Provider value={{ listConversation }}>{children}</PreloadSideBarContext.Provider>;
+  }, [currentUser]);
+  return (
+    <PreloadSideBarContext.Provider value={{ listConversation, setListConversation }}>
+      {children}
+    </PreloadSideBarContext.Provider>
+  );
 }
 
 const PreloadSideBarContext = createContext<PreloadSideBarContextContent>({
   listConversation: [{}],
+  setListConversation: () => {},
 });
 type PreloadSideBarContextContent = {
-  listConversation: {}[];
+  listConversation: any[];
+  setListConversation: Dispatch<SetStateAction<any[]>>;
 };
 interface PreloadSideBarProviderProps {
   children: ReactNode;

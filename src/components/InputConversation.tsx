@@ -1,5 +1,6 @@
 import HeadLessTippy from '@tippyjs/react/headless';
 import imageCompression from 'browser-image-compression';
+import CryptoJS from 'crypto-js';
 import EmojiPicker, { Categories, EmojiStyle, Theme } from 'emoji-picker-react';
 import { getDocs, orderBy, query, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
@@ -9,6 +10,7 @@ import { IoMdSend } from 'react-icons/io';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 import { ToastContainer } from 'react-toastify';
 
+import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
 import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
 import useModal from '~/hooks/useModal';
@@ -17,18 +19,25 @@ import { toastError, toastWarning } from '~/hooks/useToast';
 import { cloud } from '~/services/FirebaseServices';
 import { addFirstMessage, addMessage, getlastMessage } from '~/services/conversationServices';
 import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
+import { makeNewConversation } from '~/services/newChatServices';
 import ModalImage from './ModalImage';
 
 function InputConversation({
+  from = '',
+  newConversation = false,
+  dataUserNewConver = [],
   loadingConversation,
   chatRoomId,
   autoFocus,
   onFocusInput,
   infoFriend,
+  isGroup = false,
+  handleReadMessages,
 }: InputConversationProps) {
   const { isMobile } = useMobileContext();
   const { currentUser } = useAuthContext();
   const { isShowing, toggle } = useModal();
+  const nav = useNavigate();
   const [showEojiPicker, setShowEmojiPicker] = useState(false);
 
   // state
@@ -124,6 +133,12 @@ function InputConversation({
       await updateDoc(chatRoom, {
         time: Date.now(),
       });
+      if (from === 'new') {
+        const hashUrlConversation = encodeURIComponent(
+          CryptoJS.Rabbit.encrypt(chatRoomId, 'hashUrlConversation').toString(),
+        );
+        nav(`/conversation/${hashUrlConversation}`);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -144,34 +159,94 @@ function InputConversation({
   };
   const handleSend = async () => {
     if (!loadingConversation && dataInput) {
-      setDataInput('');
-      inPutRef?.current?.focus();
-      // send message
+      if (!newConversation) {
+        setDataInput('');
+        inPutRef?.current?.focus();
+        // send message
 
-      const collectChat = collectChats(chatRoomId);
-      const chatRoom = docChatRoom(chatRoomId);
+        const collectChat = collectChats(chatRoomId);
+        const chatRoom = docChatRoom(chatRoomId);
+        const getDocChats = await getDocs(collectChat);
 
-      const getDocChats = await getDocs(collectChat);
+        if (isGroup) {
+          if (getDocChats.empty) {
+            await addFirstMessage({
+              collectChat,
+              currentUser,
+              data: dataInput,
+              isGroup: true,
+              photoSender: currentUser.photoURL?.toString(),
+            });
+          } else {
+            const dataLast = await getlastMessage({ collectChat });
+            addMessage({
+              collectChat,
+              currentUser,
+              data: dataInput,
+              isGroup: true,
+              photoSender: currentUser.photoURL?.toString(),
+              dataLast,
+            });
+          }
+        } else {
+          if (getDocChats.empty) {
+            addFirstMessage({ collectChat, currentUser, data: dataInput });
+          } else {
+            const dataLast = await getlastMessage({ collectChat });
 
-      if (getDocChats.empty) {
-        addFirstMessage({ collectChat, currentUser, data: dataInput });
+            addMessage({ collectChat, currentUser, data: dataInput, dataLast });
+          }
+        }
+        await updateDoc(chatRoom, {
+          time: Date.now(),
+        });
+        sendNotifiCation({ currentUser, chatRoomId, infoFriend });
+        if (from === 'new' && newConversation === false) {
+          const hashUrlConversation = encodeURIComponent(
+            CryptoJS.Rabbit.encrypt(chatRoomId, 'hashUrlConversation').toString(),
+          );
+          nav(`/conversation/${hashUrlConversation}`);
+        }
       } else {
-        const dataLast = await getlastMessage({ collectChat });
+        setDataInput('');
+        inPutRef?.current?.focus();
+        let usersEmail: any[] = [currentUser.email];
+        let usersUid: any[] = [currentUser.uid];
 
-        addMessage({ collectChat, currentUser, data: dataInput, dataLast });
+        if (dataUserNewConver.length > 1) {
+          dataUserNewConver.forEach((data) => {
+            usersEmail.push(data.email);
+            usersUid.push(data.uid);
+          });
+
+          await makeNewConversation({ chatRoomId, isGroup: true, usersEmail, usersUid }).then(async () => {
+            const collectChat = collectChats(chatRoomId);
+            await addFirstMessage({
+              collectChat,
+              currentUser,
+              data: dataInput,
+              isGroup: true,
+              photoSender: currentUser.photoURL?.toString(),
+            });
+            sendNotifiCation({ currentUser, chatRoomId, infoFriend: dataUserNewConver });
+          });
+        } else {
+          usersEmail.push(dataUserNewConver[0].email);
+          usersUid.push(dataUserNewConver[0].uid);
+          makeNewConversation({ chatRoomId, isGroup: false, usersEmail, usersUid });
+        }
       }
-
-      await updateDoc(chatRoom, {
-        time: Date.now(),
-      });
-      sendNotifiCation({ currentUser, chatRoomId, infoFriend });
     } else {
       toastWarning('Message must be non-empty');
     }
   };
   return (
     <Fragment>
-      <div className={`input-conversation xs:p-[5px] min-h-[30px] ${isMobile ? 'w-screen' : ''}`}>
+      <div
+        className={`input-conversation xs:p-[5px] min-h-[30px] ${isMobile ? 'w-screen' : ''}`}
+        onMouseDown={handleReadMessages}
+        onFocus={handleReadMessages}
+      >
         <div className={`actions-input-conversation xs:pr-[5px] `}>
           <button
             className={`${
@@ -250,10 +325,15 @@ function InputConversation({
   );
 }
 interface InputConversationProps {
-  loadingConversation: boolean;
+  from?: string;
+  newConversation?: boolean;
+  dataUserNewConver?: any[];
+  loadingConversation?: boolean;
   chatRoomId: string;
   autoFocus?: boolean;
   onFocusInput?: () => void;
   infoFriend?: [];
+  isGroup?: boolean;
+  handleReadMessages?: () => void;
 }
 export default memo(InputConversation);

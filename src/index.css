@@ -38,6 +38,7 @@ html {
   padding: 0;
 }
 body {
+  user-select: none;
   font-family: var(--font-family);
   font-weight: 400;
   font-size: 1.6rem;
@@ -50,7 +51,6 @@ body {
 }
 
 /* scrollbar */
-
 html *::-webkit-scrollbar {
   border-radius: 0;
   width: 8px;
