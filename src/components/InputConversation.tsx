@@ -20,6 +20,7 @@ import { cloud } from '~/services/FirebaseServices';
 import { addFirstMessage, addMessage, getlastMessage } from '~/services/conversationServices';
 import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
 import { makeNewConversation } from '~/services/newChatServices';
+import { makeConversation } from '~/services/searchServices';
 import ModalImage from './ModalImage';
 
 function InputConversation({
@@ -60,7 +61,6 @@ function InputConversation({
   };
   const handleEmojiSelected = (emoji: any) => {
     setDataInput(`${dataInput}${emoji.emoji}`);
-    console.log(emoji);
   };
 
   const handleUploadImage = () => {
@@ -102,38 +102,78 @@ function InputConversation({
     toggle();
     URL.revokeObjectURL(dataImage.preview);
     delete dataImage.preview;
+
     // send
     const imgCloudRef = ref(cloud, `${chatRoomId}/${currentUser.email}&&${Date.now()}&&${dataImage.name}`);
     try {
       uploadBytesResumable(imgCloudRef, dataImage).then((snapshot) => {
         getDownloadURL(snapshot.ref).then(async (downloadURL) => {
-          const collectChat = collectChats(chatRoomId);
+          if (!newConversation) {
+            const collectChat = collectChats(chatRoomId);
 
-          const getDocChats = await getDocs(collectChat);
+            const getDocChats = await getDocs(collectChat);
 
-          if (getDocChats.empty) {
-            addFirstMessage({ collectChat, currentUser, image: true, data: downloadURL });
+            if (getDocChats.empty) {
+              addFirstMessage({ collectChat, currentUser, image: true, data: downloadURL });
+              sendNotifiCation({ currentUser: currentUser, imageUrl: downloadURL, chatRoomId, infoFriend: infoFriend });
+            } else {
+              const orderStt = query(collectChat, orderBy('stt'));
+              const getOrderStt = await getDocs(orderStt);
+
+              const lastVisible = getOrderStt.docs[getOrderStt.docs.length - 1];
+              const dataLast = lastVisible.data();
+
+              addMessage({ collectChat, currentUser, data: downloadURL, dataLast, image: true });
+            }
+            sendNotifiCation({ currentUser: currentUser, imageUrl: downloadURL, chatRoomId, infoFriend: infoFriend });
           } else {
-            const orderStt = query(collectChat, orderBy('stt'));
-            const getOrderStt = await getDocs(orderStt);
+            let usersEmail: any[] = [currentUser.email];
+            let usersUid: any[] = [currentUser.uid];
 
-            const lastVisible = getOrderStt.docs[getOrderStt.docs.length - 1];
-            const dataLast = lastVisible.data();
+            if (dataUserNewConver.length > 1) {
+              dataUserNewConver.forEach((data) => {
+                usersEmail.push(data.email);
+                usersUid.push(data.uid);
+              });
 
-            addMessage({ collectChat, currentUser, data: downloadURL, dataLast, image: true });
+              await makeNewConversation({ chatRoomId, isGroup: true, usersEmail, usersUid }).then(async () => {
+                const collectChat = collectChats(chatRoomId);
+                await addFirstMessage({
+                  collectChat,
+                  currentUser,
+                  image: true,
+                  data: downloadURL,
+                  isGroup: true,
+                  photoSender: currentUser.photoURL?.toString(),
+                });
+                sendNotifiCation({ currentUser, chatRoomId, infoFriend: dataUserNewConver, imageUrl: downloadURL });
+              });
+            } else {
+              usersEmail.push(dataUserNewConver[0].email);
+              usersUid.push(dataUserNewConver[0].uid);
+
+              await makeConversation({ currentUser, data: dataUserNewConver[0] }).then(async () => {
+                const collectChat = collectChats(chatRoomId);
+                await addFirstMessage({
+                  collectChat,
+                  currentUser,
+                  image: true,
+                  data: downloadURL,
+                });
+                sendNotifiCation({ currentUser, chatRoomId, infoFriend: dataUserNewConver, imageUrl: downloadURL });
+              });
+            }
           }
-          sendNotifiCation({ currentUser: currentUser, imageUrl: downloadURL, chatRoomId, infoFriend: infoFriend });
         });
       });
 
       const chatRoom = docChatRoom(chatRoomId);
-
       setDataImage({});
       upLoadImage!.current!.value = '';
       await updateDoc(chatRoom, {
         time: Date.now(),
       });
-      if (from === 'new') {
+      if (from === 'new' && newConversation === false) {
         const hashUrlConversation = encodeURIComponent(
           CryptoJS.Rabbit.encrypt(chatRoomId, 'hashUrlConversation').toString(),
         );
@@ -233,7 +273,16 @@ function InputConversation({
         } else {
           usersEmail.push(dataUserNewConver[0].email);
           usersUid.push(dataUserNewConver[0].uid);
-          makeNewConversation({ chatRoomId, isGroup: false, usersEmail, usersUid });
+
+          await makeConversation({ currentUser, data: dataUserNewConver[0] }).then(async () => {
+            const collectChat = collectChats(chatRoomId);
+            await addFirstMessage({
+              collectChat,
+              currentUser,
+              data: dataInput,
+            });
+            sendNotifiCation({ currentUser, chatRoomId, infoFriend: dataUserNewConver });
+          });
         }
       }
     } else {

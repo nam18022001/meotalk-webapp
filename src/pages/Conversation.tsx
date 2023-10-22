@@ -1,7 +1,9 @@
 import CryptoJS from 'crypto-js';
-import { getDoc, onSnapshot } from 'firebase/firestore';
+import { getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { Fragment, memo, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import Dialog from '~/components/Dialog';
 
 import HeaderConversation from '~/components/HeaderConversation';
 import InputConversation from '~/components/InputConversation';
@@ -10,12 +12,15 @@ import config from '~/configs';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
 import { handleClickCall, handleClickCallVideo } from '~/functions/call';
 import { handleReadMessages } from '~/functions/conversation';
+import useModal from '~/hooks/useModal';
+import { toastError, toastWarning } from '~/hooks/useToast';
 import { getCollectionChatRoom } from '~/services/conversationServices';
 import { docChatRoom, docUsers } from '~/services/generalFirestoreServices';
 
 function Conversation() {
   const { idChatRoom } = useParams();
   const { currentUser } = useAuthContext();
+  const { isShowing, toggle } = useModal();
   const nav = useNavigate();
 
   const chatRoomId = CryptoJS.enc.Utf8.stringify(
@@ -32,6 +37,8 @@ function Conversation() {
   const messagesRef = useRef<HTMLDivElement>(null);
 
   const [isGroup, setIsGroup] = useState(false);
+  const [valueChangeNameGroup, setValueChangeNameGroup] = useState('');
+  const [chatRoomName, setChatRoomName] = useState('');
 
   const [loadingConversation, setLoadingConversation] = useState(true);
 
@@ -67,6 +74,7 @@ function Conversation() {
               setMessages(chats);
             } else {
               setIsGroup(true);
+
               let chats: any[] = [];
               let lastSttRead: any[] = [];
               snapGetMessage.forEach((res) => {
@@ -115,6 +123,25 @@ function Conversation() {
   }, [idChatRoom, chatRoomId]);
 
   useEffect(() => {
+    async function _getname() {
+      if (chatRoomId) {
+        const a = await getDoc(docChatRoom(chatRoomId));
+
+        if (a.exists()) {
+          onSnapshot(docChatRoom(chatRoomId), (snapGet) => {
+            if (snapGet.data()!.isGroup === true) {
+              setChatRoomName(snapGet.data()!.chatRoomName);
+            } else {
+              setChatRoomName('');
+            }
+          });
+        }
+      }
+    }
+    _getname();
+  }, [idChatRoom, chatRoomId]);
+
+  useEffect(() => {
     if (friendId.length > 0) {
       async function a() {
         let infoUsers: any[] = [];
@@ -139,6 +166,36 @@ function Conversation() {
     }
   }, [userInfo]);
 
+  const handleClickRenameGroup = async () => {
+    if (valueChangeNameGroup.trim().length > 0) {
+      if (valueChangeNameGroup.trim().length > 7) {
+        const chatRoom = docChatRoom(chatRoomId);
+        await updateDoc(chatRoom, {
+          chatRoomName: valueChangeNameGroup.trim(),
+        });
+        setValueChangeNameGroup('');
+        toggle();
+      } else {
+        toastWarning('Name must be greater than 6 characters');
+      }
+    } else {
+      toastError('Name is INVALID');
+    }
+  };
+  const handleClickCancelRenameGroup = () => {
+    setValueChangeNameGroup('');
+    toggle();
+  };
+
+  const handleClickRemovenameGroup = async () => {
+    const chatRoom = docChatRoom(chatRoomId);
+    await updateDoc(chatRoom, {
+      chatRoomName: '',
+    });
+
+    toggle();
+  };
+
   return (
     <Fragment>
       <div
@@ -147,9 +204,12 @@ function Conversation() {
         onFocus={() => handleReadMessages({ currentUser, chatRoomId, userInfo })}
       >
         <HeaderConversation
+          rename={valueChangeNameGroup}
+          nameRoom={chatRoomName}
           infoConversation={userInfo.filter((v) => v.uid !== currentUser.uid)}
           loadingConversation={loadingConversation}
           onClickCallVideo={() => handleClickCallVideo({ chatRoomId, userInfo, currentUser })}
+          onClickRenameGroup={() => toggle()}
         />
         <div ref={messagesRef} className="messages-conversation xs:p-[5px]">
           {!isGroup
@@ -187,6 +247,19 @@ function Conversation() {
         </div>
         <InputConversation chatRoomId={chatRoomId} loadingConversation={loadingConversation} isGroup={isGroup} />
       </div>
+      {isGroup && (
+        <Dialog
+          value={valueChangeNameGroup}
+          setvalue={setValueChangeNameGroup}
+          isShowing={isShowing}
+          hide={handleClickCancelRenameGroup}
+          onClickSend={handleClickRenameGroup}
+          onClickRemove={handleClickRemovenameGroup}
+          content={'Change name group'}
+          placeholder="Your name group want to change"
+        />
+      )}
+      <ToastContainer />
     </Fragment>
   );
 }

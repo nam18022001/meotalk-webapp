@@ -1,6 +1,5 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import { Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from 'react';
-import { createContext } from 'react';
+import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from 'react';
 import Loading from '~/components/Loading';
 import { auth } from '~/services/FirebaseServices';
 
@@ -17,7 +16,6 @@ function AuthContextProfiver({ children }: AuthContextProfiverProps) {
     photoURL: '',
   });
   const [show, setShow] = useState(false);
-  console.log(currentUser);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {

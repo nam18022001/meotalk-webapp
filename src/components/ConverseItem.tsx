@@ -10,11 +10,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import Skeleton from 'react-loading-skeleton';
 import { avatarIcon } from '~/assets/icons';
+import config from '~/configs';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
 import { useMenuContext } from '~/contexts/MenuContextProvider';
 import { usersInfo } from '~/services/conversationServices';
 import { collectChats } from '~/services/generalFirestoreServices';
-import config from '~/configs';
 
 const menuMore = [
   {
@@ -54,6 +54,8 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
   const [time, setTime] = useState('');
   const [dataContent, setDataContent] = useState('');
 
+  const [avatarSeenFirstGroup, setAvatarSeenFirstGroup] = useState('');
+
   useEffect(() => {
     const checkUrl = () => {
       if (idChatRoom) {
@@ -77,6 +79,16 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
       setUserInfo(info);
     };
 
+    const handle = async () => {
+      if (!addConversation) {
+        checkUrl();
+        await getUsersInfo();
+      }
+    };
+    handle();
+  }, [data, idChatRoom]);
+
+  useEffect(() => {
     const getLastContent = () => {
       const coltChats = collectChats(data!.chatRoomID);
       const qChats = query(coltChats, orderBy('stt'));
@@ -90,36 +102,76 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
           // check read message
           if (dataLast.sendBy !== currentUser.email) {
             setIsMine(false);
-            if (dataLast.isRead === false) {
-              setSeen(false);
-              if (dataLast.type === 'image') {
-                setDataContent(' Nhận một hình ảnh');
+            if (data!.isGroup === false) {
+              if (dataLast.isRead === false) {
+                setSeen(false);
+                if (dataLast.type === 'image') {
+                  setDataContent('Recieve a image');
+                } else {
+                  setDataContent(dataLast.message);
+                }
               } else {
-                setDataContent(dataLast.message);
+                setSeen(true);
+                if (dataLast.type === 'image') {
+                  setDataContent('Recieve a image');
+                } else {
+                  setDataContent(dataLast.message);
+                }
               }
             } else {
-              setSeen(true);
-              if (dataLast.type === 'image') {
-                setDataContent('Nhận một hình ảnh');
+              if (dataLast.isRead.filter((read: any) => read.seenBy === currentUser.email).length === 0) {
+                setSeen(false);
+                if (dataLast.type === 'image') {
+                  setDataContent('Recieve a image');
+                } else {
+                  setDataContent(dataLast.message);
+                }
               } else {
-                setDataContent(dataLast.message);
+                setSeen(true);
+                if (dataLast.type === 'image') {
+                  setDataContent('Recieve a image');
+                } else {
+                  setDataContent(dataLast.message);
+                }
               }
             }
           } else {
             setIsMine(true);
-            if (dataLast.isRead === true) {
-              setSeen(true);
-              if (dataLast.type === 'image') {
-                setDataContent('Gửi một hình ảnh');
+            if (data!.isGroup === false) {
+              if (dataLast.isRead === true) {
+                setSeen(true);
+                if (dataLast.type === 'image') {
+                  setDataContent('Send a image');
+                } else {
+                  setDataContent(`You: ${dataLast.message}`);
+                }
               } else {
-                setDataContent(`Bạn: ${dataLast.message}`);
+                setSeen(false);
+                if (dataLast.type === 'image') {
+                  setDataContent('Send a image');
+                } else {
+                  setDataContent(`You: ${dataLast.message}`);
+                }
               }
             } else {
-              setSeen(false);
-              if (dataLast.type === 'image') {
-                setDataContent('Gửi một hình ảnh');
-              } else {
-                setDataContent(`Bạn: ${dataLast.message}`);
+              for (let i = 0; i < userInfo.length; i++) {
+                if (dataLast.isRead.filter((read: any) => read.seenBy === userInfo[i].email).length > 0) {
+                  setSeen(true);
+                  setAvatarSeenFirstGroup(userInfo[i].photoURL);
+                  if (dataLast.type === 'image') {
+                    setDataContent('Send a image');
+                  } else {
+                    setDataContent(`You: ${dataLast.message}`);
+                  }
+                  break;
+                } else {
+                  setSeen(false);
+                  if (dataLast.type === 'image') {
+                    setDataContent('Send a image');
+                  } else {
+                    setDataContent(`You: ${dataLast.message}`);
+                  }
+                }
               }
             }
           }
@@ -130,15 +182,8 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
       });
     };
 
-    const handle = async () => {
-      if (!addConversation) {
-        checkUrl();
-        getLastContent();
-        await getUsersInfo();
-      }
-    };
-    handle();
-  }, [data, idChatRoom]);
+    getLastContent();
+  }, [userInfo]);
 
   const handleBtnMore = () => {
     setShowMore(!showMore);
@@ -251,9 +296,11 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
                 <div className="converse-item-name">
                   {!addConversation
                     ? userInfo.length > 0 && userInfo.length > 1
-                      ? userInfo.map(
-                          (info, index) => info.displayName + `${index === userInfo.length - 1 ? '' : ', '} `,
-                        )
+                      ? data!.chatRoomName && data!.chatRoomName.length > 0
+                        ? data!.chatRoomName
+                        : userInfo.map(
+                            (info, index) => info.displayName + `${index === userInfo.length - 1 ? '' : ', '} `,
+                          )
                       : userInfo.length > 0 && userInfo[0].displayName
                     : dataAdd.length > 0 && dataAdd.length > 1
                     ? 'Tin nhắn đến ' +
@@ -290,7 +337,12 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
                   (seen === false ? (
                     <BsFillCheckCircleFill className="seen-icon-converse-item" />
                   ) : userInfo.length > 0 && userInfo.length > 1 ? (
-                    ' '
+                    <img
+                      className="seen-icon-converse-item"
+                      src={avatarSeenFirstGroup}
+                      alt={'seen'}
+                      onError={(e) => (e.currentTarget.src = avatarIcon.icon)}
+                    />
                   ) : (
                     <img
                       className="seen-icon-converse-item"
@@ -343,7 +395,7 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
   );
 }
 interface ConverseItemProps {
-  data?: { chatRoomID: string; time: number; usersUid: [] };
+  data?: { chatRoomID: string; time: number; usersUid: []; chatRoomName: string; isGroup: boolean } | null;
   dataAdd?: any[];
   addConversation?: boolean;
 }

@@ -1,6 +1,7 @@
+import Tippy from '@tippyjs/react';
 import { Fragment, memo } from 'react';
 import { BsFillTelephoneFill } from 'react-icons/bs';
-import { FaVideo } from 'react-icons/fa';
+import { FaPenFancy, FaVideo } from 'react-icons/fa';
 import { FaArrowLeft } from 'react-icons/fa6';
 import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
@@ -8,10 +9,13 @@ import config from '~/configs';
 import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
 
 function HeaderConversation({
+  rename,
+  nameRoom,
   infoConversation,
   loadingConversation,
   onClickCall,
   onClickCallVideo,
+  onClickRenameGroup,
 }: HeaderConversationProps) {
   const { isMobile } = useMobileContext();
 
@@ -25,7 +29,11 @@ function HeaderConversation({
         )}
         <div
           className={`${
-            isMobile ? 'w-[calc(100vw_-_150px)] xs:w-[calc(100vw_-_100px)]' : ''
+            isMobile
+              ? infoConversation.length > 1
+                ? 'w-[calc(100vw_-_170px)] xs:w-[calc(100vw_-_150px)]'
+                : 'w-[calc(100vw_-_150px)] xs:w-[calc(100vw_-_100px)]'
+              : ''
           } message-info-header-conversation h-full`}
         >
           {!loadingConversation ? (
@@ -67,9 +75,13 @@ function HeaderConversation({
           {!loadingConversation ? (
             <span className={` ${isMobile ? ' flex-1 !text-[14px] xs:!text-[12px]' : ''} `}>
               {infoConversation.length > 0 && infoConversation.length > 1
-                ? infoConversation.map(
-                    (info, index) => info.displayName + `${index === infoConversation.length - 1 ? '' : ', '} `,
-                  )
+                ? rename.length > 0
+                  ? rename
+                  : nameRoom.length > 0
+                  ? nameRoom
+                  : infoConversation.map(
+                      (info, index) => info.displayName + `${index === infoConversation.length - 1 ? '' : ', '} `,
+                    )
                 : infoConversation.length > 0 && infoConversation[0].displayName}
             </span>
           ) : (
@@ -82,24 +94,43 @@ function HeaderConversation({
         <div className={`${isMobile ? 'mr-0 ' : ''} btn-actions-header-conversation`}>
           {!loadingConversation ? (
             <Fragment>
-              <button
-                className={`${
-                  isMobile ? 'w-[40px] h-[40px] xs:w-[30px] xs:h-[30px] p-0 bg-[#8383838a] mx-[5px]' : ''
-                } btn-action-header-conversation`}
-                onClick={onClickCall}
-              >
-                <BsFillTelephoneFill
-                  className={`${isMobile ? 'xs:text-[16px] text-[20px]' : ''} icon-header-conversation`}
-                />
-              </button>
-              <button
-                className={`${
-                  isMobile ? 'w-[40px] h-[40px] xs:w-[30px] xs:h-[30px] p-0 bg-[#8383838a]' : ''
-                } btn-action-header-conversation`}
-                onClick={onClickCallVideo}
-              >
-                <FaVideo className={`${isMobile ? 'xs:text-[16px] text-[20px]' : ''} icon-header-conversation`} />
-              </button>
+              <Tippy content="Call" placement="left">
+                <button
+                  className={`${
+                    isMobile ? 'w-[40px] h-[40px] xs:w-[30px] xs:h-[30px] p-0 bg-[#8383838a] mx-[5px]' : ''
+                  } btn-action-header-conversation`}
+                  onClick={onClickCall}
+                >
+                  <BsFillTelephoneFill
+                    className={`${isMobile ? 'xs:text-[16px] text-[20px]' : ''} icon-header-conversation`}
+                  />
+                </button>
+              </Tippy>
+              <Tippy content="Video Call" placement="left">
+                <button
+                  className={`${
+                    isMobile ? 'w-[40px] h-[40px] xs:w-[30px] xs:h-[30px] p-0 bg-[#8383838a]' : ''
+                  } btn-action-header-conversation`}
+                  onClick={onClickCallVideo}
+                >
+                  <FaVideo className={`${isMobile ? 'xs:text-[16px] text-[20px]' : ''} icon-header-conversation`} />
+                </button>
+              </Tippy>
+              {/* đàn đoạn này  rename group*/}
+              {infoConversation.length > 1 && (
+                <Tippy content="Rename Group" placement="left">
+                  <button
+                    className={`${
+                      isMobile ? 'w-[40px] h-[40px] xs:w-[30px] xs:h-[30px] p-0 bg-[#8383838a]' : ''
+                    } btn-action-header-conversation`}
+                    onClick={onClickRenameGroup}
+                  >
+                    <FaPenFancy
+                      className={`${isMobile ? 'xs:text-[16px] text-[20px]' : ''} icon-header-conversation`}
+                    />
+                  </button>
+                </Tippy>
+              )}
             </Fragment>
           ) : (
             <Fragment>
@@ -118,9 +149,12 @@ function HeaderConversation({
   );
 }
 interface HeaderConversationProps {
+  nameRoom: string;
+  rename: string;
   infoConversation: any[];
   loadingConversation: boolean;
   onClickCall?: () => void;
   onClickCallVideo?: () => void;
+  onClickRenameGroup?: () => void;
 }
 export default memo(HeaderConversation);

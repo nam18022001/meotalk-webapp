@@ -35,8 +35,6 @@ function VideoCall({
         await client.subscribe(user, mediaType);
         if (mediaType === 'video') {
           setUsers((prevUsers) => {
-            console.log('ngu');
-
             return [...prevUsers, user];
           });
         }
@@ -66,9 +64,8 @@ function VideoCall({
         });
       });
       client.on('user-info-updated', (user, state) => {
-        console.log(user, 'info-updated video call');
-
         if (state === 'mute-video') {
+          console.log(user);
           setVideoRemoteStatus(false);
         } else if (state === 'unmute-video') {
           setVideoRemoteStatus(true);
