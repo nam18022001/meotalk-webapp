@@ -141,14 +141,14 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
               if (dataLast.isRead === true) {
                 setSeen(true);
                 if (dataLast.type === 'image') {
-                  setDataContent('Send a image');
+                  setDataContent('You: Send a image');
                 } else {
                   setDataContent(`You: ${dataLast.message}`);
                 }
               } else {
                 setSeen(false);
                 if (dataLast.type === 'image') {
-                  setDataContent('Send a image');
+                  setDataContent('You: Send a image');
                 } else {
                   setDataContent(`You: ${dataLast.message}`);
                 }
@@ -159,7 +159,7 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
                   setSeen(true);
                   setAvatarSeenFirstGroup(userInfo[i].photoURL);
                   if (dataLast.type === 'image') {
-                    setDataContent('Send a image');
+                    setDataContent('You: Send a image');
                   } else {
                     setDataContent(`You: ${dataLast.message}`);
                   }
@@ -167,7 +167,7 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
                 } else {
                   setSeen(false);
                   if (dataLast.type === 'image') {
-                    setDataContent('Send a image');
+                    setDataContent('You: Send a image');
                   } else {
                     setDataContent(`You: ${dataLast.message}`);
                   }
@@ -182,8 +182,10 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
       });
     };
 
-    getLastContent();
-  }, [userInfo]);
+    if (userInfo.length > 0) {
+      getLastContent();
+    }
+  }, [data, userInfo]);
 
   const handleBtnMore = () => {
     setShowMore(!showMore);
