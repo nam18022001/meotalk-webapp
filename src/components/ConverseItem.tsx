@@ -206,6 +206,7 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
       setActive(true);
     }
   }, [addConversation]);
+  console.log(dataAdd);
 
   return loadingItem ? (
     <div className="wrapper-converse-item">
@@ -305,8 +306,7 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
                           )
                       : userInfo.length > 0 && userInfo[0].displayName
                     : dataAdd.length > 0 && dataAdd.length > 1
-                    ? 'Tin nhắn đến ' +
-                      dataAdd.map((info, index) => info.displayName + `${index === dataAdd.length - 1 ? '' : ', '} `)
+                    ? `Tin nhắn đến${dataAdd.map((infoUser) => ' ' + infoUser.displayName)}`
                     : dataAdd.length === 1
                     ? 'Tin nhắn đến ' + dataAdd[0].displayName
                     : 'Tin nhắn mới'}
