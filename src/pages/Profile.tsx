@@ -241,7 +241,7 @@ function Profile() {
                   ))}
               </div>
             </div>
-            {isFriend === true && (
+            {currentUser.uid !== uidPar && (
               <button
                 className="text-white bg-primary-color hover:text-primary-color hover:bg-white hover:border-primary-color border border-solid border-transparent mt-[20px] w-[50%] sm:w-[80%] xs:mt-[10px] xs:border-[1px] xs:text-[14px] xs:p-[1px] sm:text-[16px] sm:p-[5px] rounded-[5px] p-[5px_10px] text-[18px] font-medium "
                 onClick={handleMessage}

@@ -49,6 +49,7 @@ export default {
       },
       boxShadow: {
         'bottom-line': '0 2px 2px -2px rgba(84, 84, 84, 0.22);',
+        fab: 'rgb(38, 57, 77) 0px 20px 30px -10px;',
       },
       spacing: {
         'header-height': '80px',

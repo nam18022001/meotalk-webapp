@@ -27,7 +27,7 @@ function HomePage() {
         <Tippy content="New Conversation">
           <Link
             to={config.routes.newConversation}
-            className="absolute bottom-[2vw] right-[2vw] w-[50px] h-[50px] bg-primary-color rounded-full flex items-center justify-center shadow-[0_2px_4px_#2F4F4F] button-add"
+            className="absolute bottom-[2vw] hover:scale-125 right-[2vw] w-[50px] h-[50px] bg-primary-color rounded-full flex items-center justify-center shadow-fab button-add"
           >
             <IoAdd className="text-[30px] text-white " />
           </Link>

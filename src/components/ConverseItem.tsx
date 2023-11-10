@@ -206,7 +206,6 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
       setActive(true);
     }
   }, [addConversation]);
-  console.log(dataAdd);
 
   return loadingItem ? (
     <div className="wrapper-converse-item">
