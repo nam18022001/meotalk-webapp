@@ -4,8 +4,6 @@ const routes = {
   profile: '/profile/:uidProfile',
   conversation: '/conversation/:idChatRoom',
   newConversation: '/conversation/new',
-  myFriends: '/myfriends',
-  myRequests: '/myrequests',
-  friendsRequest: '/friendsrequest',
+  friends: '/friends',
 };
 export default routes;

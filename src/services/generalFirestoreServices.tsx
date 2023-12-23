@@ -33,6 +33,11 @@ const docMakeFriends = (id: string) => {
 const makeDocMakeFriends = (currentUser: any, data: any) => {
   return doc(db, 'makeFriends', `${currentUser.uid}_${data.uid}`);
 };
+
+const collectListFriend = (id: string) => {
+  return collection(db, 'users', id, 'friends');
+};
+
 export {
   docUsers,
   collectChatRoom,
@@ -44,4 +49,5 @@ export {
   docMakeFriends,
   makeDocMakeFriends,
   docMyFriends,
+  collectListFriend,
 };

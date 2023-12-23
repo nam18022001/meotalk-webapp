@@ -6,7 +6,9 @@ import Search from './search';
 import { AiFillSetting, AiOutlineQuestionCircle } from 'react-icons/ai';
 import { FaUserAlt, FaUserFriends } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import Menu from '~/components/Menu';
+import config from '~/configs';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
 import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
 import { logout } from '~/services/loginServices';
@@ -32,17 +34,17 @@ function Header() {
           {
             type: 'Friends',
             title: 'Friends List',
-            to: '/myfriends',
+            to: '/friends?q=listfriend',
           },
           {
             type: 'Friends',
             title: 'Friends Request',
-            to: '/friendsrequest',
+            to: '/friends?q=friendsrequest',
           },
           {
             type: 'Friends',
             title: 'My Request',
-            to: '/myrequests',
+            to: '/friends?q=myrequests',
           },
         ],
       },
@@ -84,11 +86,13 @@ function Header() {
         }  bg-white shadow-[0_0_2px_var(--primary)] z-50 fixed`}
       >
         <div className="w-full h-full flex items-center justify-between">
-          <img
-            className="md:w-[50px] sm:!w-[40px] xs:!w-[30px] object-contain"
-            src={logoIcon.icon}
-            alt={logoIcon.alt}
-          />
+          <Link to={config.routes.home}>
+            <img
+              className="md:w-[50px] sm:!w-[40px] xs:!w-[30px] object-contain"
+              src={logoIcon.icon}
+              alt={logoIcon.alt}
+            />
+          </Link>
           <Search />
           <Menu
             items={Menu_Items}

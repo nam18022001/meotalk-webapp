@@ -314,3 +314,50 @@
   box-shadow: 0 0 2px darkslategray;
   transform: translateY(2px);
 }
+/* Tabs */
+.tab-btn {
+  position: relative;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  outline: none;
+  border: none;
+  appearance: none;
+}
+
+.tab-btn.active {
+  color: var(--primary);
+}
+
+.tab-indicate {
+  position: absolute;
+  left: 0;
+  height: 3px;
+  width: 33.333%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: transform 0.3s ease-in-out;
+}
+
+.tab-container {
+  display: flex;
+}
+
+.tab-container > div {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+}
+.tab-container > div:nth-child(1) .tab-indicate {
+  transform: translateX(0%);
+}
+
+.tab-container > div:nth-child(2) .tab-indicate {
+  transform: translateX(100%);
+}
+
+.tab-container > div:nth-child(3) .tab-indicate {
+  transform: translateX(200%);
+}

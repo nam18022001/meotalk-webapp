@@ -109,7 +109,7 @@ function Profile() {
   }, [uidPar, state]);
 
   const handleGoBack = () => {
-    nav(config.routes.home);
+    nav(-1);
   };
   const handleLogOut = async () => {
     await logout();
@@ -176,7 +176,7 @@ function Profile() {
     <Fragment>
       <div className="wrapper-profile">
         <div className="box-profile lg:flex-[0.8] md:flex-[0.9] sm:flex-[0.9] sm:p-[5px_10px]">
-          <ToolTip content="Back to home" placement="right" arrow>
+          <ToolTip content="Back" placement="right" arrow>
             <button className="icon-goback-profile xs:left-[10px]" onClick={handleGoBack}>
               <BsArrowLeft />
             </button>
@@ -250,7 +250,10 @@ function Profile() {
               </button>
             )}
             <div className="spec-profile md:w-[60%] sm:w-[70%] xs:w-[80%] "></div>
-            <Link to={config.routes.myFriends} className="box-friends-profile sm:min-w-[90%] sm:max-w-full xs:p-[5px]">
+            <Link
+              to={config.routes.friends + '?q=listfriend'}
+              className="box-friends-profile sm:min-w-[90%] sm:max-w-full xs:p-[5px]"
+            >
               <div className="count-friends-profile sm:text-[16px]">{numFr} bạn bè</div>
               <div className="friends-profile">
                 {photoFriends.length > 0 &&
