@@ -10,47 +10,70 @@ const addCallMessages = async ({
   currentUser,
   userInfo,
   channelName,
+  channelCall,
   tokenCaller,
   tokenReciever,
   uidReciever,
 }: addCallMessagesProps) => {
-  return group
-    ? userInfo.length > 1 && ''
-    : // : await setDoc(docCall(chatRoomId), {
-      //     callerId: uidCaller,
-      //     callerUid: currentUser.uid,
-      //     callerName: currentUser.displayName,
-      //     callerAvatar: currentUser.photoURL,
-      //     recieverId: uidReciever,
-      //     recieverUid: [userInfo[0].uid],
-      //     receiverName: [userInfo[0].displayName],
-      //     receiverAvatar: userInfo[0].photoURL,
-      //     hasDialled: false,
-      //     deleteCall: false,
-      //     channelName: channelName,
-      //     tokenCaller: tokenCaller,
-      //     tokenReciever: tokenReciever,
-      //     type: 'video',
-      //   })
-      await setDoc(docCall(chatRoomId), {
+  if (group) {
+    let groupRecieverUid = [];
+    let groupReceiverName = [];
+    let groupReceiverEmail = [];
+    let groupReceiverAvatar = [];
+
+    for (let i = 0; i < userInfo.length; i++) {
+      groupRecieverUid.push(userInfo[i].uid);
+      groupReceiverName.push(userInfo[i].displayName);
+      groupReceiverEmail.push(userInfo[i].email);
+      groupReceiverAvatar.push(userInfo[i].photoURL);
+    }
+
+    return (
+      userInfo.length > 1 &&
+      (await setDoc(docCall(chatRoomId), {
         callerId: uidCaller,
         callerUid: currentUser.uid,
-        callerEmail: currentUser.email,
         callerName: currentUser.displayName,
+        callerEmail: currentUser.email,
         callerAvatar: currentUser.photoURL,
-        recieverId: uidReciever[0],
-        recieverUid: userInfo[0].uid,
-        receiverEmail: userInfo[0].email,
-        receiverName: userInfo[0].displayName,
-        receiverAvatar: userInfo[0].photoURL,
-        hasDialled: false,
+        recieverId: uidReciever,
+        recieverUid: groupRecieverUid,
+        receiverName: groupReceiverName,
+        receiverEmail: groupReceiverEmail,
+        receiverAvatar: groupReceiverAvatar,
+        hasDialled: [currentUser.uid],
+        cancelDialled: [],
         deleteCall: false,
         channelName: channelName,
+        channelCall: channelCall,
         tokenCaller: tokenCaller,
-        tokenReciever: tokenReciever[0],
+        tokenReciever: tokenReciever,
         type: 'video',
-        isGroup: false,
-      });
+        isGroup: true,
+      }))
+    );
+  } else {
+    return await setDoc(docCall(chatRoomId), {
+      callerId: uidCaller,
+      callerUid: currentUser.uid,
+      callerEmail: currentUser.email,
+      callerName: currentUser.displayName,
+      callerAvatar: currentUser.photoURL,
+      recieverId: uidReciever[0],
+      recieverUid: userInfo[0].uid,
+      receiverEmail: userInfo[0].email,
+      receiverName: userInfo[0].displayName,
+      receiverAvatar: userInfo[0].photoURL,
+      hasDialled: false,
+      deleteCall: false,
+      channelName: channelName,
+      channelCall: channelCall,
+      tokenCaller: tokenCaller,
+      tokenReciever: tokenReciever[0],
+      type: 'video',
+      isGroup: false,
+    });
+  }
 };
 
 const getTokenCallerAndRevicer = async ({ channelName, userInfo }: getTokenCallerAndRevicerProps) => {
@@ -137,6 +160,7 @@ interface addCallMessagesProps {
   currentUser: any;
   userInfo: any[];
   channelName: string;
+  channelCall: string;
   tokenCaller: string;
 
   tokenReciever: any[];

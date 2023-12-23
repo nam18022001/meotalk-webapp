@@ -78,7 +78,13 @@ a[href] {
   color: var(--text-color);
   text-decoration: none;
 }
-
+video {
+  object-fit: contain !important;
+  background-color: #fff;
+}
+.wrap-video-video-widget video {
+  object-fit: cover !important;
+}
 /* Custom-tippy-tooltip */
 
 .tippy-box {

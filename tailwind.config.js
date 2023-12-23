@@ -65,6 +65,11 @@ export default {
         'md-search-bar-height': '50px',
         'sm-search-bar-height': '40px',
       },
+      gridTemplateColumns: {
+        'video-group': 'repeat(auto-fill, minmax(33.33%, 1fr))',
+        'video-group-md': 'repeat(auto-fill, minmax(50%, 1fr))',
+        'video-group-sm': 'repeat(auto-fill, minmax(100%, 1fr))',
+      },
     },
   },
   plugins: [],

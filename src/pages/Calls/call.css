@@ -71,8 +71,8 @@
   justify-content: center;
 }
 .avatar-partner-video-widget {
-  width: 150px;
-  height: 150px;
+  width: 150px !important;
+  height: 150px !important;
   border-radius: 50%;
 }
 .my-avatar-video-widget {
@@ -83,6 +83,8 @@
 }
 .calling-video-widget {
   display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 50px;
 }
 .calling-video-widget .text-video-widget {

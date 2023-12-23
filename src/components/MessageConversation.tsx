@@ -42,7 +42,7 @@ function MessageConversation({
       ${own ? 'own-message-conversation' : ''}`}
       >
         {isGroup ? (
-          <div className={`${own ? 'justify-end' : ''} w-full flex items-center`}>
+          <div className={`${own ? 'justify-end' : ''} w-full flex items-end`}>
             {!own && (
               <img
                 className="avatar-friend-message-conversation xs:w-[18px] xs:h-[18px] mr-[5px]"

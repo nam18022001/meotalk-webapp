@@ -1,13 +1,17 @@
 import { getDocs, updateDoc } from 'firebase/firestore';
+import { Dispatch, SetStateAction } from 'react';
 import sendNotifiCation from '~/hooks/useSendNotification';
 import { toastError } from '~/hooks/useToast';
 import { addCallMessages, checkCallExist, getTokenCallerAndRevicer } from '~/services/callServices';
 import { addFirstMessage, addMessage, getlastMessage } from '~/services/conversationServices';
 import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
-
+import CryptoJS from 'crypto-js';
 const handleClickCall = async () => {};
-const handleClickCallVideo = async ({ chatRoomId, userInfo, currentUser }: VideoCallProps) => {
+const handleClickCallVideo = async ({ chatRoomId, userInfo, currentUser, setPressCall }: VideoCallProps) => {
+  const channelCall = CryptoJS.MD5(chatRoomId).toString();
+
   const channelName = chatRoomId;
+  setPressCall(true);
 
   if (userInfo.length > 1) {
     let parnerInCall: boolean = false;
@@ -30,10 +34,26 @@ const handleClickCallVideo = async ({ chatRoomId, userInfo, currentUser }: Video
     }
 
     if (!parnerInCall) {
-      console.log('call group');
+      const objToken = await getTokenCallerAndRevicer({
+        channelName: channelCall,
+        userInfo,
+      });
+      await addCallMessages({
+        chatRoomId,
+        uidCaller: objToken.uidCaller,
+        uidReciever: objToken.uidReciever,
+        currentUser,
+        tokenCaller: objToken.tokenCaller,
+        tokenReciever: objToken.tokenReciever,
+        channelName,
+        channelCall,
+        userInfo: userInfo,
+        group: true,
+      });
     } else {
       toastError(`Some one in a Call`);
     }
+    return setPressCall(false);
   } else {
     let parnerInCall: boolean = false;
 
@@ -48,7 +68,7 @@ const handleClickCallVideo = async ({ chatRoomId, userInfo, currentUser }: Video
     }
     if (!parnerInCall) {
       const { tokenCaller, tokenReciever, uidCaller, uidReciever } = await getTokenCallerAndRevicer({
-        channelName,
+        channelName: channelCall,
         userInfo,
       });
       await addCallMessages({
@@ -59,6 +79,7 @@ const handleClickCallVideo = async ({ chatRoomId, userInfo, currentUser }: Video
         tokenCaller,
         tokenReciever,
         channelName,
+        channelCall,
         userInfo: userInfo,
       });
 
@@ -83,6 +104,7 @@ const handleClickCallVideo = async ({ chatRoomId, userInfo, currentUser }: Video
       sendNotifiCation({ currentUser, chatRoomId, infoFriend: userInfo });
       toastError(`${userInfo[0].displayName} in a Call`);
     }
+    return setPressCall(false);
   }
 };
 
@@ -90,6 +112,7 @@ interface VideoCallProps {
   chatRoomId: string;
   userInfo: any[];
   currentUser: any;
+  setPressCall: Dispatch<SetStateAction<boolean>>;
 }
 
 export { handleClickCall, handleClickCallVideo };

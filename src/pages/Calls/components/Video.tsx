@@ -2,9 +2,19 @@ import { AgoraVideoPlayer } from 'agora-rtc-react';
 import { useState } from 'react';
 import Draggable from 'react-draggable';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
+import ProgressCircleBar from '~/components/ProgressCircleBar';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
 
-function Video({ users, tracks, partnerName, partnerAvatar, hasDialled, videoRemoteStatus, trackState }: VideoProps) {
+function Video({
+  users,
+  tracks,
+  partnerName,
+  partnerAvatar,
+  hasDialled,
+  videoRemoteStatus,
+  trackState,
+  timeout,
+}: VideoProps) {
   const { currentUser } = useAuthContext();
   const [onDrag, setOnDrag] = useState(false);
 
@@ -18,7 +28,11 @@ function Video({ users, tracks, partnerName, partnerAvatar, hasDialled, videoRem
         <Draggable onStart={() => setOnDrag(true)} onStop={() => setOnDrag(false)}>
           <div className="wrap-video-video-widget">
             {trackState.video === true ? (
-              <AgoraVideoPlayer videoTrack={tracks[1]} className={'video-video-widget '} />
+              <AgoraVideoPlayer
+                videoTrack={tracks[1]}
+                className={'video-video-widget '}
+                style={{ objectFit: 'cover' }}
+              />
             ) : (
               <div className={'video-video-widget '}>
                 <div className={'mute-video-video-widget'}>
@@ -74,7 +88,17 @@ function Video({ users, tracks, partnerName, partnerAvatar, hasDialled, videoRem
       ) : (
         <div className={'box-calling-video-widget'}>
           <div className={'img-avt-video-widget'}>
-            <img src={partnerAvatar} alt={partnerName} className="avatar-partner-video-widget" />
+            <ProgressCircleBar
+              className="avatar-partner-video-widget"
+              unit="s"
+              custom={true}
+              type="red"
+              value={timeout}
+              maxValue={60}
+              strokeColor="#fff"
+            >
+              <img src={partnerAvatar} alt={partnerName} className="w-full h-full p-[15px] object-cover rounded-full" />
+            </ProgressCircleBar>
           </div>
           <div className={`calling-video-widget`}>
             <div className={'text-video-widget'}>Dialling</div>
@@ -97,5 +121,6 @@ interface VideoProps {
   hasDialled: boolean;
   videoRemoteStatus: any;
   trackState: any;
+  timeout: number;
 }
 export default Video;

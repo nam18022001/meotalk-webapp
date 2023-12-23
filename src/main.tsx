@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'react-loading-skeleton/dist/skeleton.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-circular-progressbar/dist/styles.css';
 import App from './App.tsx';
 import './index.css';
 
@@ -16,17 +17,17 @@ import AddConversationContextProvider from './contexts/AddConversationContextPro
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <MobileVersionProvider>
     <AuthContextProfiver>
-      <CallContextProvider>
-        <MenuContextProfiver>
-          <PreloadSideBarProvider>
+      <PreloadSideBarProvider>
+        <CallContextProvider>
+          <MenuContextProfiver>
             <AddConversationContextProvider>
               <React.StrictMode>
                 <App />
               </React.StrictMode>
             </AddConversationContextProvider>
-          </PreloadSideBarProvider>
-        </MenuContextProfiver>
-      </CallContextProvider>
+          </MenuContextProfiver>
+        </CallContextProvider>
+      </PreloadSideBarProvider>
     </AuthContextProfiver>
   </MobileVersionProvider>,
 );

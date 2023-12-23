@@ -1,5 +1,5 @@
 import { deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, memo, useEffect, useState } from 'react';
 import config from '~/configs';
 import { db } from '~/services/FirebaseServices';
 import { addFirstMessage, addMessage, getlastMessage } from '~/services/conversationServices';
@@ -10,12 +10,14 @@ import Video from './components/Video';
 
 function VideoCall({
   channelName,
+  channelCall,
   token,
   uid,
   partnerName,
   partnerAvatar,
   hasDialled,
-  dataCall, // isReciever = false,
+  dataCall,
+  isReciever = false,
 }: VideoCallProps) {
   const [users, setUsers] = useState<any[]>([]);
 
@@ -28,6 +30,28 @@ function VideoCall({
   const [secondCall, setSecondCall] = useState(0);
   const [minuteCall, setMinuteCall] = useState(0);
   const [videoRemoteStatus, setVideoRemoteStatus] = useState(true);
+
+  const [timoutCaller, setTimeoutCaller] = useState(60);
+
+  useEffect(() => {
+    let timeinterval: any;
+    if (!isReciever && !hasDialled) {
+      timeinterval = setInterval(() => {
+        setTimeoutCaller((pre) => pre - 1);
+      }, 1000);
+
+      if (timoutCaller === 0) {
+        setTimeoutCaller(0);
+        outCall();
+      }
+    }
+
+    async function outCall() {
+      await deleteDoc(doc(db, 'call', channelName));
+    }
+
+    return () => clearInterval(timeinterval);
+  }, [isReciever, dataCall, hasDialled, timoutCaller]);
 
   useEffect(() => {
     let init = async (name: string, tokenCall: string, uidCall: string) => {
@@ -65,7 +89,7 @@ function VideoCall({
       });
       client.on('user-info-updated', (user, state) => {
         if (state === 'mute-video') {
-          console.log(user);
+          console.log(user, state);
           setVideoRemoteStatus(false);
         } else if (state === 'unmute-video') {
           setVideoRemoteStatus(true);
@@ -85,7 +109,7 @@ function VideoCall({
 
     if (ready && tracks) {
       try {
-        init(channelName, token, uid);
+        init(channelCall, token, uid);
       } catch (error) {
         console.log(error);
       }
@@ -103,7 +127,7 @@ function VideoCall({
       }
       name();
     };
-  }, [channelName, client, ready, tracks]);
+  }, [channelName, channelCall, client, ready, tracks]);
 
   useEffect(() => {
     function createIncreament() {
@@ -166,7 +190,7 @@ function VideoCall({
     tracks![1].close();
     await client.leave();
     client.removeAllListeners();
-    if (users.length > 0) {
+    if (users.length > 0 && hasDialled) {
       await setLeave();
     } else {
       await deleteDoc(doc(db, 'call', channelName));
@@ -208,6 +232,7 @@ function VideoCall({
             partnerAvatar={partnerAvatar}
             videoRemoteStatus={videoRemoteStatus}
             trackState={trackState}
+            timeout={timoutCaller}
           />
         )}
         {ready && tracks && (
@@ -220,6 +245,7 @@ function VideoCall({
 interface VideoCallProps {
   dataCall: any;
   channelName: string;
+  channelCall: string;
   token: string;
   uid: string;
   partnerName: string;
@@ -227,4 +253,4 @@ interface VideoCallProps {
   hasDialled: boolean;
   isReciever?: boolean;
 }
-export default VideoCall;
+export default memo(VideoCall);

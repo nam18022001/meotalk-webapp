@@ -1,20 +1,68 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { FaPhone, FaPhoneSlash } from 'react-icons/fa';
 import { avatarIcon } from '~/assets/icons';
+import { useAuthContext } from '~/contexts/AuthContextProvider';
+import { usePreloadSideBarContext } from '~/contexts/PreloadSideBarProvider';
 
-function PickUp({ data, onPickOut, onPickUp }: PickUpProps) {
+function PickUp({ data, onPickOut, onPickUp, isGroup = false }: PickUpProps) {
+  const { listConversation } = usePreloadSideBarContext();
+  const { currentUser } = useAuthContext();
+  const [groupName, setGroupName] = useState('');
+  const [partnerAvatar, setPartnerAvatar] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (isGroup) {
+      const getRoom = listConversation.filter((list) => list.chatRoomID === data.channelName);
+      if (getRoom.length === 1 && getRoom[0].chatRoomName !== undefined && getRoom[0].chatRoomName.length > 0) {
+        setGroupName(getRoom[0].chatRoomName);
+      } else {
+        setGroupName(
+          data.receiverName.map(
+            (v: string, index: number) => v + `${index === data.receiverName.length - 1 ? '' : ', '} `,
+          ),
+        );
+      }
+
+      const myIndex = data.recieverUid.indexOf(currentUser.uid);
+      const callerAvatar = data.callerAvatar;
+      const recieverAvatar = data.receiverAvatar.filter((_: any, index: number) => index !== myIndex);
+      const parnerAva = [callerAvatar, ...recieverAvatar];
+
+      setPartnerAvatar(parnerAva);
+    }
+  }, [data, isGroup]);
+
   return (
     <Fragment>
       <div className="wrapper-pick-up bg-grey-opa-color ">
         <div className="box-calling-pick-up lg:w-[80%] md:w-[90%] sm:w-[95%]">
-          <img
-            className="caller-avatar-pick-up sm:w-[70px] sm:h-[70px]"
-            src={data.callerAvatar}
-            alt={data.callerName}
-            onError={(e) => (e.currentTarget.src = avatarIcon.icon)}
-          />
+          {isGroup ? (
+            <div className="flex items-center">
+              {partnerAvatar.length > 0 &&
+                partnerAvatar
+                  .slice(0, 2)
+                  .map((info, index) => (
+                    <img
+                      key={index}
+                      className={`caller-avatar-pick-up border-2 border-solid border-black -ml-[20px] ${
+                        index === 0 ? 'bottom-0 left-0 z-20' : 'right-0 top-0 z-10'
+                      }`}
+                      src={info}
+                      alt={'avatar'}
+                      onError={(e) => (e.currentTarget.src = avatarIcon.icon)}
+                    />
+                  ))}
+            </div>
+          ) : (
+            <img
+              className="caller-avatar-pick-up sm:w-[70px] sm:h-[70px]"
+              src={data.callerAvatar}
+              alt={data.callerName}
+              onError={(e) => (e.currentTarget.src = avatarIcon.icon)}
+            />
+          )}
           <div className="caller-name-pick-up mt-[10px] sm:text-[20px]">
-            <h2>{data.callerName}</h2>
+            <h2>{isGroup ? groupName : data.callerName}</h2>
           </div>
           <div className="threedotloader-pick-up mt-[5px] ">
             <span>Incoming</span>
@@ -39,5 +87,6 @@ interface PickUpProps {
   data: any;
   onPickOut: () => void;
   onPickUp: () => void;
+  isGroup?: boolean;
 }
 export default PickUp;

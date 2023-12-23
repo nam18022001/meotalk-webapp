@@ -10,6 +10,7 @@ import InputConversation from '~/components/InputConversation';
 import MessageConversation from '~/components/MessageConversation';
 import config from '~/configs';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
+import { useCallContext } from '~/contexts/CallContextProvider';
 import { handleClickCall, handleClickCallVideo } from '~/functions/call';
 import { handleReadMessages } from '~/functions/conversation';
 import useModal from '~/hooks/useModal';
@@ -21,6 +22,7 @@ function Conversation() {
   const { idChatRoom } = useParams();
   const { currentUser } = useAuthContext();
   const { isShowing, toggle } = useModal();
+  const { setPressCall } = useCallContext();
   const nav = useNavigate();
 
   const chatRoomId = CryptoJS.enc.Utf8.stringify(
@@ -208,7 +210,7 @@ function Conversation() {
           nameRoom={chatRoomName}
           infoConversation={userInfo.filter((v) => v.uid !== currentUser.uid)}
           loadingConversation={loadingConversation}
-          onClickCallVideo={() => handleClickCallVideo({ chatRoomId, userInfo, currentUser })}
+          onClickCallVideo={() => handleClickCallVideo({ chatRoomId, userInfo, currentUser, setPressCall })}
           onClickRenameGroup={() => toggle()}
         />
         <div ref={messagesRef} className="messages-conversation xs:p-[5px]">
@@ -224,7 +226,7 @@ function Conversation() {
                   seen={data.stt === lastStt ? true : false}
                   isRead={data.isRead}
                   loadingConversation={loadingConversation}
-                  onClickVideoRecall={() => handleClickCallVideo({ chatRoomId, userInfo, currentUser })}
+                  onClickVideoRecall={() => handleClickCallVideo({ chatRoomId, userInfo, currentUser, setPressCall })}
                   onClickReCall={() => handleClickCall()}
                 />
               ))
@@ -240,7 +242,7 @@ function Conversation() {
                   photoSender={data.photoSender}
                   seenGroup={data.isRead}
                   loadingConversation={loadingConversation}
-                  onClickVideoRecall={() => handleClickCallVideo({ chatRoomId, userInfo, currentUser })}
+                  onClickVideoRecall={() => handleClickCallVideo({ chatRoomId, userInfo, currentUser, setPressCall })}
                   onClickReCall={() => handleClickCall()}
                 />
               ))}
