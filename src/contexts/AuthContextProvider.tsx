@@ -4,12 +4,7 @@ import Loading from '~/components/Loading';
 import { auth } from '~/services/FirebaseServices';
 
 function AuthContextProfiver({ children }: AuthContextProfiverProps) {
-  const [currentUser, setCurrentUser] = useState<{
-    uid: string | null | '';
-    displayName: string | null | '';
-    email: string | null | '';
-    photoURL: string | null | '';
-  }>({
+  const [currentUser, setCurrentUser] = useState<CurrentUserContents>({
     uid: '',
     displayName: '',
     email: '',
@@ -55,15 +50,13 @@ type AuthContextContent = {
     email: string | null | '';
     photoURL: string | null | '';
   };
-  setCurrentUser: Dispatch<
-    SetStateAction<{
-      uid: string | null | '';
-      displayName: string | null | '';
-      email: string | null | '';
-      photoURL: string | null | '';
-    }>
-  >;
+  setCurrentUser: Dispatch<SetStateAction<CurrentUserContents>>;
 };
-
+export interface CurrentUserContents {
+  uid: string | null | '';
+  displayName: string | null | '';
+  email: string | null | '';
+  photoURL: string | null | '';
+}
 export const useAuthContext = () => useContext(AuthContext);
 export default AuthContextProfiver;

@@ -1,6 +1,5 @@
 import { AgoraVideoPlayer } from 'agora-rtc-react';
-import { Fragment, useState } from 'react';
-import { CircularProgressbar } from 'react-circular-progressbar';
+import { useState } from 'react';
 import Draggable from 'react-draggable';
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash } from 'react-icons/fa';
 import { avatarIcon } from '~/assets/icons';
@@ -21,8 +20,6 @@ function VideoGroup({
 }: VideoProps) {
   const { currentUser } = useAuthContext();
   const [onDrag, setOnDrag] = useState(false);
-
-  console.log(users);
 
   return (
     <div className="wrapper-video-widget min-w-[400px]">

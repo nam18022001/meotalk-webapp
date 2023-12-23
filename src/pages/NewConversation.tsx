@@ -11,6 +11,7 @@ import MessageConversation from '~/components/MessageConversation';
 import config from '~/configs';
 import { useAddConversationContext } from '~/contexts/AddConversationContextProvider';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
+import { useCallContext } from '~/contexts/CallContextProvider';
 import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
 import { usePreloadSideBarContext } from '~/contexts/PreloadSideBarProvider';
 import { handleClickCall, handleClickCallVideo } from '~/functions/call';
@@ -25,6 +26,7 @@ function NewConversation() {
   const { currentUser } = useAuthContext();
   const { setAddTrue, users, setUsers } = useAddConversationContext();
   const { listConversation } = usePreloadSideBarContext();
+  const { setPressCall } = useCallContext();
 
   const [searchValue, setSearchValue] = useState('');
   const [showSearch, setShowSearch] = useState(false);
@@ -276,7 +278,12 @@ function NewConversation() {
                         seen={data.stt === lastStt ? true : false}
                         isRead={data.isRead}
                         onClickVideoRecall={() =>
-                          handleClickCallVideo({ chatRoomId: hasConver.chatRoomID, currentUser, userInfo: users })
+                          handleClickCallVideo({
+                            chatRoomId: hasConver.chatRoomID,
+                            currentUser,
+                            userInfo: users,
+                            setPressCall,
+                          })
                         }
                         onClickReCall={() => handleClickCall()}
                       />
@@ -295,7 +302,12 @@ function NewConversation() {
                         photoSender={data.photoSender}
                         seenGroup={lastSeenGroup}
                         onClickVideoRecall={() =>
-                          handleClickCallVideo({ chatRoomId: hasConver.chatRoomID, currentUser, userInfo: users })
+                          handleClickCallVideo({
+                            chatRoomId: hasConver.chatRoomID,
+                            currentUser,
+                            userInfo: users,
+                            setPressCall,
+                          })
                         }
                         onClickReCall={() => handleClickCall()}
                       />

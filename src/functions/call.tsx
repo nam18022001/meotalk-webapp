@@ -6,6 +6,7 @@ import { addCallMessages, checkCallExist, getTokenCallerAndRevicer } from '~/ser
 import { addFirstMessage, addMessage, getlastMessage } from '~/services/conversationServices';
 import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
 import CryptoJS from 'crypto-js';
+import { CurrentUserContents } from '~/contexts/AuthContextProvider';
 const handleClickCall = async () => {};
 const handleClickCallVideo = async ({ chatRoomId, userInfo, currentUser, setPressCall }: VideoCallProps) => {
   const channelCall = CryptoJS.MD5(chatRoomId).toString();
@@ -111,7 +112,7 @@ const handleClickCallVideo = async ({ chatRoomId, userInfo, currentUser, setPres
 interface VideoCallProps {
   chatRoomId: string;
   userInfo: any[];
-  currentUser: any;
+  currentUser: CurrentUserContents;
   setPressCall: Dispatch<SetStateAction<boolean>>;
 }
 
