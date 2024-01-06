@@ -267,7 +267,6 @@ function NewConversation() {
                 {Object.keys(hasConver).length !== 0 ? (
                   hasConver.isGroup === false ? (
                     messages.map((data: any, index) => (
-                      // tới đoạn này
                       <MessageConversation
                         key={index}
                         data={data.message}
@@ -297,7 +296,6 @@ function NewConversation() {
                     ))
                   ) : (
                     messages.map((data: any, index) => (
-                      // tới đoạn này
                       <MessageConversation
                         key={index}
                         isGroup={true}
@@ -376,6 +374,7 @@ function NewConversation() {
                 isGroup={Object.keys(hasConver).length !== 0 ? hasConver.isGroup : users.length > 1 ? true : false}
                 from="new"
                 handleReadMessages={() => handleReadMessages({ currentUser, chatRoomId, userInfo: users })}
+                infoFriend={users}
               />
             </Fragment>
           )
