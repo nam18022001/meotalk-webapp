@@ -1,16 +1,17 @@
+import { deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { Fragment, useEffect, useState } from 'react';
+
+import { avatarIcon } from '~/assets/icons';
+import ProgressCircleBar from '~/components/ProgressCircleBar';
 import config from '~/configs';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
-
-import { deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { usePreloadSideBarContext } from '~/contexts/PreloadSideBarProvider';
 import { db } from '~/services/FirebaseServices';
-import Controls from './components/Controls';
-import VideoGroup from './components/VideoGroup';
-import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
 import { addFirstMessage, addMessage, getlastMessage } from '~/services/conversationServices';
+import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
+import Controls from './components/Controls';
 
-function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReciever = false }: VideoCallGroupProps) {
+function VoiceGroupCall({ channelName, channelCall, dataCall, hasDialled, isReciever = false }: VoiceCallGroupProps) {
   const { currentUser } = useAuthContext();
   const { listConversation } = usePreloadSideBarContext();
 
@@ -19,18 +20,18 @@ function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
 
   const client = config.settingAgora.useClient();
   const [users, setUsers] = useState<any[]>([]);
-  const [start, setStart] = useState(false);
 
-  const [trackState, setTrackState] = useState({ video: true, audio: true });
+  const [trackState, setTrackState] = useState(true);
   const [secondCall, setSecondCall] = useState(0);
   const [minuteCall, setMinuteCall] = useState(0);
 
-  const { ready, tracks } = config.settingAgora.useMicrophoneAndCameraTracks();
+  const { ready, track } = config.settingAgora.useMicrophoneTracks();
 
   const [groupName, setGroupName] = useState('');
   const [timoutCaller, setTimeoutCaller] = useState(60);
 
   const [statusNetwork, setStatusNetwork] = useState<any>(1);
+  const [volumesUser, setVolumsUser] = useState<any[]>([]);
 
   useEffect(() => {
     let timeinterval: any;
@@ -99,9 +100,12 @@ function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
 
   useEffect(() => {
     let init = async (name: string, tokenCall: string, uidCall: number) => {
+      client.enableAudioVolumeIndicator();
       client.on('user-published', async (user, mediaType) => {
         await client.subscribe(user, mediaType);
-        if (mediaType === 'video') {
+
+        if (mediaType === 'audio') {
+          user?.audioTrack?.play();
           setUsers((prevUsers) => {
             if (prevUsers.filter((v) => v.uid === user.uid).length === 0) {
               return [...prevUsers, user];
@@ -109,9 +113,6 @@ function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
               return [...prevUsers];
             }
           });
-        }
-        if (mediaType === 'audio') {
-          user?.audioTrack?.play();
         }
       });
 
@@ -121,7 +122,7 @@ function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
         }
         if (mediaType === 'video') {
           setUsers((prevUsers) => {
-            return [...prevUsers.filter((User) => User.uid !== user.uid), user];
+            return prevUsers.filter((User) => User.uid !== user.uid);
           });
         }
       });
@@ -136,25 +137,27 @@ function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
         setStatusNetwork(state.uplinkNetworkQuality);
       });
 
+      client.on('volume-indicator', (volumes) => {
+        setVolumsUser(volumes.filter((v) => v.uid !== uidCall));
+      });
+
       try {
         await client.join(config.settingAgora.appId, name, tokenCall, uidCall);
       } catch (error) {
-        console.error('Error Video Call!');
+        console.log('error');
       }
 
-      if (tracks) await client.publish([tracks[0], tracks[1]]);
-
-      setStart(true);
+      if (track) await client.publish([track]);
     };
 
-    if (ready && tracks && Object.keys(myInfo).length > 0) {
+    if (ready && track) {
       try {
         init(channelCall, myInfo.token ? myInfo.token : '', myInfo.id ? myInfo.id : 0);
       } catch (error) {
         console.log(error);
       }
     }
-  }, [myInfo, channelName, client, ready, tracks]);
+  }, [myInfo, channelName, client, ready, track]);
 
   useEffect(() => {
     function createIncreament() {
@@ -180,14 +183,13 @@ function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
       setSecondCall(0);
       setMinuteCall(0);
       async function name() {
-        tracks![0].close();
-        tracks![1].close();
+        track!.close();
         await client.leave();
         client.removeAllListeners();
       }
       name();
     };
-  }, [channelName, client, ready, tracks]);
+  }, [channelName, client, ready, track]);
 
   const setLeave = async (last = false) => {
     if (last) {
@@ -201,10 +203,10 @@ function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
         await addFirstMessage({
           collectChat,
           currentUser: currentUserAlpha,
-          data: `Cuộc gọi Video\n${`${minuteCall === 0 ? '00' : minuteCall < 10 ? '0' + minuteCall : minuteCall}:${
+          data: `Cuộc gọi thoại\n${`${minuteCall === 0 ? '00' : minuteCall < 10 ? '0' + minuteCall : minuteCall}:${
             secondCall === 0 ? '00' : secondCall < 10 ? '0' + secondCall : secondCall
           }`}`,
-          callVideo: true,
+          call: true,
           isGroup: true,
           photoSender: dataCall.callerAvatar,
         });
@@ -213,10 +215,10 @@ function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
         await addMessage({
           collectChat,
           currentUser: currentUserAlpha,
-          data: `Cuộc gọi Video\n${`${minuteCall === 0 ? '00' : minuteCall < 10 ? '0' + minuteCall : minuteCall}:${
+          data: `Cuộc gọi thoại\n${`${minuteCall === 0 ? '00' : minuteCall < 10 ? '0' + minuteCall : minuteCall}:${
             secondCall === 0 ? '00' : secondCall < 10 ? '0' + secondCall : secondCall
           }`}`,
-          callVideo: true,
+          call: true,
           dataLast,
           isGroup: true,
           photoSender: dataCall.callerAvatar,
@@ -238,8 +240,7 @@ function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
   };
 
   const leaveChannel = async () => {
-    tracks![0].close();
-    tracks![1].close();
+    track!.close();
     await client.leave();
     client.removeAllListeners();
     if (users.length > 0 && hasDialled) {
@@ -251,18 +252,11 @@ function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
     }
   };
 
-  const mute = async (type: string) => {
-    if (type === 'audio') {
-      await tracks![0].setEnabled(!trackState.audio);
-      setTrackState((ps) => {
-        return { ...ps, audio: !ps.audio };
-      });
-    } else if (type === 'video') {
-      await tracks![1].setEnabled(!trackState.video);
-      setTrackState((ps) => {
-        return { ...ps, video: !ps.video };
-      });
-    }
+  const mute = async () => {
+    await track!.setEnabled(!trackState);
+    setTrackState((ps) => {
+      return !ps;
+    });
   };
 
   return (
@@ -287,28 +281,88 @@ function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
             </div>
           </div>
         )}
-
-        {start && tracks && (
-          <VideoGroup
-            tracks={tracks}
-            users={users}
-            hasDialled={hasDialled}
-            groupName={groupName}
-            partnerAvatar={dataCall.receiverAvatar}
-            trackState={trackState}
-            timeout={timoutCaller}
-            dataCall={dataCall}
-          />
+        {hasDialled ? (
+          <div className="wrapper-video-widget min-w-[400px]">
+            <div className="flex flex-wrap items-center justify-center">
+              {users.length > 0 ? (
+                users.map((user, i) => {
+                  let myIndex = dataCall.recieverId.indexOf(user.uid);
+                  return (
+                    <div key={i} className="flex flex-col items-center justify-center mx-[10px]">
+                      <img
+                        className={`w-[150px] h-[150px] rounded-full border-4 border-solid ${
+                          volumesUser.length > 0 && volumesUser.filter((v) => v.uid === user.uid).length === 1
+                            ? volumesUser.filter((v) => v.uid === user.uid)[0].level >= 40
+                              ? 'border-green-400'
+                              : ' border-gray-400'
+                            : null
+                        }`}
+                        src={myIndex === -1 ? dataCall.callerAvatar : dataCall.receiverAvatar[myIndex]}
+                        alt="avatar"
+                      />
+                      <div className="mt-[20px] text-[24px] font-medium">
+                        {myIndex === -1 ? dataCall.callerName : dataCall.receiverName[myIndex]}
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="flex items-center justify-center">
+                  <span className="text-[30px] font-semibold mr-[10px]"> Wating others</span>
+                  <div className={'bouncing-loader-video-widget'}>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="wrapper-video-widget min-w-[400px]">
+            <div className={'box-calling-video-widget'}>
+              <div className={'img-avt-video-widget'}>
+                {dataCall.receiverAvatar.slice(0, 2).map((info: any, index: number) => (
+                  <img
+                    key={index}
+                    className={`avatar-partner-video-widget border-2 border-solid border-black -ml-[20px] ${
+                      index === 0 ? 'bottom-0 left-0 z-20' : 'right-0 top-0 z-10'
+                    }`}
+                    src={info}
+                    alt={'avatar'}
+                    onError={(e) => (e.currentTarget.src = avatarIcon.icon)}
+                  />
+                ))}
+              </div>
+              <div className="img-avt-video-widget text-[30px] font-bold">{groupName}</div>
+              <div className={`calling-video-widget`}>
+                <ProgressCircleBar
+                  className="!w-[40px] !h-[40px] mr-[10px]"
+                  type="red"
+                  unit="s"
+                  value={timoutCaller}
+                  maxValue={60}
+                  fontSizeTextvalue={30}
+                />
+                <div className={'text-video-widget'}>Dialling</div>
+                <div className={'bouncing-loader-video-widget'}>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
-
-        {ready && tracks && (
-          <Controls tracks={tracks} trackState={trackState} leaveChannel={leaveChannel} mute={mute} />
+        {ready && track && (
+          <Controls tracks={track} trackState={trackState} leaveChannel={leaveChannel} mute={mute} voice />
         )}
       </div>
     </Fragment>
   );
 }
-interface VideoCallGroupProps {
+
+interface VoiceCallGroupProps {
   dataCall: any;
   channelName: string;
   channelCall: string;
@@ -323,4 +377,4 @@ interface myInfo {
   photoURL?: string;
   token?: string;
 }
-export default VideoGroupCall;
+export default VoiceGroupCall;

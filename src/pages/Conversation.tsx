@@ -211,6 +211,7 @@ function Conversation() {
           infoConversation={userInfo.filter((v) => v.uid !== currentUser.uid)}
           loadingConversation={loadingConversation}
           onClickCallVideo={() => handleClickCallVideo({ chatRoomId, userInfo, currentUser, setPressCall })}
+          onClickCall={() => handleClickCall({ chatRoomId, userInfo, currentUser, setPressCall })}
           onClickRenameGroup={() => toggle()}
         />
         <div ref={messagesRef} className="messages-conversation xs:p-[5px]">
@@ -227,7 +228,7 @@ function Conversation() {
                   isRead={data.isRead}
                   loadingConversation={loadingConversation}
                   onClickVideoRecall={() => handleClickCallVideo({ chatRoomId, userInfo, currentUser, setPressCall })}
-                  onClickReCall={() => handleClickCall()}
+                  onClickReCall={() => handleClickCall({ chatRoomId, userInfo, currentUser, setPressCall })}
                 />
               ))
             : messages.map((data: any, index) => (
@@ -243,7 +244,7 @@ function Conversation() {
                   seenGroup={data.isRead}
                   loadingConversation={loadingConversation}
                   onClickVideoRecall={() => handleClickCallVideo({ chatRoomId, userInfo, currentUser, setPressCall })}
-                  onClickReCall={() => handleClickCall()}
+                  onClickReCall={() => handleClickCall({ chatRoomId, userInfo, currentUser, setPressCall })}
                 />
               ))}
         </div>

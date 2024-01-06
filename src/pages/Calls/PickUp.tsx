@@ -1,10 +1,10 @@
 import { Fragment, useEffect, useState } from 'react';
-import { FaPhone, FaPhoneSlash } from 'react-icons/fa';
+import { FaPhone, FaPhoneSlash, FaVideo } from 'react-icons/fa';
 import { avatarIcon } from '~/assets/icons';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
 import { usePreloadSideBarContext } from '~/contexts/PreloadSideBarProvider';
 
-function PickUp({ data, onPickOut, onPickUp, isGroup = false }: PickUpProps) {
+function PickUp({ data, onPickOut, onPickUp, isGroup = false, type }: PickUpProps) {
   const { listConversation } = usePreloadSideBarContext();
   const { currentUser } = useAuthContext();
   const [groupName, setGroupName] = useState('');
@@ -75,7 +75,11 @@ function PickUp({ data, onPickOut, onPickUp, isGroup = false }: PickUpProps) {
               <FaPhoneSlash className="icon-pick-up" />
             </button>
             <button className="btn-in-pick-up sm:!w-[60px] sm:!h-[60px]" onClick={onPickUp}>
-              <FaPhone className="icon-pick-up icon-in-pick-up" />
+              {type === 'voice' ? (
+                <FaPhone className="icon-pick-up icon-in-pick-up" />
+              ) : (
+                <FaVideo className="icon-pick-up icon-in-pick-up" />
+              )}
             </button>
           </div>
         </div>
@@ -88,5 +92,6 @@ interface PickUpProps {
   onPickOut: () => void;
   onPickUp: () => void;
   isGroup?: boolean;
+  type: string;
 }
 export default PickUp;

@@ -1,4 +1,9 @@
-import { ClientConfig, createClient, createMicrophoneAndCameraTracks } from 'agora-rtc-react';
+import {
+  ClientConfig,
+  createClient,
+  createMicrophoneAndCameraTracks,
+  createMicrophoneAudioTrack,
+} from 'agora-rtc-react';
 
 const serverTokenUrl = 'https://meotalk-token-agora.vercel.app/rtc/';
 const appId = import.meta.env.VITE_APP_ID_AGORA;
@@ -11,7 +16,15 @@ const config: ClientConfig = {
 
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
+const useMicrophoneTracks = createMicrophoneAudioTrack();
 
-const settingAgora = { serverTokenUrl, appId, appCertificate, useClient, useMicrophoneAndCameraTracks };
+const settingAgora = {
+  serverTokenUrl,
+  appId,
+  appCertificate,
+  useClient,
+  useMicrophoneAndCameraTracks,
+  useMicrophoneTracks,
+};
 
 export default settingAgora;

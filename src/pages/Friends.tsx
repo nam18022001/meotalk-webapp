@@ -2,6 +2,8 @@ import CryptoJS from 'crypto-js';
 import { collection, deleteDoc, doc, getDocs, onSnapshot, query, setDoc, where } from 'firebase/firestore';
 import { Dispatch, Fragment, ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import ToolTip from '@tippyjs/react';
+import { BsArrowLeft } from 'react-icons/bs';
 
 import { CurrentUserContents, useAuthContext } from '~/contexts/AuthContextProvider';
 import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
@@ -9,6 +11,7 @@ import { db } from '~/services/FirebaseServices';
 import { queryGetFriendRequests, queryGetMyRequests } from '~/services/friendServices';
 import { collectListFriend } from '~/services/generalFirestoreServices';
 import { makeConversation } from '~/services/searchServices';
+import config from '~/configs';
 
 function Friends() {
   const { search } = useLocation();
@@ -116,10 +119,20 @@ function Friends() {
       }
     }
   };
+  const handleGoBack = () => {
+    nav(config.routes.home);
+  };
 
   return (
     <Fragment>
       <div className="w-screen h-full min-w-[282px] overflow-hidden flex flex-col items-center p-[20px_10px]">
+        <div className="xl:w-1/2 lg:w-1/2 md:w-2/3 sm:w-full mb-[30px]">
+          <ToolTip content="Back to home" placement="right" arrow>
+            <button className="icon-goback-profile static xs:left-[10px]" onClick={handleGoBack}>
+              <BsArrowLeft />
+            </button>
+          </ToolTip>
+        </div>
         <Tabs activeTab={activeTab} setActiveTab={setParam} />
         {render()}
       </div>
@@ -160,7 +173,7 @@ const ListFriend = ({ data, isMobile, currentUser }: data) => {
       to={`/profile/${encodeURIComponent(CryptoJS.Rabbit.encrypt(v.uid, 'hashUrlProfile').toString())}`}
       state={{ data: v, addSent: false, isRecieveRequest: false, isFriend: true }}
       key={index}
-      className="h-[80px] sm:h-[60px] flex items-center justify-between my-[5px] px-[10px]"
+      className="h-[80px] sm:h-[60px] flex items-center justify-between my-[5px] px-[10px] rounded-xl hover:bg-primary-opacity-color"
     >
       <img className="w-[50px] h-[50px] sm:w-[40px] sm:h-[40px] rounded-full object-cover" src={v.photoURL} />
       <div className="flex-1 flex flex-col justify-between ml-[10px] whitespace-nowrap  text-ellipsis overflow-x-hidden">
@@ -212,7 +225,7 @@ const FriendsRequest = ({ data, isMobile, currentUser }: data) => {
           isFriend: false,
         }}
         key={index}
-        className="h-[80px] sm:h-[60px] flex items-center justify-between my-[5px] px-[10px]"
+        className="h-[80px] sm:h-[60px] flex items-center justify-between my-[5px] px-[10px] rounded-xl hover:bg-primary-opacity-color"
       >
         <img className="w-[50px] h-[50px] sm:w-[40px] sm:h-[40px] rounded-full object-cover" src={v.photoSender} />
         <div className="flex-1 flex flex-col justify-between ml-[10px] whitespace-nowrap  text-ellipsis overflow-x-hidden">
@@ -255,7 +268,7 @@ const MyRequests = ({ data, isMobile, currentUser }: data) => {
           isFriend: false,
         }}
         key={index}
-        className="h-[80px] sm:h-[60px] flex items-center justify-between my-[5px] px-[10px]"
+        className="h-[80px] sm:h-[60px] flex items-center justify-between my-[5px] px-[10px] rounded-xl hover:bg-primary-opacity-color"
       >
         <img className="w-[50px] h-[50px] sm:w-[40px] sm:h-[40px] rounded-full object-cover" src={v.photoReciever} />
         <div className="flex-1 flex flex-col justify-between ml-[10px] whitespace-nowrap  text-ellipsis overflow-x-hidden">

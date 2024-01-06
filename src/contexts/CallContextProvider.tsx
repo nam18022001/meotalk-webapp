@@ -1,13 +1,18 @@
-import { deleteDoc, doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc, getDocs, onSnapshot, updateDoc } from 'firebase/firestore';
 import { Dispatch, Fragment, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from 'react';
+
+import Loading from '~/components/Loading';
 import CallLayout from '~/layouts/CallLayout';
 import PickUp from '~/pages/Calls/PickUp';
 import VideoCall from '~/pages/Calls/VideoCall';
 import VideoGroupCall from '~/pages/Calls/VideoGroupCall';
+import VoiceCall from '~/pages/Calls/VoiceCall';
+import VoiceGroupCall from '~/pages/Calls/VoiceGroupCall';
 import { db } from '~/services/FirebaseServices';
 import { getCall } from '~/services/callServices';
+import { addFirstMessage, addMessage, getlastMessage } from '~/services/conversationServices';
+import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
 import { useAuthContext } from './AuthContextProvider';
-import Loading from '~/components/Loading';
 
 function CallContextProvider({ children }: CallContextProviderProps) {
   const { currentUser } = useAuthContext();
@@ -22,8 +27,13 @@ function CallContextProvider({ children }: CallContextProviderProps) {
   const [showPickUp, setShowPickUp] = useState(false);
   const [showPickUpGroup, setShowPickUpGroup] = useState(false);
   const [showVideoCaller, setShowVideoCaller] = useState(false);
+  const [showVoiceCaller, setShowVoiceCaller] = useState(false);
+
   const [showVideoReciever, setShowVideoReciever] = useState(false);
+  const [showVocieReciever, setShowVoiceReciever] = useState(false);
+
   const [showVideoGroupReciever, setShowVideoGroupReciever] = useState(false);
+  const [showVoiceGroupReciever, setShowVoiceGroupReciever] = useState(false);
 
   const [pressCall, setPressCall] = useState(false);
 
@@ -37,17 +47,38 @@ function CallContextProvider({ children }: CallContextProviderProps) {
 
         if (infoCall.isGroup === true && infoCall.cancelDialled !== undefined) {
           if (infoCall.cancelDialled.filter((info: any) => info === currentUser.uid).length === 0) {
-            setShowVideoCaller(true);
+            if (infoCall.type === 'voice') {
+              setShowVoiceCaller(true);
+            } else if (infoCall.type === 'video') {
+              setShowVideoCaller(true);
+            } else {
+              setShowVideoCaller(false);
+              setShowVoiceCaller(false);
+            }
           } else {
             setShowVideoCaller(false);
+            setShowVoiceCaller(false);
+          }
+        } else if (infoCall.isGroup === false) {
+          if (infoCall.deleteCall === false) {
+            if (infoCall.type === 'voice') {
+              setShowVoiceCaller(true);
+            } else if (infoCall.type === 'video') {
+              setShowVideoCaller(true);
+            }
+          } else {
+            setShowVideoCaller(false);
+            setShowVoiceCaller(false);
           }
         } else {
-          setShowVideoCaller(true);
+          setShowVideoCaller(false);
+          setShowVoiceCaller(false);
         }
       } else {
         setIsGroupCaller(false);
         setCallerInfo([]);
         setShowVideoCaller(false);
+        setShowVoiceCaller(false);
       }
     });
   }, []);
@@ -58,13 +89,29 @@ function CallContextProvider({ children }: CallContextProviderProps) {
       if (!snapCall.empty === true) {
         const infoCall = snapCall.docs[0].data();
 
-        setRecieverInfo(infoCall);
-        setShowPickUp(true);
-        setIsGroupReciever(infoCall.isGroup);
+        if (infoCall.deleteCall === false) {
+          setRecieverInfo(infoCall);
+          setIsGroupReciever(infoCall.isGroup);
+          if (infoCall.hasDialled === true) {
+            if (infoCall.type === 'video') {
+              setShowVideoReciever(true);
+            } else {
+              setShowVoiceReciever(true);
+            }
+          } else {
+            setShowPickUp(true);
+          }
+        } else {
+          setRecieverInfo([]);
+          setShowPickUp(false);
+          setShowVideoReciever(false);
+          setShowVoiceReciever(false);
+        }
       } else {
         setRecieverInfo([]);
         setShowPickUp(false);
         setShowVideoReciever(false);
+        setShowVoiceReciever(false);
       }
     });
   }, []);
@@ -86,9 +133,14 @@ function CallContextProvider({ children }: CallContextProviderProps) {
             infoCall.hasDialled.filter((info: any) => info === currentUser.uid).length === 1
           ) {
             setShowPickUpGroup(false);
-            setShowVideoGroupReciever(true);
+            if (infoCall.type === 'video') {
+              setShowVideoGroupReciever(true);
+            } else {
+              setShowVoiceGroupReciever(true);
+            }
           } else {
             setShowVideoGroupReciever(false);
+            setShowVoiceGroupReciever(false);
             setShowPickUpGroup(false);
           }
         } else {
@@ -101,14 +153,10 @@ function CallContextProvider({ children }: CallContextProviderProps) {
         setShowPickUpGroup(false);
         setRecieverGroupInfo([]);
         setShowVideoGroupReciever(false);
+        setShowVoiceGroupReciever(false);
       }
     });
   }, []);
-
-  useEffect(() => {
-    if (Object.keys(recieverGroupInfo).length > 0) {
-    }
-  }, [recieverGroupInfo]);
 
   const handlePickOut = async () => {
     if (isGroupReciever) {
@@ -121,13 +169,34 @@ function CallContextProvider({ children }: CallContextProviderProps) {
         cancelDialled,
       });
     } else {
+      const collectChat = collectChats(recieverInfo.channelName);
+      const chatRoom = docChatRoom(recieverInfo.channelName);
+
+      const getDocChats = await getDocs(collectChat);
+      let currentUserAlpha = {
+        email: recieverInfo.callerEmail,
+      };
+      if (getDocChats.empty) {
+        addFirstMessage({ collectChat, currentUser: currentUserAlpha, data: 'Cuộc gọi nhỡ', callVideo: true });
+      } else {
+        const dataLast = await getlastMessage({ collectChat });
+
+        addMessage({ collectChat, currentUser: currentUserAlpha, data: 'Cuộc gọi nhỡ', callVideo: true, dataLast });
+      }
+      await updateDoc(chatRoom, {
+        time: Date.now(),
+      });
       await deleteDoc(doc(db, 'call', recieverInfo.channelName));
       setShowVideoReciever(false);
     }
   };
   const handlePickUp = async () => {
     if (isGroupReciever) {
-      setShowVideoGroupReciever(true);
+      if (recieverGroupInfo.type === 'voice') {
+        setShowVoiceGroupReciever(true);
+      } else {
+        setShowVideoGroupReciever(true);
+      }
       let slice = recieverGroupInfo.hasDialled.slice();
       if (slice.filter((data: string) => data === currentUser.uid).length === 0) {
         slice.push(currentUser.uid);
@@ -137,8 +206,11 @@ function CallContextProvider({ children }: CallContextProviderProps) {
       });
       setShowPickUpGroup(false);
     } else {
-      setShowVideoReciever(true);
-
+      if (recieverInfo.type === 'voice') {
+        setShowVoiceReciever(true);
+      } else {
+        setShowVideoReciever(true);
+      }
       await updateDoc(doc(db, 'call', recieverInfo.channelName), {
         hasDialled: true,
       });
@@ -150,11 +222,17 @@ function CallContextProvider({ children }: CallContextProviderProps) {
     <CallContext.Provider value={{ showPickUp, callerInfo, recieverInfo, pressCall, setPressCall }}>
       {showPickUp ? (
         <CallLayout>
-          <PickUp data={recieverInfo} onPickOut={handlePickOut} onPickUp={handlePickUp} />
+          <PickUp data={recieverInfo} onPickOut={handlePickOut} onPickUp={handlePickUp} type={recieverInfo.type} />
         </CallLayout>
       ) : showPickUpGroup ? (
         <CallLayout>
-          <PickUp data={recieverGroupInfo} onPickOut={handlePickOut} onPickUp={handlePickUp} isGroup />
+          <PickUp
+            data={recieverGroupInfo}
+            onPickOut={handlePickOut}
+            onPickUp={handlePickUp}
+            isGroup
+            type={recieverGroupInfo.type}
+          />
         </CallLayout>
       ) : showVideoCaller ? (
         <CallLayout>
@@ -167,6 +245,28 @@ function CallContextProvider({ children }: CallContextProviderProps) {
             />
           ) : (
             <VideoCall
+              channelName={callerInfo.channelName}
+              channelCall={callerInfo.channelCall}
+              token={callerInfo.tokenCaller}
+              uid={callerInfo.callerId}
+              partnerName={callerInfo.receiverName}
+              partnerAvatar={callerInfo.receiverAvatar}
+              hasDialled={callerInfo.hasDialled}
+              dataCall={callerInfo}
+            />
+          )}
+        </CallLayout>
+      ) : showVoiceCaller ? (
+        <CallLayout>
+          {isGroupCaller ? (
+            <VoiceGroupCall
+              channelName={callerInfo.channelName}
+              channelCall={callerInfo.channelCall}
+              dataCall={callerInfo}
+              hasDialled={callerInfo.hasDialled.filter((v: string) => v !== currentUser.uid).length > 0 ? true : false}
+            />
+          ) : (
+            <VoiceCall
               channelName={callerInfo.channelName}
               channelCall={callerInfo.channelCall}
               token={callerInfo.tokenCaller}
@@ -194,10 +294,36 @@ function CallContextProvider({ children }: CallContextProviderProps) {
             />
           )}
         </CallLayout>
+      ) : showVocieReciever ? (
+        <VoiceCall
+          channelName={recieverInfo.channelName}
+          channelCall={recieverInfo.channelCall}
+          token={recieverInfo.tokenReciever}
+          uid={recieverInfo.recieverId}
+          partnerName={recieverInfo.callerName}
+          partnerAvatar={recieverInfo.callerAvatar}
+          hasDialled={recieverInfo.hasDialled}
+          dataCall={recieverInfo}
+          isReciever={true}
+        />
       ) : showVideoGroupReciever ? (
         <CallLayout>
           {isGroupReciever && (
             <VideoGroupCall
+              channelName={recieverGroupInfo.channelName}
+              channelCall={recieverGroupInfo.channelCall}
+              dataCall={recieverGroupInfo}
+              isReciever={true}
+              hasDialled={
+                recieverGroupInfo.hasDialled.filter((v: string) => v === currentUser.uid).length > 0 ? true : false
+              }
+            />
+          )}
+        </CallLayout>
+      ) : showVoiceGroupReciever ? (
+        <CallLayout>
+          {isGroupReciever && (
+            <VoiceGroupCall
               channelName={recieverGroupInfo.channelName}
               channelCall={recieverGroupInfo.channelCall}
               dataCall={recieverGroupInfo}

@@ -1,14 +1,13 @@
 import { deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
-import { Fragment, memo, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+
 import config from '~/configs';
 import { db } from '~/services/FirebaseServices';
 import { addFirstMessage, addMessage, getlastMessage } from '~/services/conversationServices';
 import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
-import './call.css';
 import Controls from './components/Controls';
-import Video from './components/Video';
 
-function VideoCall({
+function VoiceCall({
   channelName,
   channelCall,
   token,
@@ -18,22 +17,20 @@ function VideoCall({
   hasDialled,
   dataCall,
   isReciever = false,
-}: VideoCallProps) {
+}: VoiceCallProps) {
+  const client = config.settingAgora.useClient();
+  const { ready, track } = config.settingAgora.useMicrophoneTracks();
+  const [trackState, setTrackState] = useState(true);
+
   const [users, setUsers] = useState<any[]>([]);
 
-  const [start, setStart] = useState(false);
-  const client = config.settingAgora.useClient();
-
-  const { ready, tracks } = config.settingAgora.useMicrophoneAndCameraTracks();
-
-  const [trackState, setTrackState] = useState({ video: true, audio: true });
   const [secondCall, setSecondCall] = useState(0);
   const [minuteCall, setMinuteCall] = useState(0);
-  const [videoRemoteStatus, setVideoRemoteStatus] = useState(true);
-
-  const [timoutCaller, setTimeoutCaller] = useState(60);
 
   const [statusNetwork, setStatusNetwork] = useState<any>(1);
+
+  const [timoutCaller, setTimeoutCaller] = useState(60);
+  const [volumesUser, setVolumsUser] = useState<any[]>([]);
 
   useEffect(() => {
     let timeinterval: any;
@@ -57,15 +54,19 @@ function VideoCall({
 
   useEffect(() => {
     let init = async (name: string, tokenCall: string, uidCall: string) => {
+      client.enableAudioVolumeIndicator();
       client.on('user-published', async (user, mediaType) => {
         await client.subscribe(user, mediaType);
-        if (mediaType === 'video') {
-          setUsers((prevUsers) => {
-            return [...prevUsers, user];
-          });
-        }
+
         if (mediaType === 'audio') {
           user?.audioTrack?.play();
+          setUsers((prevUsers) => {
+            if (prevUsers.filter((v) => v.uid === user.uid).length === 0) {
+              return [...prevUsers, user];
+            } else {
+              return [...prevUsers];
+            }
+          });
         }
       });
 
@@ -81,57 +82,38 @@ function VideoCall({
       });
 
       client.on('user-left', async (user) => {
-        await deleteDoc(doc(db, 'call', channelName));
-
-        tracks![0].close();
-        tracks![1].close();
+        // await deleteDoc(doc(db, 'call', channelName));
+        // track?.close()
         setUsers((prevUsers) => {
           return prevUsers.filter((User) => User.uid !== user.uid);
         });
       });
-      client.on('user-info-updated', (user, state) => {
-        if (state === 'mute-video') {
-          console.log(user, state);
-          setVideoRemoteStatus(false);
-        } else if (state === 'unmute-video') {
-          setVideoRemoteStatus(true);
-        }
-      });
+
       client.on('network-quality', (state) => {
         setStatusNetwork(state.uplinkNetworkQuality);
       });
+
+      client.on('volume-indicator', (volumes) => {
+        setVolumsUser(volumes);
+      });
+
       try {
         await client.join(config.settingAgora.appId, name, tokenCall, uidCall);
       } catch (error) {
         console.log('error');
       }
 
-      if (tracks) await client.publish([tracks[0], tracks[1]]);
-
-      setStart(true);
+      if (track) await client.publish([track]);
     };
 
-    if (ready && tracks) {
+    if (ready && track) {
       try {
         init(channelCall, token, uid);
       } catch (error) {
         console.log(error);
       }
     }
-
-    return () => {
-      setSecondCall(0);
-      setMinuteCall(0);
-      async function name() {
-        tracks![0].close();
-        tracks![1].close();
-        await client.leave();
-        client.removeAllListeners();
-        await deleteDoc(doc(db, 'call', channelName));
-      }
-      name();
-    };
-  }, [channelName, channelCall, client, ready, tracks]);
+  }, [channelName, channelCall, client, ready, track]);
 
   useEffect(() => {
     function createIncreament() {
@@ -152,6 +134,16 @@ function VideoCall({
     };
   }, [secondCall, users]);
 
+  useEffect(() => {
+    return () => {
+      if (ready) {
+        leaveChannel();
+      }
+      setSecondCall(0);
+      setMinuteCall(0);
+    };
+  }, [channelName, client, track, ready]);
+
   const setLeave = async () => {
     const collectChat = collectChats(dataCall.channelName);
     const chatRoom = docChatRoom(dataCall.channelName);
@@ -165,20 +157,20 @@ function VideoCall({
       await addFirstMessage({
         collectChat,
         currentUser: currentUserAlpha,
-        data: `Cuộc gọi Video\n${`${minuteCall === 0 ? '00' : minuteCall < 10 ? '0' + minuteCall : minuteCall}:${
+        data: `Cuộc gọi thoại\n${`${minuteCall === 0 ? '00' : minuteCall < 10 ? '0' + minuteCall : minuteCall}:${
           secondCall === 0 ? '00' : secondCall < 10 ? '0' + secondCall : secondCall
         }`}`,
-        callVideo: true,
+        call: true,
       });
     } else {
       const dataLast = await getlastMessage({ collectChat });
       await addMessage({
         collectChat,
         currentUser: currentUserAlpha,
-        data: `Cuộc gọi Video\n${`${minuteCall === 0 ? '00' : minuteCall < 10 ? '0' + minuteCall : minuteCall}:${
+        data: `Cuộc gọi thoại\n${`${minuteCall === 0 ? '00' : minuteCall < 10 ? '0' + minuteCall : minuteCall}:${
           secondCall === 0 ? '00' : secondCall < 10 ? '0' + secondCall : secondCall
         }`}`,
-        callVideo: true,
+        call: true,
         dataLast,
       });
     }
@@ -190,8 +182,7 @@ function VideoCall({
   };
 
   const leaveChannel = async () => {
-    tracks![0].close();
-    tracks![1].close();
+    track!.close();
     await client.leave();
     client.removeAllListeners();
     if (users.length > 0 && hasDialled) {
@@ -201,62 +192,66 @@ function VideoCall({
     }
   };
 
-  const mute = async (type: string) => {
-    if (type === 'audio') {
-      await tracks![0].setEnabled(!trackState.audio);
-      setTrackState((ps) => {
-        return { ...ps, audio: !ps.audio };
-      });
-    } else if (type === 'video') {
-      await tracks![1].setEnabled(!trackState.video);
-      setTrackState((ps) => {
-        return { ...ps, video: !ps.video };
-      });
-    }
+  const mute = async () => {
+    await track!.setEnabled(!trackState);
+    setTrackState((ps) => {
+      return !ps;
+    });
   };
 
   return (
     <Fragment>
-      <div className="w-full h-full min-w-[400px]">
-        {hasDialled && (
-          <div className="absolute w-full flex items-center justify-center top-[20px] z-50">
-            <div
-              className={`text-[16px] ${
-                statusNetwork > 0
-                  ? statusNetwork < 3
-                    ? 'text-success-color'
-                    : statusNetwork >= 3 && statusNetwork < 6
-                    ? 'text-warning-color'
-                    : 'text-danger-color'
-                  : 'text-danger-color'
+      <div className="w-screen h-screen min-w-[400px]">
+        <div className="wrapper-video-widget min-w-[400px]">
+          <div className="box-calling-video-widget items-center">
+            <img
+              className={`w-[150px] h-[150px] rounded-full border-4 border-solid ${
+                volumesUser.length > 0 && volumesUser.filter((v) => v.uid === dataCall.recieverId).length === 1
+                  ? volumesUser.filter((v) => v.uid === dataCall.recieverId)[0].level >= 40
+                    ? 'border-green-400'
+                    : ' border-gray-400'
+                  : null
               }`}
-            >
-              {minuteCall === 0 ? '00' : minuteCall < 10 ? '0' + minuteCall : minuteCall}
-              {' : '}
-              {secondCall === 0 ? '00' : secondCall < 10 ? '0' + secondCall : secondCall}
-            </div>
+              src={partnerAvatar}
+              alt="avatar"
+            />
+            <div className="mt-[20px] text-[30px] font-semibold">{partnerName}</div>
+            {hasDialled ? (
+              <div
+                className={`text-[16px] ${
+                  statusNetwork > 0
+                    ? statusNetwork < 3
+                      ? 'text-success-color'
+                      : statusNetwork >= 3 && statusNetwork < 6
+                      ? 'text-warning-color'
+                      : 'text-danger-color'
+                    : 'text-danger-color'
+                }`}
+              >
+                {minuteCall === 0 ? '00' : minuteCall < 10 ? '0' + minuteCall : minuteCall}
+                {' : '}
+                {secondCall === 0 ? '00' : secondCall < 10 ? '0' + secondCall : secondCall}
+              </div>
+            ) : (
+              <div className={`calling-video-widget`}>
+                <div className={'text-video-widget'}>Dialling</div>
+                <div className={'bouncing-loader-video-widget'}>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+            )}
           </div>
-        )}
-        {start && tracks && (
-          <Video
-            tracks={tracks}
-            users={users}
-            hasDialled={hasDialled}
-            partnerName={partnerName}
-            partnerAvatar={partnerAvatar}
-            videoRemoteStatus={videoRemoteStatus}
-            trackState={trackState}
-            timeout={timoutCaller}
-          />
-        )}
-        {ready && tracks && (
-          <Controls tracks={tracks} trackState={trackState} leaveChannel={leaveChannel} mute={mute} />
+        </div>
+        {ready && track && (
+          <Controls tracks={track} trackState={trackState} leaveChannel={leaveChannel} mute={mute} voice />
         )}
       </div>
     </Fragment>
   );
 }
-interface VideoCallProps {
+interface VoiceCallProps {
   dataCall: any;
   channelName: string;
   channelCall: string;
@@ -267,4 +262,4 @@ interface VideoCallProps {
   hasDialled: boolean;
   isReciever?: boolean;
 }
-export default memo(VideoCall);
+export default VoiceCall;

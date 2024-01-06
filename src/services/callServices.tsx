@@ -14,6 +14,7 @@ const addCallMessages = async ({
   tokenCaller,
   tokenReciever,
   uidReciever,
+  voiceCall = false,
 }: addCallMessagesProps) => {
   if (group) {
     let groupRecieverUid = [];
@@ -48,7 +49,7 @@ const addCallMessages = async ({
         channelCall: channelCall,
         tokenCaller: tokenCaller,
         tokenReciever: tokenReciever,
-        type: 'video',
+        type: voiceCall ? 'voice' : 'video',
         isGroup: true,
       }))
     );
@@ -70,7 +71,7 @@ const addCallMessages = async ({
       channelCall: channelCall,
       tokenCaller: tokenCaller,
       tokenReciever: tokenReciever[0],
-      type: 'video',
+      type: voiceCall ? 'voice' : 'video',
       isGroup: false,
     });
   }
@@ -130,19 +131,21 @@ const getCall = ({
       !reciever ? '==' : isGroup ? 'array-contains' : '==',
       currentUser.uid,
     ),
+    where('deleteCall', '==', false),
   );
   return qCall;
 };
 
 const checkCallExist = ({ isGroup = false, uid }: { isGroup?: boolean; uid: string }) => {
   const collectCall = collection(db, 'call');
-  const qCall = isGroup
-    ? [
-        query(collectCall, where('callerUid', '==', uid)),
-        query(collectCall, where('recieverUid', 'array-contains', uid)),
-        query(collectCall, where('recieverUid', '==', uid)),
-      ]
-    : [query(collectCall, where('callerUid', '==', uid)), query(collectCall, where('recieverUid', '==', uid))];
+  const qCall =
+    // isGroup ?
+    [
+      query(collectCall, where('callerUid', '==', uid)),
+      query(collectCall, where('recieverUid', 'array-contains', uid)),
+      query(collectCall, where('recieverUid', '==', uid)),
+    ];
+  // : [query(collectCall, where('callerUid', '==', uid)), query(collectCall, where('recieverUid', '==', uid))];
 
   return qCall;
 };
@@ -162,7 +165,7 @@ interface addCallMessagesProps {
   channelName: string;
   channelCall: string;
   tokenCaller: string;
-
+  voiceCall?: boolean;
   tokenReciever: any[];
   uidReciever: any[];
 }
