@@ -136,7 +136,7 @@ const getCall = ({
   return qCall;
 };
 
-const checkCallExist = ({ isGroup = false, uid }: { isGroup?: boolean; uid: string }) => {
+const checkCallExist = ({ uid }: { isGroup?: boolean; uid: string }) => {
   const collectCall = collection(db, 'call');
   const qCall =
     // isGroup ?

@@ -285,7 +285,14 @@ function NewConversation() {
                             setPressCall,
                           })
                         }
-                        onClickReCall={() => handleClickCall()}
+                        onClickReCall={() =>
+                          handleClickCall({
+                            chatRoomId: hasConver.chatRoomID,
+                            currentUser,
+                            userInfo: users,
+                            setPressCall,
+                          })
+                        }
                       />
                     ))
                   ) : (
@@ -309,7 +316,14 @@ function NewConversation() {
                             setPressCall,
                           })
                         }
-                        onClickReCall={() => handleClickCall()}
+                        onClickReCall={() =>
+                          handleClickCall({
+                            chatRoomId: hasConver.chatRoomID,
+                            currentUser,
+                            userInfo: users,
+                            setPressCall,
+                          })
+                        }
                       />
                     ))
                   )
