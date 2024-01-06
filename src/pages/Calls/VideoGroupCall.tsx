@@ -47,6 +47,7 @@ function VideoGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
     }
 
     async function outCall() {
+      // handle misCall
       await deleteDoc(doc(db, 'call', channelName));
     }
 

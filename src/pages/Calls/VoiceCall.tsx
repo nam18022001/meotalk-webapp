@@ -46,6 +46,7 @@ function VoiceCall({
     }
 
     async function outCall() {
+      // handle misCall
       await deleteDoc(doc(db, 'call', channelName));
     }
 

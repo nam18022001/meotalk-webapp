@@ -248,7 +248,12 @@ function Conversation() {
                 />
               ))}
         </div>
-        <InputConversation chatRoomId={chatRoomId} loadingConversation={loadingConversation} isGroup={isGroup} />
+        <InputConversation
+          chatRoomId={chatRoomId}
+          loadingConversation={loadingConversation}
+          isGroup={isGroup}
+          infoFriend={userInfo}
+        />
       </div>
       {isGroup && (
         <Dialog

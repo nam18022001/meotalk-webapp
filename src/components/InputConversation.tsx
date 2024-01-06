@@ -240,6 +240,8 @@ function InputConversation({
         await updateDoc(chatRoom, {
           time: Date.now(),
         });
+        console.log(infoFriend);
+
         sendNotifiCation({ currentUser, chatRoomId, infoFriend });
         if (from === 'new' && newConversation === false) {
           const hashUrlConversation = encodeURIComponent(
@@ -381,7 +383,7 @@ interface InputConversationProps {
   chatRoomId: string;
   autoFocus?: boolean;
   onFocusInput?: () => void;
-  infoFriend?: [];
+  infoFriend?: any[];
   isGroup?: boolean;
   handleReadMessages?: () => void;
 }
