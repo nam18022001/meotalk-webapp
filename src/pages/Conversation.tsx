@@ -26,7 +26,7 @@ function Conversation() {
   const nav = useNavigate();
 
   const chatRoomId = CryptoJS.enc.Utf8.stringify(
-    CryptoJS.Rabbit.decrypt(idChatRoom ? idChatRoom : '', 'hashUrlConversation'),
+    CryptoJS.Rabbit.decrypt(idChatRoom ? idChatRoom : '', config.constant.keyHasUrl),
   ).toString();
 
   const [friendId, setFriendId] = useState<any[]>([]);

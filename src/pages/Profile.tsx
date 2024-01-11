@@ -156,14 +156,14 @@ function Profile() {
       if (!getChatRoom.empty) {
         const chatGet = getChatRoom.docs[0];
         hasMessage = true;
-        const urlHash = encodeURIComponent(CryptoJS.Rabbit.encrypt(chatGet.id, 'hashUrlConversation').toString());
+        const urlHash = encodeURIComponent(CryptoJS.Rabbit.encrypt(chatGet.id, config.constant.keyHasUrl).toString());
         return nav(`/conversation/${urlHash}`);
       }
     }
     if (!hasMessage) {
       await makeConversation({ currentUser: currentUser, data: dataUser });
       const urlHash = encodeURIComponent(
-        CryptoJS.Rabbit.encrypt(`${currentUser.uid}_${dataUser.uid}`, 'hashUrlConversation').toString(),
+        CryptoJS.Rabbit.encrypt(`${currentUser.uid}_${dataUser.uid}`, config.constant.keyHasUrl).toString(),
       );
       return nav(`/conversation/${urlHash}`);
     }

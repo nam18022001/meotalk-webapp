@@ -39,7 +39,7 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
   const nav = useNavigate();
 
   const hashUrlConversation = encodeURIComponent(
-    CryptoJS.Rabbit.encrypt(addConversation ? '' : data!.chatRoomID, 'hashUrlConversation').toString(),
+    CryptoJS.Rabbit.encrypt(addConversation ? '' : data!.chatRoomID, config.constant.keyHasUrl).toString(),
   );
 
   const [loadingItem, setLoadingitem] = useState(false);
@@ -59,7 +59,7 @@ function ConverseItem({ data, addConversation = false, dataAdd = [] }: ConverseI
   useEffect(() => {
     const checkUrl = () => {
       if (idChatRoom) {
-        const deHashConver = CryptoJS.Rabbit.decrypt(idChatRoom, 'hashUrlConversation');
+        const deHashConver = CryptoJS.Rabbit.decrypt(idChatRoom, config.constant.keyHasUrl);
         const chatRoomId = CryptoJS.enc.Utf8.stringify(deHashConver);
         if (chatRoomId === data!.chatRoomID) {
           setActive(true);

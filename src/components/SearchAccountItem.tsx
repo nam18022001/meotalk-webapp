@@ -5,6 +5,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 import { useNavigate } from 'react-router-dom';
+import config from '~/configs';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
 import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
 import { db } from '~/services/FirebaseServices';
@@ -102,14 +103,14 @@ function SearchAccountItem({ data, onClick }: SearchAccountItemProps) {
       if (!getChatRoom.empty) {
         const chatGet = getChatRoom.docs[0];
         hasMessage = true;
-        const urlHash = encodeURIComponent(CryptoJS.Rabbit.encrypt(chatGet.id, 'hashUrlConversation').toString());
+        const urlHash = encodeURIComponent(CryptoJS.Rabbit.encrypt(chatGet.id, config.constant.keyHasUrl).toString());
         return nav(`/conversation/${urlHash}`);
       }
     }
     if (!hasMessage) {
       await makeConversation({ currentUser: currentUser, data: data });
       const urlHash = encodeURIComponent(
-        CryptoJS.Rabbit.encrypt(`${currentUser.uid}_${data.uid}`, 'hashUrlConversation').toString(),
+        CryptoJS.Rabbit.encrypt(`${currentUser.uid}_${data.uid}`, config.constant.keyHasUrl).toString(),
       );
       return nav(`/conversation/${urlHash}`);
     }

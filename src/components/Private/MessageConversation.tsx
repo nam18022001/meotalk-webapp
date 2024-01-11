@@ -15,7 +15,7 @@ function PrivateMessage({
   isRead,
   seen,
   seenImg,
-  loadingConversation,
+  loadingConversation = true,
 }: PrivateMessageProps) {
   const { isShowing, toggle } = useModal();
   const handleShowImage = () => {

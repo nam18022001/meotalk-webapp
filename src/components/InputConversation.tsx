@@ -22,6 +22,7 @@ import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
 import { makeNewConversation } from '~/services/newChatServices';
 import { makeConversation } from '~/services/searchServices';
 import ModalImage from './ModalImage';
+import config from '~/configs';
 
 function InputConversation({
   from = '',
@@ -175,7 +176,7 @@ function InputConversation({
       });
       if (from === 'new' && newConversation === false) {
         const hashUrlConversation = encodeURIComponent(
-          CryptoJS.Rabbit.encrypt(chatRoomId, 'hashUrlConversation').toString(),
+          CryptoJS.Rabbit.encrypt(chatRoomId, config.constant.keyHasUrl).toString(),
         );
         nav(`/conversation/${hashUrlConversation}`);
       }
@@ -245,7 +246,7 @@ function InputConversation({
         sendNotifiCation({ currentUser, chatRoomId, infoFriend });
         if (from === 'new' && newConversation === false) {
           const hashUrlConversation = encodeURIComponent(
-            CryptoJS.Rabbit.encrypt(chatRoomId, 'hashUrlConversation').toString(),
+            CryptoJS.Rabbit.encrypt(chatRoomId, config.constant.keyHasUrl).toString(),
           );
           nav(`/conversation/${hashUrlConversation}`);
         }
