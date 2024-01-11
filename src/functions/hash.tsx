@@ -1,13 +1,13 @@
 import CryptoJS from 'crypto-js';
 function encryptAES(message: string, key: string) {
-  const encryptedMessage = CryptoJS.AES.encrypt(message, key);
+  const encryptedMessage = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(message), key);
   return encryptedMessage.toString();
 }
 
 function decryptAES(encryptedMessage: string, key: string) {
   try {
     const decryptedBytes = CryptoJS.AES.decrypt(encryptedMessage, key);
-    const decryptedMessage = CryptoJS.enc.Utf8.stringify(decryptedBytes).toString();
+    const decryptedMessage = decryptedBytes.toString(CryptoJS.enc.Utf8);
     if (typeof decryptedMessage === 'string' && decryptedMessage.length > 0) {
       return decryptedMessage;
     } else {
