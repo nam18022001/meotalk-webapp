@@ -17,7 +17,6 @@ import { ImSpinner } from 'react-icons/im';
 import { IoMdClose } from 'react-icons/io';
 import { IoRemoveOutline } from 'react-icons/io5';
 import { RiChatPrivateLine } from 'react-icons/ri';
-import { ToastContainer } from 'react-toastify';
 
 import config from '~/configs';
 import { encryptAES } from '~/functions/hash';
@@ -378,7 +377,6 @@ function AddConversationContextProvider({ children }: AddConversationContextProv
                 </div>
               </div>
             </div>
-            <ToastContainer />
           </Fragment>,
           document.body,
         )}

@@ -1,17 +1,17 @@
-import { Fragment, memo, useEffect, useRef, useState } from 'react';
-import { HiXCircle } from 'react-icons/hi';
-import { FiSearch } from 'react-icons/fi';
-import { ImSpinner } from 'react-icons/im';
 import HeadlessTippy from '@tippyjs/react/headless';
 import CryptoJS from 'crypto-js';
+import { Fragment, memo, useEffect, useRef, useState } from 'react';
+import { FiSearch } from 'react-icons/fi';
+import { HiXCircle } from 'react-icons/hi';
+import { ImSpinner } from 'react-icons/im';
 
-import useDebounce from '~/hooks/useDebounce';
+import { onSnapshot } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 import SearchAccountItem from '~/components/SearchAccountItem';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
-import { onSnapshot } from 'firebase/firestore';
-import { searchUser } from '~/services/searchServices';
 import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
-import { useNavigate } from 'react-router-dom';
+import useDebounce from '~/hooks/useDebounce';
+import { searchUser } from '~/services/searchServices';
 
 function Search() {
   const nav = useNavigate();

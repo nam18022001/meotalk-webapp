@@ -8,9 +8,9 @@ import { Fragment, memo, useEffect, useRef, useState } from 'react';
 import { BsFillEmojiLaughingFill, BsImage } from 'react-icons/bs';
 import { IoMdSend } from 'react-icons/io';
 import ReactTextareaAutosize from 'react-textarea-autosize';
-import { ToastContainer } from 'react-toastify';
 
 import { useNavigate } from 'react-router-dom';
+import config from '~/configs';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
 import { useMobileContext } from '~/contexts/MobileVersionContextProvider';
 import useModal from '~/hooks/useModal';
@@ -22,7 +22,6 @@ import { collectChats, docChatRoom } from '~/services/generalFirestoreServices';
 import { makeNewConversation } from '~/services/newChatServices';
 import { makeConversation } from '~/services/searchServices';
 import ModalImage from './ModalImage';
-import config from '~/configs';
 
 function InputConversation({
   from = '',
@@ -372,7 +371,6 @@ function InputConversation({
           />
         )}
       </div>
-      <ToastContainer />
     </Fragment>
   );
 }

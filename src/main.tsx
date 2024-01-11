@@ -13,21 +13,24 @@ import MenuContextProfiver from './contexts/MenuContextProvider.tsx';
 import MobileVersionProvider from './contexts/MobileVersionContextProvider.tsx';
 import PreloadSideBarProvider from './contexts/PreloadSideBarProvider.tsx';
 import AddConversationContextProvider from './contexts/AddConversationContextProvider.tsx';
+import ToastContainerContextProvider from './contexts/ToastContextProvider.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <MobileVersionProvider>
-    <AuthContextProfiver>
-      <PreloadSideBarProvider>
-        <CallContextProvider>
-          <MenuContextProfiver>
-            <AddConversationContextProvider>
-              <React.StrictMode>
-                <App />
-              </React.StrictMode>
-            </AddConversationContextProvider>
-          </MenuContextProfiver>
-        </CallContextProvider>
-      </PreloadSideBarProvider>
-    </AuthContextProfiver>
-  </MobileVersionProvider>,
+  <ToastContainerContextProvider>
+    <MobileVersionProvider>
+      <AuthContextProfiver>
+        <PreloadSideBarProvider>
+          <CallContextProvider>
+            <MenuContextProfiver>
+              <AddConversationContextProvider>
+                <React.StrictMode>
+                  <App />
+                </React.StrictMode>
+              </AddConversationContextProvider>
+            </MenuContextProfiver>
+          </CallContextProvider>
+        </PreloadSideBarProvider>
+      </AuthContextProfiver>
+    </MobileVersionProvider>
+  </ToastContainerContextProvider>,
 );

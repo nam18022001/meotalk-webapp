@@ -2,7 +2,6 @@ import CryptoJS from 'crypto-js';
 import { getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { Fragment, memo, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import Dialog from '~/components/Dialog';
 
 import HeaderConversation from '~/components/HeaderConversation';
@@ -267,7 +266,6 @@ function Conversation() {
           placeholder="Your name group want to change"
         />
       )}
-      <ToastContainer />
     </Fragment>
   );
 }
