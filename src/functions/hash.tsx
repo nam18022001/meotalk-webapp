@@ -7,7 +7,7 @@ function encryptAES(message: string, key: string) {
 function decryptAES(encryptedMessage: string, key: string) {
   try {
     const decryptedBytes = CryptoJS.AES.decrypt(encryptedMessage, key);
-    const decryptedMessage = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    const decryptedMessage = CryptoJS.enc.Utf8.stringify(decryptedBytes).toString();
     if (typeof decryptedMessage === 'string' && decryptedMessage.length > 0) {
       return decryptedMessage;
     } else {
