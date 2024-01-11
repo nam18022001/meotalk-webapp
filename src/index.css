@@ -16,7 +16,9 @@
   --tippy-box-light: rgb(255, 255, 255);
   --tippy-box-dark: rgba(84, 84, 84, 0.92);
   --background-hover-icon: rgba(56, 58, 69, 0.275);
-
+  --success-color: #84ca93;
+  --danger-color: #f75a5b;
+  --warning-color: #ffa902;
   --default-layout-header-height: 80px;
   --default-layout-width: 1150px;
   --default-layout-horizontal-spacer: 24px;

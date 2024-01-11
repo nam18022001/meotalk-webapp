@@ -354,7 +354,7 @@ function NewConversation() {
                     {users.length > 1 && (
                       <div className="w-ful flex px-[30px] xs:px-[15px] overflow-hidden">
                         <div className="text-[20px] xs:text-[14px] mt-[20px] xs:mt-[10px]">
-                          Tin nhắn mới tới{' '}
+                          Tin nhắn mới tới
                           <span className="font-semibold">
                             {users.map((user, index) =>
                               index !== users.length - 1 ? user.displayName + ', ' : user.displayName,

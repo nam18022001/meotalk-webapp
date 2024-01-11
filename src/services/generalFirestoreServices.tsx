@@ -38,6 +38,13 @@ const collectListFriend = (id: string) => {
   return collection(db, 'users', id, 'friends');
 };
 
+const docChatPrivate = (idChatRoom: string) => {
+  return doc(db, 'ChatPrivate', idChatRoom);
+};
+const collectMessagesPrivate = (idChatRoom: string) => {
+  return collection(db, 'ChatPrivate', idChatRoom, 'chats');
+};
+
 export {
   docUsers,
   collectChatRoom,
@@ -50,4 +57,6 @@ export {
   makeDocMakeFriends,
   docMyFriends,
   collectListFriend,
+  docChatPrivate,
+  collectMessagesPrivate,
 };

@@ -9,6 +9,7 @@ import PrivatedRoutes from './protects/PrivatedRoutes';
 import PublicRoutes from './protects/PublicRoutes';
 import { privateRoutes, publicRoutes } from './routes';
 import config from './configs';
+import RedirectErrorPage from './pages/errors/404';
 
 function App() {
   const { currentUser } = useAuthContext();
@@ -56,7 +57,7 @@ function App() {
             />
           );
         })}
-        <Route path="*" element={<Navigate to={config.routes.home} />} />
+        <Route path="*" element={<RedirectErrorPage />} />
       </Routes>
     </Router>
   );

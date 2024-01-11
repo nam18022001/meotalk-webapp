@@ -121,11 +121,6 @@ function VoiceGroupCall({ channelName, channelCall, dataCall, hasDialled, isReci
         if (mediaType === 'audio') {
           if (user.audioTrack) user.audioTrack.stop();
         }
-        if (mediaType === 'video') {
-          setUsers((prevUsers) => {
-            return prevUsers.filter((User) => User.uid !== user.uid);
-          });
-        }
       });
 
       client.on('user-left', async (user) => {

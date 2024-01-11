@@ -4,6 +4,13 @@ import { db } from './FirebaseServices';
 const getListChat = ({ currentUser }: getChatRoomProps) =>
   query(collection(db, 'ChatRoom'), where('usersEmail', 'array-contains', currentUser.email), orderBy('time', 'desc'));
 
+const getListChatPrivate = ({ currentUser }: getChatRoomProps) =>
+  query(
+    collection(db, 'ChatPrivate'),
+    where('usersEmail', 'array-contains', currentUser.email),
+    orderBy('time', 'desc'),
+  );
+
 interface getChatRoomProps {
   currentUser: {
     email: string | null | '';
@@ -12,4 +19,4 @@ interface getChatRoomProps {
     uid: string | null | '';
   };
 }
-export { getListChat };
+export { getListChat, getListChatPrivate };

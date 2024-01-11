@@ -81,9 +81,9 @@ function Header() {
   return (
     <Fragment>
       <div
-        className={`${
-          isMobile ? 'h-[60px] w-full px-[10px]' : 'container h-header-height px-default-px'
-        }  bg-white shadow-[0_0_2px_var(--primary)] z-50 fixed`}
+        className={` ${isMobile ? 'h-[60px] w-full px-[10px]' : 'container h-header-height px-default-px'} 
+        ${window.location.pathname.startsWith(config.routes.homePrivate) ? 'bg-slate-100' : 'bg-white'}
+         shadow-[0_0_2px_var(--primary)] z-50 fixed`}
       >
         <div className="w-full h-full flex items-center justify-between">
           <Link to={config.routes.home}>

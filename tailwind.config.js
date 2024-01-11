@@ -32,6 +32,7 @@ export default {
       colors: {
         'primary-color': '#4d9ac0',
         'primary-opacity-color': '#4d9ac0a2',
+        'primary-super-opacity-color': '#4d9ac02c',
         'search-icon-color': 'rgba(22,24,35,.34)',
         'overlay-color': '#2b2b2b80',
         'grey-opa-color': 'rgba(34, 34, 34, 0.2)',

@@ -829,3 +829,43 @@
     transform: scale(0);
   }
 }
+
+/* private add animation */
+.show-add-private {
+  animation: animation-scale-private 0.5s ease-out;
+}
+.unmount-add-private {
+  animation: animation-scale-private-unmount 0.5s linear;
+}
+@keyframes animation-scale-private {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes animation-scale-private-unmount {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+.icon-flip-animation {
+  animation: flip-hourglass 3s infinite;
+  animation-delay: 1s;
+}
+@keyframes flip-hourglass {
+  0% {
+    transform: rotate(-180deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

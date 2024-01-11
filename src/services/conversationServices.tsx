@@ -75,7 +75,23 @@ const getlastMessage = async ({ collectChat }: { collectChat: any }) => {
 
   return dataLast;
 };
-export { addFirstMessage, addMessage, getCollectionChatRoom, getlastMessage, usersInfo };
+
+const addPrivateMessage = async ({
+  collectChat,
+  data,
+  currentUser,
+  image = false,
+  notification = false,
+}: addMessagePrivateProps) => {
+  return await addDoc(collectChat, {
+    isRead: false,
+    message: data,
+    sendBy: currentUser.email,
+    time: Date.now(),
+    type: image ? 'image' : notification ? 'notification' : 'message',
+  });
+};
+export { addFirstMessage, addMessage, getCollectionChatRoom, getlastMessage, usersInfo, addPrivateMessage };
 
 interface addFirstMessageProps {
   collectChat: any;
@@ -97,6 +113,13 @@ interface addMessageProps {
   callVideo?: boolean;
   call?: boolean;
   photoSender?: string;
+}
+interface addMessagePrivateProps {
+  collectChat: any;
+  data: string;
+  currentUser: any;
+  notification?: boolean;
+  image?: boolean;
 }
 interface usersInfoProps {
   data: any;

@@ -116,7 +116,7 @@ function HeaderConversation({
                   <FaVideo className={`${isMobile ? 'xs:text-[16px] text-[20px]' : ''} icon-header-conversation`} />
                 </button>
               </Tippy>
-              {/* đàn đoạn này  rename group*/}
+
               {infoConversation.length > 1 && (
                 <Tippy content="Rename Group" placement="left">
                   <button

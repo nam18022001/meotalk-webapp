@@ -27,7 +27,7 @@ function Dialog({ isShowing, value, setvalue, hide, content, onClickSend, onClic
       <div
         className={`${
           show ? 'block' : 'hidden'
-        } fixed top-1/2 left-1/2 w-fit h-fit -translate-x-1/2 -translate-y-1/2 flex justify-center items-center z-[1025]`}
+        } fixed top-1/2 left-1/2 w-fit h-fit -translate-x-1/2 -translate-y-1/2 flex  z-[1025]`}
       >
         <div
           className={`${

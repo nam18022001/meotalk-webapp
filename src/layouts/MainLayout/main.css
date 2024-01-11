@@ -95,6 +95,9 @@
 .search-input-loading {
   animation: spinner 0.8s linear infinite;
 }
+.search-input-loading-private {
+  animation: spinner 0.8s linear infinite;
+}
 @keyframes spinner {
   from {
     transform: translateY(-50%) rotate(0);
@@ -360,4 +363,104 @@
 
 .tab-container > div:nth-child(3) .tab-indicate {
   transform: translateX(200%);
+}
+.button-beauty {
+  background-color: #c2fbd7;
+  border-radius: 100px;
+  box-shadow:
+    rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
+    rgba(44, 187, 99, 0.15) 0 1px 2px,
+    rgba(44, 187, 99, 0.15) 0 2px 4px,
+    rgba(44, 187, 99, 0.15) 0 4px 8px,
+    rgba(44, 187, 99, 0.15) 0 8px 16px,
+    rgba(44, 187, 99, 0.15) 0 16px 32px;
+  color: green;
+  cursor: pointer;
+  display: inline-block;
+  font-family:
+    CerebriSans-Regular,
+    -apple-system,
+    system-ui,
+    Roboto,
+    sans-serif;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-beauty:hover {
+  box-shadow:
+    rgba(44, 187, 99, 0.35) 0 -25px 18px -14px inset,
+    rgba(44, 187, 99, 0.25) 0 1px 2px,
+    rgba(44, 187, 99, 0.25) 0 2px 4px,
+    rgba(44, 187, 99, 0.25) 0 4px 8px,
+    rgba(44, 187, 99, 0.25) 0 8px 16px,
+    rgba(44, 187, 99, 0.25) 0 16px 32px;
+  transform: scale(1.05) rotate(-1deg);
+}
+
+.container-error-page {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f8f8f8;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.chat-icon-error {
+  font-size: 60px;
+  margin-bottom: 20px;
+  width: 50vmin;
+}
+
+.container-error-page h1 {
+  font-size: 32px;
+  color: #333;
+}
+
+.container-error-page p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.btn-error {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4285f4;
+
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  color: white !important;
+}
+
+.btn-error:hover {
+  background-color: #2a5db0;
+}
+.badge-noti {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--danger-color);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
 }
