@@ -1,15 +1,14 @@
 import { Fragment } from 'react';
-import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import './App.css';
 import { useAuthContext } from './contexts/AuthContextProvider';
 import LoginLayout from './layouts/LoginLayout';
 import MainLayout from './layouts/MainLayout';
+import RedirectErrorPage from './pages/errors/404';
 import PrivatedRoutes from './protects/PrivatedRoutes';
 import PublicRoutes from './protects/PublicRoutes';
 import { privateRoutes, publicRoutes } from './routes';
-import config from './configs';
-import RedirectErrorPage from './pages/errors/404';
 
 function App() {
   const { currentUser } = useAuthContext();

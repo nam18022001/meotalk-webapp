@@ -3,17 +3,16 @@ import CryptoJS from 'crypto-js';
 import { onSnapshot, orderBy, query } from 'firebase/firestore';
 import moment from 'moment';
 import { Fragment, memo, useEffect, useState } from 'react';
-import { BsFillCheckCircleFill, BsTelephone, BsTrash } from 'react-icons/bs';
-import { HiOutlineVideoCamera } from 'react-icons/hi';
+import { BsFillCheckCircleFill, BsTrash } from 'react-icons/bs';
 import { IoIosMore } from 'react-icons/io';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import Skeleton from 'react-loading-skeleton';
 import { avatarIcon, hourGlassIcon, keyIcon, newTagIcon } from '~/assets/icons';
+import config from '~/configs';
 import { useAuthContext } from '~/contexts/AuthContextProvider';
 import { useMenuContext } from '~/contexts/MenuContextProvider';
 import { collectMessagesPrivate } from '~/services/generalFirestoreServices';
-import config from '~/configs';
 
 const menuMore = [
   //   {
@@ -35,7 +34,6 @@ function ConversePrivateItem({ data }: ConverseItemProps) {
   const { slideBarCollapse } = useMenuContext();
   const { currentUser } = useAuthContext();
   const { idChatRoomPrivate } = useParams();
-  const nav = useNavigate();
 
   const [loadingItem, setLoadingitem] = useState(true);
   const [showMoreBtn, setShowMoreBtn] = useState(false);
