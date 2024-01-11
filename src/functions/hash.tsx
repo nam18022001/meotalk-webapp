@@ -1,6 +1,6 @@
 import CryptoJS from 'crypto-js';
 function encryptAES(message: string, key: string) {
-  const encryptedMessage = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(message), key);
+  const encryptedMessage = CryptoJS.AES.encrypt(message, key);
   return encryptedMessage.toString();
 }
 
