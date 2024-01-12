@@ -50,13 +50,13 @@ function ConversePrivateItem({ data }: ConverseItemProps) {
   const [isWatingAccept, setIsWatingAccept] = useState(false);
 
   const hashUrlConversation = encodeURIComponent(
-    CryptoJS.Rabbit.encrypt(data!.chatRoomID, 'hashUrlConversationPrivate').toString(),
+    CryptoJS.Rabbit.encrypt(data!.chatRoomID, config.constant.keyHasUrlPrivate).toString(),
   );
 
   useEffect(() => {
     const checkUrl = () => {
       if (idChatRoomPrivate) {
-        const deHashConver = CryptoJS.Rabbit.decrypt(idChatRoomPrivate, 'hashUrlConversationPrivate');
+        const deHashConver = CryptoJS.Rabbit.decrypt(idChatRoomPrivate, config.constant.keyHasUrlPrivate);
         const chatRoomId = CryptoJS.enc.Utf8.stringify(deHashConver);
         if (chatRoomId === data!.chatRoomID && window.location.pathname.startsWith(config.routes.homePrivate)) {
           setActive(true);
