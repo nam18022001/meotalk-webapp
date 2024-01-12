@@ -220,25 +220,19 @@ function PrivateConversation() {
         >
           <PrivateHeader infoConversation={dataRoom} loadingConversation={loadingConversation} />
           <div className="messages-conversation xs:p-[5px]">
-            {messages.length > 0 ? (
-              messages.map((data: any, index) => (
-                <PrivateMessage
-                  key={index}
-                  data={data.message}
-                  time={data.time}
-                  own={data.sendBy === currentUser.email ? true : false}
-                  type={data.type}
-                  seenImg={dataRoom.usersPhoto.filter((v: any) => v !== currentUser.photoURL)[0]}
-                  seen={data.time === lastTimeSeen ? true : false}
-                  isRead={data.isRead}
-                  loadingConversation={loadingMessage}
-                />
-              ))
-            ) : (
-              <div className="loader-wrapper-conversation">
-                <div className="loader-conversation !w-[80px] !h-[80px]"></div>
-              </div>
-            )}
+            {messages.map((data: any, index) => (
+              <PrivateMessage
+                key={index}
+                data={data.message}
+                time={data.time}
+                own={data.sendBy === currentUser.email ? true : false}
+                type={data.type}
+                seenImg={dataRoom.usersPhoto.filter((v: any) => v !== currentUser.photoURL)[0]}
+                seen={data.time === lastTimeSeen ? true : false}
+                isRead={data.isRead}
+                loadingConversation={loadingMessage}
+              />
+            ))}
           </div>
           <PrivateInput
             chatRoomId={chatRoomId}
