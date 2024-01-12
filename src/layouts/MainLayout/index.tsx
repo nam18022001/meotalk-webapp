@@ -21,11 +21,10 @@ function MainLayout({ children }: MainLayoutProps) {
       <main
         className={`${
           isMobile
-            ? window.location.pathname === config.routes.home ||
-              window.location.pathname.startsWith(config.routes.homePrivate)
+            ? window.location.pathname === config.routes.home || window.location.pathname === config.routes.homePrivate
               ? 'top-[60px] w-screen h-[calc(100vh_-_60px)]'
               : 'h-[calc(100vh_-_calc(100vh_-_100%))] top-0 w-screen'
-            : ' top-header-height h-[calc(100vh_-_var(--default-layout-header-height))]'
+            : 'top-header-height h-[calc(100vh_-_var(--default-layout-header-height))]'
         } absolute left-0  w-full flex`}
       >
         {isMobile
