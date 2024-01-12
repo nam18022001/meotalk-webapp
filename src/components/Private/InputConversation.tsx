@@ -104,15 +104,13 @@ function PrivateInput({
       uploadBytesResumable(imgCloudRef, dataImage).then((snapshot) => {
         getDownloadURL(snapshot.ref).then(async (downloadURL) => {
           const collectChat = collectMessagesPrivate(chatRoomId);
-          const chatRoom = docChatPrivate(chatRoomId);
+
           const passWord = getKeyChoosenPrivate(chatRoomId);
           if (passWord !== null) {
             const data = encryptAES(downloadURL, passWord);
 
             await addPrivateMessage({ collectChat, currentUser, data, image: true });
-            await updateDoc(chatRoom, {
-              time: Date.now(),
-            });
+            await updateunSeen();
           } else {
             toastError('There has been an error.');
           }

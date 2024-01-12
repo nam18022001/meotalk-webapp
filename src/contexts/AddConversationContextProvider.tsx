@@ -22,14 +22,17 @@ import config from '~/configs';
 import { encryptAES } from '~/functions/hash';
 import { setLocalStorageKey } from '~/functions/private';
 import useDebounce from '~/hooks/useDebounce';
-import { toastError } from '~/hooks/useToast';
+import { toastError, toastWarning } from '~/hooks/useToast';
 import { db } from '~/services/FirebaseServices';
 import { makeNewConversationPrivate } from '~/services/newChatServices';
 import { searchUser } from '~/services/searchServices';
 import { CurrentUserContents, useAuthContext } from './AuthContextProvider';
 import { useMobileContext } from './MobileVersionContextProvider';
+import generatePermutation from '~/hooks/usePermutation';
+import { usePreloadSideBarContext } from './PreloadSideBarProvider';
 
 function AddConversationContextProvider({ children }: AddConversationContextProviderProps) {
+  const { listPrivateConver } = usePreloadSideBarContext();
   const [addTrue, setAddTrue] = useState<boolean>(false);
   const [users, setUsers] = useState<any>([]);
 
@@ -124,13 +127,38 @@ function AddConversationContextProvider({ children }: AddConversationContextProv
     setSearchValue('');
     setSearchResults([]);
     setSelected({ isSelected: false });
+    setPassWord({ data: '', show: false });
   };
   const handleSelected = (data: any) => {
-    setShowInputPass(true);
-    setSelected({ isSelected: true, data });
+    const arr = [currentUser.email, data.email];
+    const permutaion = generatePermutation(arr);
+    let havRoom = false;
+    for (let i = 0; i < permutaion.length; i++) {
+      let has = false;
+      for (let l = 0; l < listPrivateConver.length; l++) {
+        if (JSON.stringify(listPrivateConver[l].usersEmail) === JSON.stringify(permutaion[i])) {
+          has = true;
+          break;
+        }
+      }
+      if (has === true) {
+        havRoom = true;
+        break;
+      }
+    }
+
+    if (havRoom === false) {
+      setSelected({ isSelected: true, data });
+      setShowInputPass(true);
+    } else {
+      setSelected({ isSelected: false });
+      setShowInputPass(false);
+      toastWarning('Existed!');
+    }
   };
   const handleCloseSelected = () => {
     setSelected({ isSelected: false });
+    setPassWord({ data: '', show: false });
   };
 
   const handleInputPassWord = (e: any) => {
@@ -350,6 +378,7 @@ function AddConversationContextProvider({ children }: AddConversationContextProv
                         className="w-full h-full"
                         placeholder="Enter Password"
                         onChange={handleInputPassWord}
+                        value={password.data}
                       />
                       <button
                         onClick={() => {

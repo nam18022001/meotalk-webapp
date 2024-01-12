@@ -71,7 +71,8 @@ function AcceptConversation({ infoConversation, loadingConversation }: AcceptCon
                     again.
                   </li>
                   <li className="font-semibold lg:text-[16px] md:text-[14px] sm:text-[14px]">
-                    By clicking the 'confirm agreement' button, you acknowledge reading these notes.
+                    By clicking the <span className="font-bold">'Agree and Accept'</span> button, you acknowledge
+                    reading these notes.
                   </li>
                 </ol>
               </div>
