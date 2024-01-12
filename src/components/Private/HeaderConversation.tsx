@@ -1,6 +1,6 @@
 import Tippy from '@tippyjs/react';
 import { Fragment, memo } from 'react';
-import { BsFillTelephoneFill } from 'react-icons/bs';
+import { FaInfo } from 'react-icons/fa';
 import { FaArrowLeft } from 'react-icons/fa6';
 import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
@@ -70,9 +70,7 @@ function PrivateHeader({ infoConversation, loadingConversation }: HeaderConversa
                   } btn-action-header-conversation`}
                   onClick={() => {}}
                 >
-                  <BsFillTelephoneFill
-                    className={`${isMobile ? 'xs:text-[16px] text-[20px]' : ''} icon-header-conversation`}
-                  />
+                  <FaInfo className={`${isMobile ? 'xs:text-[16px] text-[20px]' : ''} icon-header-conversation`} />
                 </button>
               </Tippy>
             </Fragment>

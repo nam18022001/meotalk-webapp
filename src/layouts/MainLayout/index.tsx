@@ -13,8 +13,9 @@ function MainLayout({ children }: MainLayoutProps) {
   return (
     <Fragment>
       {isMobile ? (
-        (window.location.pathname === config.routes.home ||
-          window.location.pathname.startsWith(config.routes.homePrivate)) && <Header />
+        (window.location.pathname === config.routes.home || window.location.pathname === config.routes.homePrivate) && (
+          <Header />
+        )
       ) : (
         <Header />
       )}
